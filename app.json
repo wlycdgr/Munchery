@@ -1,12 +1,16 @@
 {
   "expo": {
-    "name": "munchie",
-    "slug": "snack-cd1d85a1-b23a-40c2-b49d-e5183bec371d",
+    "name": "Munchery",
+    "description": "Track your calories without being tracked",
+    "slug": "Munchery",
+    "privacy": "hidden",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "icon": "./assets/images/icon.png",
+    "backgroundColor": "#00AEF0",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -16,7 +20,15 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "icon": "./assets/images/icon.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "white"
+      }
+    },
     "ios": {
+      "icon": "./assets/images/icon.png",
       "supportsTablet": true
     },
     "web": {
