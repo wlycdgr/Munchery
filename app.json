@@ -25,14 +25,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "white"
-      }
+      },
+      "enableDangerousExperimentalLeanBuilds": false,
+      "permissions": [],
+      "allowBackup": false
     },
     "ios": {
       "icon": "./assets/images/icon.png",
       "supportsTablet": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/images/favicon.png"
     }
   }
 }
