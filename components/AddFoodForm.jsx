@@ -29,9 +29,9 @@ const AddFoodForm = (props) => {
   const [cal, setCal] = useState('');
 
   const onLogFoodPress = () => {
-    submit(desc, cal);  
+    submit(desc, cal);
   }
-  
+
   return(
     <View style={styles.container}>
       <AddButton

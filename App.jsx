@@ -18,7 +18,7 @@ function App() {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
-              name="Munchery v0.1"
+              name="Munchery Alpha"
               component={DaylogScreen}
               options={{
                 headerTitleAlign: "center",
