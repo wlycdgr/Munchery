@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   label: {
     color: 'white',
     fontWeight: 'bold',
-    fontFamily: 'OpenSans, sans-serif',
+    fontFamily: 'space-mono',
   },
 });
 

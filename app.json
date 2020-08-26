@@ -24,7 +24,7 @@
       "icon": "./assets/images/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
-        "backgroundColor": "white"
+        "backgroundColor": "#ffffff"
       },
       "enableDangerousExperimentalLeanBuilds": false,
       "permissions": [],
