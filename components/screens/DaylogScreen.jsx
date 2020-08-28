@@ -112,25 +112,23 @@ const DaylogScreen = () => {
   }
 
   return(
-    <ScrollView contentContainerStyle={styles.mainContentContainer}>
+    <ScrollView
+        contentContainerStyle={styles.mainContentContainer}
+        keyboardShouldPersistTaps='handled'
+    >
       <CalorieSummary
         currentCalories={totalCalories}
         lowerBound={calorieTargetRangeLowerBound}
         upperBound={calorieTargetRangeUpperBound}
       />
       <FoodInput onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />
-      <FlatList
-        data={foodItems}
-        renderItem={({item}) => {
-          return (
-            <View style={styles.foodlogEntryContainer}>
-              {item.type === 'food' && <FoodItem item={item} />}
-              {item.type  === 'dish' && <Dish dish={item} />}
-              {item.type === 'meal' && <Meal meal={item} />}
-            </View>
-          );
-        }}
-      />
+      {foodItems.map((item, index) => {
+        return (<View key={index} style={styles.foodlogEntryContainer}>
+          {item.type === 'food' && <FoodItem item={item} />}
+          {item.type  === 'dish' && <Dish dish={item} />}
+          {item.type === 'meal' && <Meal meal={item} />}
+        </View>);
+      })}
       <Button
         title="New Day"
         onPress={handleNewDayPress}

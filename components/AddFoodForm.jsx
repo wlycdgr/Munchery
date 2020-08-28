@@ -1,30 +1,22 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import AddButton from './AddButton.jsx';
+import ThemedTextInput from "./ThemedTextInput.jsx";
+import ThemedNumberInput from "./ThemedNumberInput.jsx";
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  themedTextInput: {
-    borderBottomWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    width: 200,
-    height: 40,
-  },
-  themedNumberInput: {
-    borderBottomWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    width: 200,
-    height: 40,
-  }
+    container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    inputContainer: {
+        width: 200,
+        height: 40,
+    },
 })
 
 const AddFoodForm = (props) => {
-  const { cancel, submit, submitLabel } = props;
+  const { submit, submitLabel } = props;
   const [desc, setDesc] = useState('');
   const [cal, setCal] = useState('');
 
@@ -32,29 +24,38 @@ const AddFoodForm = (props) => {
     submit(desc, cal);
   }
 
+  const handleCancelPress = (e) => {
+      const { cancel } = props;
+
+      Keyboard.dismiss();
+
+      cancel();
+  }
+
   return(
     <View style={styles.container}>
-      <AddButton
-        title="Cancel"
-        onPress={cancel}
-      />
-      <TextInput
-        style={styles.themedTextInput}
-        placeholder="Description"
-        value={desc}
-        onChangeText={text => setDesc(text)}
-      />
-      <TextInput
-        style={styles.themedNumberInput}
-        placeholder="Calorie"
-        value={cal}
-        onChangeText={text => setCal(text)}
-        keyboardType="number-pad"
-      />
-      <AddButton
-        title={submitLabel || "Log Food"}
-        onPress={onLogFoodPress}
-      />
+        <AddButton
+            title="Cancel"
+            onPress={handleCancelPress}
+    />
+    <View style={styles.inputContainer}>
+        <ThemedTextInput
+            placeholder="Description"
+            value={desc}
+            onChangeText={text => setDesc(text)}
+        />
+    </View>
+    <View style={styles.inputContainer}>
+        <ThemedNumberInput
+            placeholder="Calorie"
+            value={cal}
+            onChangeText={text => setCal(text)}
+        />
+    </View>
+        <AddButton
+            title={submitLabel || "Log Food"}
+            onPress={onLogFoodPress}
+        />
     </View>
   );
 }

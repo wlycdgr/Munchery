@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Text, TextInput, View } from 'react-native';
+import { Button, TextInput, View } from 'react-native';
+import AddButton from './AddButton.jsx';
 import AddFoodForm from './AddFoodForm.jsx';
 import AddDishForm from './AddDishForm.jsx';
 import FoodItem from './FoodItem.jsx';
@@ -41,17 +42,17 @@ const AddMealForm = (props) => {
       type: 'meal',
       name,
       items,
-    });  
+    });
   }
 
   const renderAddButtons = () => {
     return(
       <>
-        <Button
+        <AddButton
           title="Add Food"
           onPress={onAddFoodPress}
         />
-        <Button
+        <AddButton
           title="Add dish"
           onPress={onAddDishPress}
         />
@@ -80,7 +81,7 @@ const AddMealForm = (props) => {
 
   return(
     <View>
-      <Button
+      <AddButton
         title="Cancel Logging Meal"
         onPress={cancel}
       />
@@ -97,7 +98,7 @@ const AddMealForm = (props) => {
       {!isShowingAddItemForm && renderAddButtons()}
       {isShowingAddItemForm && renderForm()}
       {!isShowingAddItemForm &&
-        <Button
+        <AddButton
           title="Log Meal"
           onPress={onLogMealPress}
         />

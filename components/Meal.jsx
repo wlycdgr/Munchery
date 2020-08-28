@@ -16,13 +16,13 @@ const styles = StyleSheet.create({
 const Meal = (props) => {
   const { meal } = props;
   const { name, items } = meal;
-  
+
   return(
     <View>
       <Text style={styles.name}>{name}</Text>
-      {items.map((item) => {
+      {items.map((item, index) => {
         return(
-          <View style={styles.itemContainer}>
+          <View key={index} style={styles.itemContainer}>
             {item.type === 'dish' && <Dish dish={item} />}
             {item.type === 'food' && <FoodItem item={item} />}
           </View>

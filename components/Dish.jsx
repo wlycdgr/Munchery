@@ -11,11 +11,11 @@ const styles = StyleSheet.create({
 const Dish = (props) => {
   const { dish } = props;
   const { name, ingredients } = dish;
-  
+
   return(
     <View>
       <Text style={styles.name}>{name}</Text>
-      {ingredients.map(ingredient=> <FoodItem item={ingredient} />)}
+      {ingredients.map((ingredient, index) => <FoodItem key={index} item={ingredient} />)}
     </View>
   );
 }
