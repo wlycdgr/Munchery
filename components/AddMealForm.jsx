@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import AddButton from './AddButton.jsx';
 import AddFoodForm from './AddFoodForm.jsx';
 import AddDishForm from './AddDishForm.jsx';

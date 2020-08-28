@@ -1,25 +1,32 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import AddButton from './AddButton.jsx';
+import ThemedInputContainer from "./ThemedInputContainer.jsx";
+import Divider from './Divider.jsx';
 import AddFoodForm from './AddFoodForm.jsx';
 import AddDishForm from './AddDishForm.jsx';
 import AddMealForm from './AddMealForm.jsx';
 
 const styles = StyleSheet.create({
-  foodInput: {
-    marginBottom: 50,
-  },
   foodInputControls: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-evenly',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 50,
+  },
+  form: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
 });
 
 const FoodInput = (props) => {
   const [isShowingForm, setIsShowingForm] = useState(false);
   const [formType, setFormType] = useState('');
-  
+
   const handleAddFoodPress = () => {
     setFormType('food');
     setIsShowingForm(true);
@@ -29,7 +36,7 @@ const FoodInput = (props) => {
     setFormType('dish');
     setIsShowingForm(true);
   }
-  
+
   const handleAddMealPress = () => {
     setFormType('meal');
     setIsShowingForm(true);
@@ -39,11 +46,11 @@ const FoodInput = (props) => {
     setFormType('');
     setIsShowingForm(false);
   }
-  
+
   const handleCancelPress = () => {
       hideForm();
   }
-  
+
   const logFood = (desc, cal) => {
     const { onLogFood } = props;
 
@@ -52,10 +59,10 @@ const FoodInput = (props) => {
       cal,
     };
     onLogFood(food);
-    
+
     hideForm();
   }
-  
+
   const logDish = (dish) => {
     const { onLogDish } = props;
 
@@ -75,22 +82,30 @@ const FoodInput = (props) => {
   const renderAddButtons = () => {
     return(
       <>
-        <AddButton
-          title="Log Food"
-          onPress={handleAddFoodPress}
-        />
-        <AddButton
-          title="Log Dish"
-          onPress={handleAddDishPress}
-        />
-        <AddButton
-          title="Log Meal"
-          onPress={handleAddMealPress}
-        />
+        <ThemedInputContainer>
+          <AddButton
+            title="Log Food"
+            onPress={handleAddFoodPress}
+          />
+        </ThemedInputContainer>
+        <Divider height={30} />
+        <ThemedInputContainer>
+          <AddButton
+            title="Log Dish"
+            onPress={handleAddDishPress}
+          />
+        </ThemedInputContainer>
+        <Divider height={30} />
+        <ThemedInputContainer>
+          <AddButton
+            title="Log Meal"
+            onPress={handleAddMealPress}
+          />
+        </ThemedInputContainer>
       </>
     );
   }
-  
+
   const renderForm = () => {
     return(
       <>
@@ -111,17 +126,15 @@ const FoodInput = (props) => {
             cancel={handleCancelPress}
             submit={logMeal}
           />
-        }  
+        }
       </>
     );
   }
-  
+
   return(
-    <View style={styles.foodInput}>
-      <View style={styles.foodInputControls}>
-        {!isShowingForm && renderAddButtons()}
-        {isShowingForm && renderForm()}
-      </View>
+    <View style={styles.foodInputControls}>
+      {!isShowingForm && renderAddButtons()}
+      {isShowingForm && renderForm()}
     </View>
   );
 }

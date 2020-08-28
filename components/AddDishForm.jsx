@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { TextInput, View } from 'react-native';
+
 import AddButton from './AddButton.jsx';
+import ThemedTextInput from './ThemedTextInput.jsx';
+import Divider from './Divider.jsx';
 import FoodItem from './FoodItem.jsx';
 import AddFoodForm from './AddFoodForm.jsx';
+import ThemedInputContainer from "./ThemedInputContainer";
 
 const AddDishForm = (props) => {
   const { cancel } = props;
@@ -30,26 +33,35 @@ const AddDishForm = (props) => {
       type: 'dish',
       name,
       ingredients,
-    }); 
+    });
   }
 
   return(
-    <View>
-      <AddButton
-        title="Cancel Logging Dish"
-        onPress={cancel}
-      />
-      <TextInput
-        placeholder="Dish Name"
-        value={name}
-        onChangeText={text => setName(text)}
-      />
-      {ingredients.map((ingredient) => <FoodItem item={ingredient} />)}
-      {!isShowingAddIngredientForm && 
+    <>
+      <ThemedInputContainer>
         <AddButton
-          title="Add Ingredient"
-          onPress={onAddIngredientPress}
+          title="Cancel Logging Dish"
+          onPress={cancel}
         />
+      </ThemedInputContainer>
+      <Divider height={20} />
+      <ThemedInputContainer>
+        <ThemedTextInput
+          placeholder="Dish Name"
+          value={name}
+          onChangeText={text => setName(text)}
+        />
+      </ThemedInputContainer>
+      <Divider height={20} />
+      {ingredients.map((ingredient, index) => <FoodItem key={index} item={ingredient} />)}
+      {ingredients.length > 0 && <Divider height={20} />}
+      {!isShowingAddIngredientForm &&
+        <ThemedInputContainer>
+          <AddButton
+            title="Add Ingredient"
+            onPress={onAddIngredientPress}
+          />
+        </ThemedInputContainer>
       }
       {isShowingAddIngredientForm &&
         <AddFoodForm
@@ -58,13 +70,18 @@ const AddDishForm = (props) => {
           submitLabel="Add"
         />
       }
-      {!isShowingAddIngredientForm && 
-        <AddButton
-          title="Log Dish"
-          onPress={onLogDishPress}
-        />
+      {!isShowingAddIngredientForm &&
+        <>
+          <Divider height={20} />
+          <ThemedInputContainer>
+            <AddButton
+              title="Log Dish"
+              onPress={onLogDishPress}
+            />
+          </ThemedInputContainer>
+        </>
       }
-    </View>
+    </>
   );
 }
 
