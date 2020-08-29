@@ -5,8 +5,6 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 20,
   },
   text: {
     fontSize: 12,

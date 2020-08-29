@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, FlatList, ScrollView, StyleSheet, View } from 'react-native';
-import CalorieSummary from '../CalorieSummary.jsx';
-import FoodInput from '../FoodInput.jsx';
-import FoodItem from '../FoodItem.jsx';
-import Dish from '../Dish.jsx';
-import Meal from '../Meal.jsx';
-import CalorieRangeTargetControl from '../CalorieRangeTargetControl.jsx';
+
+import CalorieSummary from '../views/CalorieSummary.jsx';
+import FoodInput from '../forms/FoodInput.jsx';
+import FoodItem from '../views/FoodItem.jsx';
+import Dish from '../views/Dish.jsx';
+import Meal from '../views/Meal.jsx';
+import CalorieRangeTargetForm from '../forms/CalorieRangeTargetForm.jsx';
+import AddButton from '../inputs/AddButton.jsx';
+import Divider from '../layout/Divider.jsx';
+import ThemedInputContainer from "../layout/ThemedInputContainer";
 
 const styles = StyleSheet.create({
   mainContentContainer: {
@@ -49,8 +53,8 @@ const DaylogScreen = () => {
       type: 'dish',
       name: 'Fettucine Alfredo',
       ingredients: [
-        { desc: 'Fettucine', cal: 300 },
-        { desc: 'Alfredo Sauce', cal: 600 },
+        { type: 'food', desc: 'Fettucine', cal: 300 },
+        { type: 'food', desc: 'Alfredo Sauce', cal: 600 },
       ],
     },
 
@@ -62,8 +66,8 @@ const DaylogScreen = () => {
           type: 'dish',
           name: 'Cheese Omelette',
           ingredients: [
-            { desc: 'Eggs', cal: 140 },
-            { desc: 'Cheddar', cal: 100 },
+            { type: 'food', desc: 'Eggs', cal: 140 },
+            { type: 'food', desc: 'Cheddar', cal: 100 },
           ],
         },
         {
@@ -77,28 +81,20 @@ const DaylogScreen = () => {
   const [totalCalories, setTotalCalories] = useState(calculateTotalCalories(foodItems));
   const [calorieTargetRangeLowerBound, setCalorieTargetRangeLowerBound] = useState(1800);
   const [calorieTargetRangeUpperBound, setCalorieTargetRangeUpperBound] = useState(2400);
+  const scrollViewRef = useRef();
 
   const addFood = (food) => {
-    const { desc, cal } = food;
-
-    setFoodItems([...foodItems, {
-      type: 'food',
-      desc,
-      cal,
-    }]);
-
+    setFoodItems([...foodItems, food]);
     setTotalCalories(totalCalories + calReduce(0, food));
   }
 
   const addDish = (dish) => {
     setFoodItems([...foodItems, dish]);
-
     setTotalCalories(totalCalories + calReduce(0, dish));
   }
 
   const addMeal = (meal) => {
     setFoodItems([...foodItems, meal]);
-
     setTotalCalories(totalCalories + calReduce(0, meal));
   }
 
@@ -107,22 +103,29 @@ const DaylogScreen = () => {
     setTotalCalories(0);
   }
 
-  const adjustCalorieRangeTarget = (lower, upper) => {
+  const onSubmitCalorieRangeTargetForm = (lower, upper) => {
     setCalorieTargetRangeLowerBound(lower);
     setCalorieTargetRangeUpperBound(upper);
+  }
+
+  const scrollScrollView = () => {
+    scrollViewRef.current.scrollTo({x: 0, y: 300});
   }
 
   return(
     <ScrollView
         contentContainerStyle={styles.mainContentContainer}
         keyboardShouldPersistTaps='handled'
+        ref={scrollViewRef}
     >
+      <Divider height={20} />
       <CalorieSummary
         currentCalories={totalCalories}
         lowerBound={calorieTargetRangeLowerBound}
         upperBound={calorieTargetRangeUpperBound}
       />
-      <FoodInput onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />
+      <Divider height={40} />
+      <FoodInput onActivateForm={scrollScrollView} onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />
       {foodItems.map((item, index) => {
         return (<View key={index} style={styles.foodlogEntryContainer}>
           {item.type === 'food' && <FoodItem item={item} />}
@@ -130,15 +133,21 @@ const DaylogScreen = () => {
           {item.type === 'meal' && <Meal meal={item} />}
         </View>);
       })}
-      <Button
-        title="New Day"
-        onPress={handleNewDayPress}
-      />
-      <CalorieRangeTargetControl
-        submit={adjustCalorieRangeTarget}
+      <Divider height={160} />
+      <ThemedInputContainer>
+        <AddButton
+          title="New Day - Reset!"
+          type="highlight"
+          onPress={handleNewDayPress}
+        />
+      </ThemedInputContainer>
+      <Divider height={20} />
+      <CalorieRangeTargetForm
+        onSubmit={onSubmitCalorieRangeTargetForm}
         lowerBound={calorieTargetRangeLowerBound}
         upperBound={calorieTargetRangeUpperBound}
       />
+      <Divider height={60} />
     </ScrollView>
   );
 }

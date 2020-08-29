@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
+import * as colors from '../../constants/colors.js';
+
 const styles = StyleSheet.create({
     base: {
         borderStyle: 'solid',
     },
     noError: {
-        borderColor: '#444444',
+        borderColor: colors.darkGray,
     },
     error: {
-        borderColor: 'red',
+        borderColor: colors.fadedHighlight,
     },
     blurred: {
         borderBottomWidth: 1,
@@ -37,11 +39,11 @@ const errorFocused = StyleSheet.compose(
 );
 
 const ThemedTextInput = (props) => {
-    const { isError } = props;
+    const { isShowError } = props;
 
     const [isFocused, setIsFocused] = useState(false);
 
-    const handleOnFocus = () => {
+    const onFocus = () => {
         const { onFocus } = props;
 
         setIsFocused(true);
@@ -51,7 +53,7 @@ const ThemedTextInput = (props) => {
         }
     }
 
-    const handleOnBlur = () => {
+    const onBlur = () => {
         const { onBlur } = props;
 
         setIsFocused(false);
@@ -61,14 +63,16 @@ const ThemedTextInput = (props) => {
         }
     }
 
-    const currentStyle = isError ? (isFocused ? errorFocused : errorBlurred) : (isFocused ? focused : blurred);
+    const currentStyle = isShowError
+        ? (isFocused ? errorFocused : errorBlurred)
+        : (isFocused ? focused : blurred);
 
     return(
         <TextInput
             {...props}
             style={currentStyle}
-            onFocus={handleOnFocus}
-            onBlur={handleOnBlur}
+            onFocus={onFocus}
+            onBlur={onBlur}
         />
     );
 }

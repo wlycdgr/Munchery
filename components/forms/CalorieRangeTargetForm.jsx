@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+
+import ThemedInputContainer from "../layout/ThemedInputContainer.jsx";
+import ThemedTextInput from "../inputs/ThemedTextInput.jsx";
+import AddButton from '../inputs/AddButton.jsx';
+import Divider from '../layout/Divider.jsx';
 
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
     alignItems: 'center',
     marginTop: 20,
+    width: '100%',
   },
   calorieRange: {
     fontSize: 18,
@@ -13,7 +19,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const CalorieRangeTargetControl = (props) => {
+const CalorieRangeTargetForm = (props) => {
   const {
     lowerBound,
     upperBound,
@@ -44,12 +50,15 @@ const CalorieRangeTargetControl = (props) => {
   const renderCurrentRangeReadout = () => {
     return(
       <>
-        <Text>Your calorie range target is</Text>
+        <Text>Your target calorie range is</Text>
         <Text style={styles.calorieRange}>{`${lowerBound} - ${upperBound}`}</Text>
-        <Button
-          title="Change Range"
-          onPress={handleChangeRangePress}
-        />
+        <Divider height={10} />
+        <ThemedInputContainer>
+            <AddButton
+              title="Change Range"
+              onPress={handleChangeRangePress}
+            />
+        </ThemedInputContainer>
       </>
     );
   }
@@ -57,25 +66,33 @@ const CalorieRangeTargetControl = (props) => {
   const renderRangeUpdateForm = () => {
     return(
       <>
-        <TextInput
-          placeholder="Lower bound"
-          value={newLowerBound}
-          onChangeText={text => setNewLowerBound(text)}
-        />
+        <ThemedInputContainer>
+            <AddButton
+              title="Cancel"
+              onPress={handleCancelPress}
+            />
+        </ThemedInputContainer>
+        <Divider height={20} />
+        <ThemedInputContainer>
+            <ThemedTextInput
+              placeholder="Lower bound"
+              value={newLowerBound}
+              onChangeText={text => setNewLowerBound(text)}
+            />
+        </ThemedInputContainer>
         <Text>to</Text>
         <TextInput
           placeholder="Upper bound"
           value={newUpperBound}
           onChangeText={text => setNewUpperBound(text)}
         />
-        <Button
-          title="Cancel"
-          onPress={handleCancelPress}
-        />
-        <Button
-          title="Save"
-          onPress={handleSavePress}
-        />
+        <ThemedInputContainer>
+            <AddButton
+              title="Save"
+              type="highlight"
+              onPress={handleSavePress}
+            />
+        </ThemedInputContainer>
       </>
     )
   }
@@ -88,4 +105,4 @@ const CalorieRangeTargetControl = (props) => {
   );
 }
 
-export default CalorieRangeTargetControl;
+export default CalorieRangeTargetForm;
