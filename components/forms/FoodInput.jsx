@@ -28,12 +28,8 @@ const FoodInput = (props) => {
   const [formType, setFormType] = useState('');
 
   const handleAddFoodPress = () => {
-    const { onActivateForm } = props;
-
     setFormType('food');
     setIsShowingForm(true);
-
-    onActivateForm();
   }
 
   const handleAddDishPress = () => {
@@ -51,7 +47,12 @@ const FoodInput = (props) => {
     setIsShowingForm(false);
   }
 
-  const onCancelForm = () => hideForm();
+  const onCancelForm = () => {
+    const {onLayoutForm} = props;
+
+    hideForm();
+    onLayoutForm({nativeEvent: {layout: {x: 0, y: 0}}});
+  }
 
   const onSubmitAddFoodForm = (food) => {
     const { onLogFood } = props;
@@ -102,24 +103,29 @@ const FoodInput = (props) => {
   }
 
   const renderForm = () => {
+    const { onLayoutForm } = props;
+
     return(
       <>
         {formType === 'food' &&
           <AddFoodForm
             onCancel={onCancelForm}
             onSubmit={onSubmitAddFoodForm}
+            onLayout={onLayoutForm}
           />
         }
         {formType === 'dish' &&
           <AddDishForm
             onCancel={onCancelForm}
             onSubmit={logDish}
+            onLayout={onLayoutForm}
           />
         }
         {formType === 'meal' &&
           <AddMealForm
             onCancel={onCancelForm}
             onSubmit={logMeal}
+            onLayout={onLayoutForm}
           />
         }
       </>

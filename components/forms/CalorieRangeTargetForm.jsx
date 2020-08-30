@@ -26,11 +26,15 @@ const CalorieRangeTargetForm = (props) => {
   } = props;
 
   const [isUpdatingRange, setIsUpdatingRange] = useState(false);
-  const [newLowerBound, setNewLowerBound] = useState(lowerBound);
-  const [newUpperBound, setNewUpperBound] = useState(upperBound);
+  const [newLowerBound, setNewLowerBound] = useState('');
+  const [newUpperBound, setNewUpperBound] = useState('');
 
-  const handleChangeRangePress = () => {
+  const onPressChangeRange = () => {
+    const { onActivateForm } = props;
+
     setIsUpdatingRange(true);
+
+    onActivateForm();
   }
 
   const handleCancelPress = () => {
@@ -56,7 +60,7 @@ const CalorieRangeTargetForm = (props) => {
         <ThemedInputContainer>
             <AddButton
               title="Change Range"
-              onPress={handleChangeRangePress}
+              onPress={onPressChangeRange}
             />
         </ThemedInputContainer>
       </>
@@ -75,17 +79,19 @@ const CalorieRangeTargetForm = (props) => {
         <Divider height={20} />
         <ThemedInputContainer>
             <ThemedTextInput
-              placeholder="Lower bound"
+              placeholder="New lower bound"
               value={newLowerBound}
               onChangeText={text => setNewLowerBound(text)}
             />
         </ThemedInputContainer>
-        <Text>to</Text>
-        <TextInput
-          placeholder="Upper bound"
-          value={newUpperBound}
-          onChangeText={text => setNewUpperBound(text)}
-        />
+        <ThemedInputContainer>
+            <ThemedTextInput
+              placeholder="New upper bound"
+              value={newUpperBound}
+              onChangeText={text => setNewUpperBound(text)}
+            />
+        </ThemedInputContainer>
+        <Divider height={20} />
         <ThemedInputContainer>
             <AddButton
               title="Save"

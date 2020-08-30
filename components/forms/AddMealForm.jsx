@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {StyleSheet, View} from 'react-native';
 
 import AddButton from '../inputs/AddButton.jsx';
 import AddFoodForm from './AddFoodForm.jsx';
@@ -9,6 +10,13 @@ import ThemedInputContainer from "../layout/ThemedInputContainer.jsx";
 import ThemedTextInput from "../inputs/ThemedTextInput.jsx";
 import Divider from '../layout/Divider.jsx';
 
+const styles = StyleSheet.create({
+  view: {
+    width: '100%',
+    alignItems: 'center',
+  }
+});
+
 const AddMealForm = (props) => {
   const { onCancel } = props;
 
@@ -18,8 +26,9 @@ const AddMealForm = (props) => {
   const [formType, setFormType] = useState('');
   const [isShowNameError, setIsShowNameError] = useState(false);
   const [isShowItemsError, setIsShowItemsError] = useState(false);
+  const [isLayoutReported, setIsLayoutReported] = useState(false);
 
-  const isReadyToSubmit = () => {
+  const isFormValid = () => {
     return (isNameValid() && isItemsValid());
   }
 
@@ -51,9 +60,9 @@ const AddMealForm = (props) => {
   }
 
   const onPressLogMeal = () => {
-    const { onSubmit } = props;
+    const { onLayout, onSubmit } = props;
 
-    if (!isReadyToSubmit()) {
+    if (!isFormValid()) {
       if (!isNameValid()) {
         setIsShowNameError(true);
       }
@@ -72,6 +81,8 @@ const AddMealForm = (props) => {
       name,
       items,
     });
+
+    onLayout({nativeEvent: {layout: {x: 0, y: 0}}});
   }
 
   const onNameChangeText = (nameValue) => {
@@ -82,9 +93,24 @@ const AddMealForm = (props) => {
     setName(nameValue);
   }
 
+  const onLayout = (e) => {
+    const { onLayout } = props;
+
+    if (isLayoutReported) return;
+
+    if (onLayout) {
+      onLayout(e);
+    }
+
+    setIsLayoutReported(true);
+  }
+
   const renderAddButtons = () => {
     return(
-      <>
+      <View
+          style={styles.view}
+          onLayout={onLayout}
+      >
         <ThemedInputContainer>
           <AddButton
             title="Add Food"
@@ -98,7 +124,7 @@ const AddMealForm = (props) => {
             onPress={onPressAddDish}
           />
         </ThemedInputContainer>
-      </>
+      </View>
     );
   }
 
@@ -108,6 +134,7 @@ const AddMealForm = (props) => {
         <AddFoodForm
           onCancel={hideForm}
           onSubmit={onSubmitAddFoodForm}
+          onLayout={props.onLayout}
         />
       );
     }
@@ -116,6 +143,7 @@ const AddMealForm = (props) => {
         <AddDishForm
           onCancel={hideForm}
           onSubmit={onSubmitAddDishForm}
+          onLayout={props.onLayout}
         />
       );
     }
@@ -148,7 +176,7 @@ const AddMealForm = (props) => {
       {items.length > 0 && <Divider height={20} />}
       {!isShowingAddItemForm && renderAddButtons()}
       {isShowingAddItemForm && renderForm()}
-      {(!isShowingAddItemForm && isReadyToSubmit()) &&
+      {!isShowingAddItemForm &&
         <>
           <Divider height={60} />
           <ThemedInputContainer>
@@ -156,6 +184,7 @@ const AddMealForm = (props) => {
               title="Log Meal"
               type="highlight"
               onPress={onPressLogMeal}
+              isInactive={!isFormValid()}
             />
           </ThemedInputContainer>
         </>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { StyleSheet, View} from 'react-native';
 
 import AddButton from '../inputs/AddButton.jsx';
 import ThemedTextInput from '../inputs/ThemedTextInput.jsx';
@@ -6,6 +7,13 @@ import Divider from '../layout/Divider.jsx';
 import FoodItem from '../views/FoodItem.jsx';
 import AddFoodForm from './AddFoodForm.jsx';
 import ThemedInputContainer from "../layout/ThemedInputContainer";
+
+const styles = StyleSheet.create({
+  view: {
+    width: '100%',
+    alignItems: 'center',
+  }
+});
 
 const AddDishForm = (props) => {
   const { onCancel } = props;
@@ -15,6 +23,7 @@ const AddDishForm = (props) => {
   const [isShowingAddIngredientForm, setIsShowingAddIngredientForm] = useState(false);
   const [isShowNameError, setIsShowNameError] = useState(false);
   const [isShowIngredientsError, setIsShowIngredientsError] = useState(false);
+  const [isLayoutReported, setIsLayoutReported] = useState(false);
 
   const isFormValid = () => {
     return (isNameValid() && isIngredientsValid());
@@ -45,7 +54,7 @@ const AddDishForm = (props) => {
   }
 
   const onPressLogDish = () => {
-    const { onSubmit } = props;
+    const { onLayout, onSubmit } = props;
 
     if (!isFormValid()) {
       if (!isNameValid()) {
@@ -66,10 +75,27 @@ const AddDishForm = (props) => {
       name,
       ingredients,
     });
+
+    onLayout({nativeEvent: {layout: {x: 0, y: 0}}});
+  }
+
+  const onLayout = (e) => {
+    const { onLayout } = props;
+
+    if (isLayoutReported) return;
+
+    if (onLayout) {
+      onLayout(e);
+    }
+
+    setIsLayoutReported(true);
   }
 
   return(
-    <>
+    <View
+      style={styles.view}
+      onLayout={onLayout}
+    >
       <ThemedInputContainer>
         <AddButton
           title="Cancel Logging Dish"
@@ -101,10 +127,11 @@ const AddDishForm = (props) => {
         <AddFoodForm
           onCancel={onCancelAddIngredientForm}
           onSubmit={onSubmitAddIngredientForm}
+          onLayout={props.onLayout}
           submitLabel="Add"
         />
       }
-      {(!isShowingAddIngredientForm && isFormValid()) &&
+      {!isShowingAddIngredientForm &&
         <>
           <Divider height={60} />
           <ThemedInputContainer>
@@ -112,11 +139,12 @@ const AddDishForm = (props) => {
               title="Log Dish"
               onPress={onPressLogDish}
               type="highlight"
+              isInactive={!isFormValid()}
             />
           </ThemedInputContainer>
         </>
       }
-    </>
+    </View>
   );
 }
 

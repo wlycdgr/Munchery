@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import AddButton from '../inputs/AddButton.jsx';
 import Divider from '../layout/Divider.jsx';
 import ThemedTextInput from "../inputs/ThemedTextInput.jsx";
 import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
 import ThemedInputContainer from '../layout/ThemedInputContainer.jsx';
+
+const styles = StyleSheet.create({
+    view: {
+        width: '100%',
+        alignItems: 'center',
+    }
+});
 
 const AddFoodForm = (props) => {
     const { onCancel, submitLabel } = props;
@@ -13,6 +21,7 @@ const AddFoodForm = (props) => {
     const [cal, setCal] = useState('');
     const [isShowDescError, setIsShowDescError] = useState(false);
     const [isShowCalError, setIsShowCalError] = useState(false);
+    const [isLayoutReported, setIsLayoutReported] = useState(false);
 
     const isFormValid = () => {
         return (isDescValid() && isCalValid());
@@ -27,7 +36,7 @@ const AddFoodForm = (props) => {
     const isCalValid = () => (cal !== '');
 
     const onPressLogFood = () => {
-        const { onSubmit } = props;
+        const { onLayout, onSubmit } = props;
 
         if (!isFormValid()) {
             if (!isDescValid()) {
@@ -47,6 +56,8 @@ const AddFoodForm = (props) => {
             desc,
             cal,
         });
+
+        onLayout({nativeEvent: {layout: {x: 0, y: 0}}});
     }
 
     const onChangeTextDesc = (descValue) => {
@@ -65,8 +76,23 @@ const AddFoodForm = (props) => {
         setCal(calValue);
     }
 
+    const onLayout = (e) => {
+        const { onLayout } = props;
+
+        if (isLayoutReported) return;
+
+        if (onLayout) {
+            onLayout(e);
+        }
+
+        setIsLayoutReported(true);
+    }
+
     return(
-        <>
+        <View
+            style={styles.view}
+            onLayout={onLayout}
+        >
             <ThemedInputContainer>
                 <AddButton
                     title="Cancel"
@@ -92,16 +118,15 @@ const AddFoodForm = (props) => {
                 />
             </ThemedInputContainer>
             <Divider height={20} />
-            {/*{isFormValid() &&*/}
-                <ThemedInputContainer>
-                    <AddButton
-                        title={submitLabel || "LOG"}
-                        onPress={onPressLogFood}
-                        type="highlight"
-                    />
-                </ThemedInputContainer>
-            {/*}*/}
-        </>
+            <ThemedInputContainer>
+                <AddButton
+                    title={submitLabel || "LOG"}
+                    onPress={onPressLogFood}
+                    type="highlight"
+                    isInactive={!isFormValid()}
+                />
+            </ThemedInputContainer>
+        </View>
     );
 }
 

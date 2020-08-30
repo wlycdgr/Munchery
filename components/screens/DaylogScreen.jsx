@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Button, FlatList, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import CalorieSummary from '../views/CalorieSummary.jsx';
 import FoodInput from '../forms/FoodInput.jsx';
@@ -108,8 +108,17 @@ const DaylogScreen = () => {
     setCalorieTargetRangeUpperBound(upper);
   }
 
-  const scrollScrollView = () => {
-    scrollViewRef.current.scrollTo({x: 0, y: 300});
+  const scrollScrollView = (e) => {
+    const layout = e.nativeEvent.layout;
+    scrollViewRef.current.scrollTo({x: layout.x, y: layout.y});
+  }
+
+  const onActivateChangeRangeForm = () => {
+    console.log('onActivateChangeRangeForm');
+
+    // const bigEnoughToBeBottom = 3000;
+    // scrollViewRef.current.scrollTo({x: 0, y: bigEnoughToBeBottom});
+    scrollViewRef.current.scrollToEnd();
   }
 
   return(
@@ -125,7 +134,7 @@ const DaylogScreen = () => {
         upperBound={calorieTargetRangeUpperBound}
       />
       <Divider height={40} />
-      <FoodInput onActivateForm={scrollScrollView} onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />
+      <FoodInput onLayoutForm={scrollScrollView} onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />
       {foodItems.map((item, index) => {
         return (<View key={index} style={styles.foodlogEntryContainer}>
           {item.type === 'food' && <FoodItem item={item} />}
@@ -133,7 +142,7 @@ const DaylogScreen = () => {
           {item.type === 'meal' && <Meal meal={item} />}
         </View>);
       })}
-      <Divider height={160} />
+      <Divider height={20} />
       <ThemedInputContainer>
         <AddButton
           title="New Day - Reset!"
@@ -146,8 +155,9 @@ const DaylogScreen = () => {
         onSubmit={onSubmitCalorieRangeTargetForm}
         lowerBound={calorieTargetRangeLowerBound}
         upperBound={calorieTargetRangeUpperBound}
+        onActivateForm={onActivateChangeRangeForm}
       />
-      <Divider height={60} />
+      <Divider height={320} />
     </ScrollView>
   );
 }
