@@ -104,8 +104,8 @@ const DaylogScreen = () => {
   }
 
   const onSubmitCalorieRangeTargetForm = (lower, upper) => {
-    setCalorieTargetRangeLowerBound(lower);
-    setCalorieTargetRangeUpperBound(upper);
+    setCalorieTargetRangeLowerBound(parseInt(lower));
+    setCalorieTargetRangeUpperBound(parseInt(upper));
   }
 
   const scrollScrollView = (e) => {

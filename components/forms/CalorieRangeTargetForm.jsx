@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import ThemedInputContainer from "../layout/ThemedInputContainer.jsx";
-import ThemedTextInput from "../inputs/ThemedTextInput.jsx";
+import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
 import AddButton from '../inputs/AddButton.jsx';
 import Divider from '../layout/Divider.jsx';
 
@@ -26,8 +26,8 @@ const CalorieRangeTargetForm = (props) => {
   } = props;
 
   const [isUpdatingRange, setIsUpdatingRange] = useState(false);
-  const [newLowerBound, setNewLowerBound] = useState('');
-  const [newUpperBound, setNewUpperBound] = useState('');
+  const [newLowerBound, setNewLowerBound] = useState(lowerBound.toString());
+  const [newUpperBound, setNewUpperBound] = useState(upperBound.toString());
 
   const onPressChangeRange = () => {
     const { onActivateForm } = props;
@@ -38,15 +38,15 @@ const CalorieRangeTargetForm = (props) => {
   }
 
   const handleCancelPress = () => {
-    setNewLowerBound(lowerBound);
-    setNewUpperBound(upperBound);
+    setNewLowerBound(lowerBound.toString());
+    setNewUpperBound(upperBound.toString());
     setIsUpdatingRange(false);
   }
 
   const handleSavePress = () => {
-    const { submit } = props;
+    const { onSubmit } = props;
 
-    submit(newLowerBound, newUpperBound);
+    onSubmit(newLowerBound, newUpperBound);
 
     setIsUpdatingRange(false);
   }
@@ -67,6 +67,22 @@ const CalorieRangeTargetForm = (props) => {
     );
   }
 
+  const onChangeTextLowerBound = (lbValue) => {
+      const newValue = (lbValue === '') ? 0 : lbValue;
+      if (parseInt(newValue) >= parseInt(newUpperBound)) {
+          setNewUpperBound(lbValue);
+      }
+      setNewLowerBound(lbValue);
+  }
+
+  const onChangeTextUpperBound = (ubValue) => {
+      const newValue = (ubValue === '') ? 0 : ubValue;
+      if (parseInt(newValue) <= parseInt(newLowerBound)) {
+          setNewLowerBound(ubValue);
+      }
+      setNewUpperBound(ubValue);
+  }
+
   const renderRangeUpdateForm = () => {
     return(
       <>
@@ -78,17 +94,17 @@ const CalorieRangeTargetForm = (props) => {
         </ThemedInputContainer>
         <Divider height={20} />
         <ThemedInputContainer>
-            <ThemedTextInput
+            <ThemedNumberInput
               placeholder="New lower bound"
               value={newLowerBound}
-              onChangeText={text => setNewLowerBound(text)}
+              onChangeText={onChangeTextLowerBound}
             />
         </ThemedInputContainer>
         <ThemedInputContainer>
-            <ThemedTextInput
+            <ThemedNumberInput
               placeholder="New upper bound"
               value={newUpperBound}
-              onChangeText={text => setNewUpperBound(text)}
+              onChangeText={onChangeTextUpperBound}
             />
         </ThemedInputContainer>
         <Divider height={20} />

@@ -34,7 +34,7 @@ const CalorieSummary = (props) => {
     return (
       <>
         <Text style={styles.text}>Try to have</Text>
-        <Text style={styles.calorieNumber}>{`${atLeast} - ${atMost}`}</Text>
+        <Text style={styles.calorieNumber}>{(atLeast === atMost) ? `~${atMost}` : `${atLeast} - ${atMost}`}</Text>
         <Text style={styles.text}>more calories today</Text>
       </>
     );
