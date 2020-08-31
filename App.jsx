@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
+import configureStore from '../store/conigureStore.js';
 import DaylogScreen from './components/screens/DaylogScreen.jsx';
 import SettingsScreen from './components/screens/SettingsScreen.jsx';
 
@@ -10,6 +11,8 @@ import useCachedResources from "./hooks/useCachedResources";
 import {render} from "react-native-web";
 
 const Tab = createBottomTabNavigator();
+
+const store = configureStore();
 
 function App() {
     const isLoadingComplete = useCachedResources();
