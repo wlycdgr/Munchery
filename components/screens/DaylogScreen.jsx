@@ -114,10 +114,6 @@ const DaylogScreen = () => {
   }
 
   const onActivateChangeRangeForm = () => {
-    console.log('onActivateChangeRangeForm');
-
-    // const bigEnoughToBeBottom = 3000;
-    // scrollViewRef.current.scrollTo({x: 0, y: bigEnoughToBeBottom});
     scrollViewRef.current.scrollToEnd();
   }
 
