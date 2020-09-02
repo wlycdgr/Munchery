@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import CalorieSummary from '../views/CalorieSummary.jsx';
 import FoodInput from '../forms/FoodInput.jsx';
-import FoodItem from '../views/FoodItem.jsx';
+import FoodContainer from '../views/FoodContainer.jsx';
 import Dish from '../views/Dish.jsx';
 import Meal from '../views/Meal.jsx';
 import AddButton from '../inputs/AddButton.jsx';
@@ -124,7 +124,14 @@ const DaylogScreen = (props) => {
       <FoodInput onLayoutForm={scrollScrollView} onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />
       {foodItems.map((item, index) => {
         return (<View key={index} style={styles.foodlogEntryContainer}>
-          {item.type === 'food' && <FoodItem item={item} />}
+          {item.type === 'food' &&
+            <FoodContainer
+                ogCal={item.cal}
+                ogDesc={item.desc}
+                ogMode='view'
+                onLayoutForm={scrollScrollView}
+            />
+          }
           {item.type  === 'dish' && <Dish dish={item} />}
           {item.type === 'meal' && <Meal meal={item} />}
         </View>);

@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import AddButton from '../inputs/AddButton.jsx';
 import ThemedInputContainer from "../layout/ThemedInputContainer.jsx";
 import Divider from '../layout/Divider.jsx';
-import AddFoodForm from './AddFoodForm.jsx';
+import FoodForm from './AddFoodForm.jsx';
 import AddDishForm from './AddDishForm.jsx';
 import AddMealForm from './AddMealForm.jsx';
 
@@ -108,10 +108,12 @@ const FoodInput = (props) => {
     return(
       <>
         {formType === 'food' &&
-          <AddFoodForm
+          <FoodForm
+            ogCal=''
+            ogDesc=''
             onCancel={onCancelForm}
-            onSubmit={onSubmitAddFoodForm}
             onLayout={onLayoutForm}
+            onSubmit={onSubmitAddFoodForm}
           />
         }
         {formType === 'dish' &&

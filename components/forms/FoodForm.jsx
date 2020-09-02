@@ -14,16 +14,16 @@ const styles = StyleSheet.create({
     }
 });
 
-const AddFoodForm = (props) => {
+const FoodForm = (props) => {
     const {
         onCancel,
-        startingCal,
-        startingDesc,
+        ogCal,
+        ogDesc,
         submitLabel,
     } = props;
 
-    const [desc, setDesc] = useState(startingDesc || '');
-    const [cal, setCal] = useState(startingCal || '');
+    const [desc, setDesc] = useState(ogDesc || '');
+    const [cal, setCal] = useState(ogCal || '');
     const [isShowDescError, setIsShowDescError] = useState(false);
     const [isShowCalError, setIsShowCalError] = useState(false);
     const [isLayoutReported, setIsLayoutReported] = useState(false);
@@ -41,7 +41,7 @@ const AddFoodForm = (props) => {
     const isCalValid = () => (cal !== '');
 
     const onPressLogFood = () => {
-        const { onLayout, onSubmit } = props;
+        const { onSubmit } = props;
 
         if (!isFormValid()) {
             if (!isDescValid()) {
@@ -61,8 +61,6 @@ const AddFoodForm = (props) => {
             desc,
             cal,
         });
-
-        onLayout({nativeEvent: {layout: {x: 0, y: 0}}});
     }
 
     const onChangeTextDesc = (descValue) => {
@@ -135,4 +133,4 @@ const AddFoodForm = (props) => {
     );
 }
 
-export default AddFoodForm;
+export default FoodForm;
