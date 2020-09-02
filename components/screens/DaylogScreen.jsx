@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
 
 import CalorieSummary from '../views/CalorieSummary.jsx';
 import FoodInput from '../forms/FoodInput.jsx';
 import FoodItem from '../views/FoodItem.jsx';
 import Dish from '../views/Dish.jsx';
 import Meal from '../views/Meal.jsx';
-import CalorieRangeTargetForm from '../forms/CalorieRangeTargetForm.jsx';
 import AddButton from '../inputs/AddButton.jsx';
 import Divider from '../layout/Divider.jsx';
 import ThemedInputContainer from "../layout/ThemedInputContainer";
@@ -41,7 +41,9 @@ const calculateTotalCalories = (foodItems) => {
   }, 0));
 }
 
-const DaylogScreen = () => {
+const DaylogScreen = (props) => {
+  const { lowerBound, upperBound } = props;
+
   const [foodItems, setFoodItems] = useState([
     {
       type: 'food',
@@ -79,8 +81,6 @@ const DaylogScreen = () => {
     }
   ]);
   const [totalCalories, setTotalCalories] = useState(calculateTotalCalories(foodItems));
-  const [calorieTargetRangeLowerBound, setCalorieTargetRangeLowerBound] = useState(1800);
-  const [calorieTargetRangeUpperBound, setCalorieTargetRangeUpperBound] = useState(2400);
   const scrollViewRef = useRef();
 
   const addFood = (food) => {
@@ -103,18 +103,9 @@ const DaylogScreen = () => {
     setTotalCalories(0);
   }
 
-  const onSubmitCalorieRangeTargetForm = (lower, upper) => {
-    setCalorieTargetRangeLowerBound(parseInt(lower));
-    setCalorieTargetRangeUpperBound(parseInt(upper));
-  }
-
   const scrollScrollView = (e) => {
     const layout = e.nativeEvent.layout;
     scrollViewRef.current.scrollTo({x: layout.x, y: layout.y});
-  }
-
-  const onActivateChangeRangeForm = () => {
-    scrollViewRef.current.scrollToEnd();
   }
 
   return(
@@ -126,8 +117,8 @@ const DaylogScreen = () => {
       <Divider height={20} />
       <CalorieSummary
         currentCalories={totalCalories}
-        lowerBound={calorieTargetRangeLowerBound}
-        upperBound={calorieTargetRangeUpperBound}
+        lowerBound={lowerBound}
+        upperBound={upperBound}
       />
       <Divider height={40} />
       <FoodInput onLayoutForm={scrollScrollView} onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />
@@ -147,15 +138,15 @@ const DaylogScreen = () => {
         />
       </ThemedInputContainer>
       <Divider height={20} />
-      <CalorieRangeTargetForm
-        onSubmit={onSubmitCalorieRangeTargetForm}
-        lowerBound={calorieTargetRangeLowerBound}
-        upperBound={calorieTargetRangeUpperBound}
-        onActivateForm={onActivateChangeRangeForm}
-      />
-      <Divider height={320} />
     </ScrollView>
   );
 }
 
-export default DaylogScreen;
+const mapStateToProps = (state) => {
+  return {
+    lowerBound: state.lowerBound,
+    upperBound: state.upperBound,
+  }
+};
+
+export default connect(mapStateToProps)(DaylogScreen);
