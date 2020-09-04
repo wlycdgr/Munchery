@@ -1,3 +1,9 @@
+/*
+Form for entering or editing a food item
+Calories are passed in as a number and sent out as a number,
+but converted to a string internally for input handling purposes
+ */
+
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
@@ -14,6 +20,14 @@ const styles = StyleSheet.create({
     }
 });
 
+const initCalStr = (ogCal) => {
+    if (ogCal && ogCal > 0) {
+        return ogCal.toString();
+    } else {
+        return '';
+    }
+}
+
 const FoodForm = (props) => {
     const {
         onCancel,
@@ -23,22 +37,22 @@ const FoodForm = (props) => {
     } = props;
 
     const [desc, setDesc] = useState(ogDesc || '');
-    const [cal, setCal] = useState(ogCal || '');
+    const [calStr, setCalStr] = useState(initCalStr(ogCal))
     const [isShowDescError, setIsShowDescError] = useState(false);
-    const [isShowCalError, setIsShowCalError] = useState(false);
+    const [isShowCalStrError, setIsShowCalStrError] = useState(false);
     const [isLayoutReported, setIsLayoutReported] = useState(false);
 
     const isFormValid = () => {
-        return (isDescValid() && isCalValid());
+        return (isDescValid() && isCalStrValid());
     }
 
     // Not stored as state variables
     // because they can be derived from other state variables
-    // (Unlike isShowDescError and isShowCalError, whose value
+    // (Unlike isShowDescError and isShowCalStrError, whose value
     // depends not only on the value of other state variables
     // but also on whether the user has just tried to submit)
     const isDescValid = () => (desc !== '');
-    const isCalValid = () => (cal !== '');
+    const isCalStrValid = () => (calStr !== '');
 
     const onPressLogFood = () => {
         const { onSubmit } = props;
@@ -47,19 +61,19 @@ const FoodForm = (props) => {
             if (!isDescValid()) {
                 setIsShowDescError(true);
             }
-            if (!isCalValid()) {
-                setIsShowCalError(true);
+            if (!isCalStrValid()) {
+                setIsShowCalStrError(true);
             }
             return;
         }
 
         setIsShowDescError(false);
-        setIsShowCalError(false);
+        setIsShowCalStrError(false);
 
         onSubmit({
             type: 'food',
             desc,
-            cal,
+            cal: parseInt(calStr, 10),
         });
     }
 
@@ -71,12 +85,12 @@ const FoodForm = (props) => {
         setDesc(descValue);
     }
 
-    const onChangeTextCal = (calValue) => {
-        if (calValue !== '' && isShowCalError) {
-            setIsShowCalError(false);
+    const onChangeTextCal = (calStr) => {
+        if (calStr !== '' && isShowCalStrError) {
+            setIsShowCalStrError(false);
         }
 
-        setCal(calValue);
+        setCalStr(calStr);
     }
 
     const onLayout = (e) => {
@@ -115,9 +129,9 @@ const FoodForm = (props) => {
             <ThemedInputContainer>
                 <ThemedNumberInput
                     placeholder="Calorie"
-                    value={cal}
+                    value={calStr}
                     onChangeText={onChangeTextCal}
-                    isShowError={isShowCalError}
+                    isShowError={isShowCalStrError}
                 />
             </ThemedInputContainer>
             <Divider height={20} />

@@ -46,33 +46,38 @@ const DaylogScreen = (props) => {
 
   const [foodItems, setFoodItems] = useState([
     {
+      id: 1,
       type: 'food',
       desc: 'Soylent',
       cal: 400,
     },
 
     {
+      id: 2,
       type: 'dish',
       name: 'Fettucine Alfredo',
       ingredients: [
-        { type: 'food', desc: 'Fettucine', cal: 300 },
-        { type: 'food', desc: 'Alfredo Sauce', cal: 600 },
+        { id: 3, type: 'food', desc: 'Fettucine', cal: 300 },
+        { id: 4, type: 'food', desc: 'Alfredo Sauce', cal: 600 },
       ],
     },
 
     {
+      id: 5,
       type: 'meal',
       name: 'Breakfast',
       items: [
         {
+          id: 6,
           type: 'dish',
           name: 'Cheese Omelette',
           ingredients: [
-            { type: 'food', desc: 'Eggs', cal: 140 },
-            { type: 'food', desc: 'Cheddar', cal: 100 },
+            { id: 7, type: 'food', desc: 'Eggs', cal: 140 },
+            { id: 8, type: 'food', desc: 'Cheddar', cal: 100 },
           ],
         },
         {
+          id: 9,
           type: 'food',
           desc: 'Banana',
           cal: 60,
@@ -108,6 +113,10 @@ const DaylogScreen = (props) => {
     scrollViewRef.current.scrollTo({x: layout.x, y: layout.y});
   }
 
+  const onDeleteFood = (id) => {
+
+  }
+
   return(
     <ScrollView
         contentContainerStyle={styles.mainContentContainer}
@@ -123,18 +132,21 @@ const DaylogScreen = (props) => {
       <Divider height={40} />
       <FoodInput onLayoutForm={scrollScrollView} onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />
       {foodItems.map((item, index) => {
-        return (<View key={index} style={styles.foodlogEntryContainer}>
-          {item.type === 'food' &&
-            <FoodContainer
-                ogCal={item.cal}
-                ogDesc={item.desc}
-                ogMode='view'
-                onLayoutForm={scrollScrollView}
-            />
-          }
-          {item.type  === 'dish' && <Dish dish={item} />}
-          {item.type === 'meal' && <Meal meal={item} />}
-        </View>);
+        return (
+          <View key={index} style={styles.foodlogEntryContainer}>
+            {item.type === 'food' &&
+              <FoodContainer
+                  ogCal={item.cal}
+                  ogDesc={item.desc}
+                  ogMode='view'
+                  onLayoutForm={scrollScrollView}
+                  onDelete={onDeleteFood}
+              />
+            }
+            {item.type  === 'dish' && <Dish dish={item} />}
+            {item.type === 'meal' && <Meal meal={item} />}
+         </View>
+        );
       })}
       <Divider height={20} />
       <ThemedInputContainer>

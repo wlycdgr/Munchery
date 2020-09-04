@@ -109,7 +109,7 @@ const FoodInput = (props) => {
       <>
         {formType === 'food' &&
           <FoodForm
-            ogCal=''
+            ogCal={0}
             ogDesc=''
             onCancel={onCancelForm}
             onLayout={onLayoutForm}

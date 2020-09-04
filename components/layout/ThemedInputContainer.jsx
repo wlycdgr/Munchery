@@ -9,9 +9,13 @@ const styles = StyleSheet.create({
     }
 });
 
-const ThemedInputContainer = ({ children }) => {
+const ThemedInputContainer = ({ children, widthPct }) => {
+    const customStyles = widthPct
+        ? StyleSheet.compose(styles.base, { width: `${widthPct}%`})
+        : styles.base;
+
     return (
-        <View style={styles.base}>{children}</View>
+        <View style={customStyles}>{children}</View>
     );
 }
 

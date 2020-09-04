@@ -13,10 +13,12 @@ const styles = StyleSheet.create({
 
 const FoodContainer = (props) => {
     const {
+        id,
         ogCal,
         ogDesc,
         ogMode,
         onLayoutForm,
+        onDelete,
     } = props;
 
     const [isEditing, setIsEditing] = useState(ogMode === 'edit');
@@ -30,6 +32,12 @@ const FoodContainer = (props) => {
     const onPressEdit = (e) => {
         // ? Do something with event object ?
         setIsEditing(true);
+    }
+
+    const onPressDelete = (id) => {
+        const { onDelete } = props;
+
+        onDelete(id);
     }
 
     const onSubmitForm = (food) => {
@@ -47,8 +55,10 @@ const FoodContainer = (props) => {
                 <FoodView
                     cal={cal}
                     desc={desc}
+                    id={id}
                     isEditable={true}
                     onPressEdit={onPressEdit}
+                    onPressDelete={onPressDelete}
                 />
             }
             {isEditing &&
