@@ -14,12 +14,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     width: '100%',
-    marginBottom: 50,
-  },
-  form: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
   },
 });
 

@@ -19,7 +19,9 @@ const styles = StyleSheet.create({
   },
 
   foodlogEntryContainer: {
-    marginBottom: 20,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
   },
 });
 
@@ -114,7 +116,7 @@ const DaylogScreen = (props) => {
   }
 
   const onDeleteFood = (id) => {
-
+    console.log(`onDeleteFood called with id ${id}`);
   }
 
   return(
@@ -131,6 +133,7 @@ const DaylogScreen = (props) => {
       />
       <Divider height={40} />
       <FoodInput onLayoutForm={scrollScrollView} onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />
+      <Divider height={50} />
       {foodItems.map((item, index) => {
         return (
           <View key={index} style={styles.foodlogEntryContainer}>
@@ -145,6 +148,7 @@ const DaylogScreen = (props) => {
             }
             {item.type  === 'dish' && <Dish dish={item} />}
             {item.type === 'meal' && <Meal meal={item} />}
+            <Divider height={20} />
          </View>
         );
       })}

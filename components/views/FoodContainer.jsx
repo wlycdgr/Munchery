@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     container: {
         display: 'flex',
         width: '100%',
+        alignItems: 'center',
     },
 });
 
@@ -17,8 +18,8 @@ const FoodContainer = (props) => {
         ogCal,
         ogDesc,
         ogMode,
-        onLayoutForm,
         onDelete,
+        onLayoutForm,
     } = props;
 
     const [isEditing, setIsEditing] = useState(ogMode === 'edit');
@@ -32,12 +33,6 @@ const FoodContainer = (props) => {
     const onPressEdit = (e) => {
         // ? Do something with event object ?
         setIsEditing(true);
-    }
-
-    const onPressDelete = (id) => {
-        const { onDelete } = props;
-
-        onDelete(id);
     }
 
     const onSubmitForm = (food) => {
@@ -58,16 +53,19 @@ const FoodContainer = (props) => {
                     id={id}
                     isEditable={true}
                     onPressEdit={onPressEdit}
-                    onPressDelete={onPressDelete}
                 />
             }
             {isEditing &&
                 <FoodForm
+                    id={id}
                     ogCal={cal}
                     ogDesc={desc}
                     onCancel={onCancelForm}
                     onLayout={onLayoutForm}
                     onSubmit={onSubmitForm}
+                    isCanDelete={true}
+                    onDelete={onDelete}
+                    submitLabel="Save"
                 />
             }
         </View>

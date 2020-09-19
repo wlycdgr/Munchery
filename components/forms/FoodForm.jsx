@@ -30,6 +30,7 @@ const initCalStr = (ogCal) => {
 
 const FoodForm = (props) => {
     const {
+        isCanDelete,
         onCancel,
         ogCal,
         ogDesc,
@@ -105,11 +106,31 @@ const FoodForm = (props) => {
         setIsLayoutReported(true);
     }
 
+    const onDelete = () => {
+        const { id, onDelete } = props;
+
+        if (typeof(onDelete) === 'function') {
+            onDelete(id);
+        }
+    }
+
     return(
         <View
             style={styles.view}
             onLayout={onLayout}
         >
+            {isCanDelete &&
+                <>
+                    <ThemedInputContainer>
+                        <AddButton
+                            title="Delete"
+                            type="highlight"
+                            onPress={onDelete}
+                        />
+                    </ThemedInputContainer>
+                    <Divider height={20} />
+                </>
+            }
             <ThemedInputContainer>
                 <AddButton
                     title="Cancel"
@@ -137,7 +158,7 @@ const FoodForm = (props) => {
             <Divider height={20} />
             <ThemedInputContainer>
                 <AddButton
-                    title={submitLabel || "LOG"}
+                    title={submitLabel || "Log"}
                     onPress={onPressLogFood}
                     type="highlight"
                     isInactive={!isFormValid()}

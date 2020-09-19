@@ -1,20 +1,24 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import ThemedInputContainer from "../layout/ThemedInputContainer";
-import AddButton from "../inputs/AddButton";
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const styles = StyleSheet.create({
-    container: {
+    mainContainer: {
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: '#e8e8e8',
-        height: 60,
+        width: '60%',
+        height: 40,
         alignItems: 'center',
-        justifyContent: 'space-evenly',
-        width: '90%',
     },
     desc: {
         fontSize: 16,
+        width: '60%',
+        paddingLeft: 5,
+    },
+    cal: {
+        width: '40%',
+        textAlign: 'right',
+        paddingRight: 5,
     }
 });
 
@@ -26,45 +30,22 @@ const FoodView = (props) => {
         isEditable,
     } = props;
 
-    const onPressEdit = (e) => {
+    const onPress = (e) => {
         const { onPressEdit } = props;
 
-        onPressEdit(e);
-    }
-
-    const onPressDelete = (e) => {
-        const { id, onPressDelete } = props;
-
-        if (onPressDelete) {
-            onPressDelete(id);
+        if (typeof(onPressEdit) === 'function') {
+            onPressEdit(e);
         }
     }
 
     return(
-        <View style={styles.container}>
+        <TouchableOpacity
+            onPress={onPress}
+            style={styles.mainContainer}
+        >
             <Text style={styles.desc}>{desc}</Text>
-            <Text>{cal.toString()}</Text>
-            {isEditable &&
-                <ThemedInputContainer
-                    widthPct={15}
-                >
-                    <AddButton
-                        title="Edit"
-                        onPress={onPressEdit}
-                    />
-                </ThemedInputContainer>
-            }
-            {isEditable &&
-                <ThemedInputContainer
-                    widthPct={15}
-                >
-                    <AddButton
-                        title="X"
-                        onPress={onPressDelete}
-                    />
-                </ThemedInputContainer>
-            }
-        </View>
+            <Text style={styles.cal}>{cal.toString()}</Text>
+        </TouchableOpacity>
     );
 }
 
