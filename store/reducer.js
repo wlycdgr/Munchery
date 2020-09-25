@@ -28,11 +28,9 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_FOOD: {
-            const { newFood } = action.data;
-
             return {
                 ...state,
-                foods: [...foods, newFood],
+                foods: [...state.foods, action.data],
             };
         }
         case UPDATE_TARGET_CALORIE_RANGE: {

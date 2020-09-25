@@ -1,5 +1,5 @@
 // 3rd party libs
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
@@ -74,21 +74,6 @@ const MainScreen = (props) => {
           ogDesc=''
           onSubmit={addFood}
       />
-      {/*// TODO move to Details*/}
-      <Divider height={50} />
-      {foods.map((item, index) => {
-        return (
-          <View key={index} style={styles.foodlogEntryContainer}>
-            <FoodContainer
-                ogCal={item.cal}
-                ogDesc={item.desc}
-                ogMode='view'
-                onDelete={onDeleteFood}
-            />
-            <Divider height={20} />
-         </View>
-        );
-      })}
       <Divider height={20} />
       {/*// TODO move to Settings*/}
       {/*<ThemedInputContainer>*/}
