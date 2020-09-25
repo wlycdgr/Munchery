@@ -4,7 +4,7 @@ Calories are passed in as a number and sent out as a number,
 but converted to a string internally for input handling purposes
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import AddButton from '../inputs/AddButton.jsx';
@@ -36,6 +36,8 @@ const FoodForm = (props) => {
         submitLabel,
     } = props;
 
+    const calInputRef = useRef(null);
+    const descInputRef = useRef(null);
     const [desc, setDesc] = useState(ogDesc || '');
     const [calStr, setCalStr] = useState(initCalStr(ogCal))
     const [isShowDescError, setIsShowDescError] = useState(false);
@@ -76,6 +78,9 @@ const FoodForm = (props) => {
 
         setDesc('');
         setCalStr('');
+
+        calInputRef.current.blur();
+        descInputRef.current.focus();
     }
 
     const onChangeTextDesc = (descValue) => {
@@ -121,6 +126,7 @@ const FoodForm = (props) => {
             <Divider height={20} />
             <ThemedInputContainer>
                 <ThemedTextInput
+                    ref={descInputRef}
                     autoFocus={true}
                     placeholder="Food name"
                     value={desc}
@@ -130,6 +136,7 @@ const FoodForm = (props) => {
             </ThemedInputContainer>
             <ThemedInputContainer>
                 <ThemedNumberInput
+                    ref={calInputRef}
                     placeholder="Calories"
                     value={calStr}
                     onChangeText={onChangeTextCal}
