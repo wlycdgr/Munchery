@@ -5,7 +5,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 import configureStore from './store/configureStore.js';
 import { Provider } from 'react-redux';
-import DaylogScreen from './components/screens/DaylogScreen.jsx';
+import MainScreen from './components/screens/MainScreen.jsx';
+import DetailsScreen from './components/screens/DetailsScreen.jsx';
 import SettingsScreen from './components/screens/SettingsScreen.jsx';
 
 import useCachedResources from "./hooks/useCachedResources";
@@ -60,8 +61,12 @@ function App() {
               >
                 <Tab.Screen
                   name="main"
-                  component={DaylogScreen}
+                  component={MainScreen}
                 />
+                  <Tab.Screen
+                      name="details"
+                      component={DetailsScreen}
+                  />
                 <Tab.Screen
                     name="settings"
                     component={SettingsScreen}

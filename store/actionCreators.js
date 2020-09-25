@@ -1,4 +1,14 @@
-import { UPDATE_TARGET_CALORIE_RANGE} from "./actionLabels.js";
+import {
+    ADD_FOOD,
+    UPDATE_TARGET_CALORIE_RANGE,
+} from "./actionLabels.js";
+
+export function addFood(newFood) {
+    return {
+        type: ADD_FOOD,
+        data: newFood,
+    }
+}
 
 export function updateTargetCalorieRange(newRange) {
     const { newLowerBound, newUpperBound } = newRange;

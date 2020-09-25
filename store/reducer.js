@@ -1,12 +1,40 @@
-import { UPDATE_TARGET_CALORIE_RANGE } from "./actionLabels.js";
+import {
+    ADD_FOOD,
+    UPDATE_TARGET_CALORIE_RANGE
+} from "./actionLabels.js";
 
 const initialState = {
     lowerBound: 1800,
     upperBound: 2400,
+    foods: [
+        {
+            id: 1,
+            desc: 'TEST Soylent',
+            cal: 400,
+        },
+        {
+            id: 2,
+            desc: 'TEST Banana',
+            cal: 60,
+        },
+        {
+            id: 3,
+            desc: 'TEST Ramen',
+            cal: 450,
+        },
+    ],
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case ADD_FOOD: {
+            const { newFood } = action.data;
+
+            return {
+                ...state,
+                foods: [...foods, newFood],
+            };
+        }
         case UPDATE_TARGET_CALORIE_RANGE: {
             const {newLowerBound, newUpperBound} = action.data;
 
