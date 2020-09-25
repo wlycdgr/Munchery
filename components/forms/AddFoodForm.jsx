@@ -26,7 +26,6 @@ const AddFoodForm = (props) => {
     const [cal, setCal] = useState(startingCal || '');
     const [isShowDescError, setIsShowDescError] = useState(false);
     const [isShowCalError, setIsShowCalError] = useState(false);
-    const [isLayoutReported, setIsLayoutReported] = useState(false);
 
     const isFormValid = () => {
         return (isDescValid() && isCalValid());
@@ -41,7 +40,7 @@ const AddFoodForm = (props) => {
     const isCalValid = () => (cal !== '');
 
     const onPressLogFood = () => {
-        const { onLayout, onSubmit } = props;
+        const { onSubmit } = props;
 
         if (!isFormValid()) {
             if (!isDescValid()) {
@@ -57,12 +56,9 @@ const AddFoodForm = (props) => {
         setIsShowCalError(false);
 
         onSubmit({
-            type: 'food',
             desc,
             cal,
         });
-
-        onLayout({nativeEvent: {layout: {x: 0, y: 0}}});
     }
 
     const onChangeTextDesc = (descValue) => {
@@ -99,16 +95,9 @@ const AddFoodForm = (props) => {
             onLayout={onLayout}
         >
             <ThemedInputContainer>
-                <AddButton
-                    title="Cancel"
-                    onPress={onCancel}
-                />
-            </ThemedInputContainer>
-            <Divider height={20} />
-            <ThemedInputContainer>
                 <ThemedTextInput
                     autoFocus={true}
-                    placeholder="Description"
+                    placeholder="Food name"
                     value={desc}
                     onChangeText={onChangeTextDesc}
                     isShowError={isShowDescError}
@@ -116,7 +105,7 @@ const AddFoodForm = (props) => {
             </ThemedInputContainer>
             <ThemedInputContainer>
                 <ThemedNumberInput
-                    placeholder="Calorie"
+                    placeholder="Calories"
                     value={cal}
                     onChangeText={onChangeTextCal}
                     isShowError={isShowCalError}

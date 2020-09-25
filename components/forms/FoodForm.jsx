@@ -41,7 +41,6 @@ const FoodForm = (props) => {
     const [calStr, setCalStr] = useState(initCalStr(ogCal))
     const [isShowDescError, setIsShowDescError] = useState(false);
     const [isShowCalStrError, setIsShowCalStrError] = useState(false);
-    const [isLayoutReported, setIsLayoutReported] = useState(false);
 
     const isFormValid = () => {
         return (isDescValid() && isCalStrValid());
@@ -72,7 +71,6 @@ const FoodForm = (props) => {
         setIsShowCalStrError(false);
 
         onSubmit({
-            type: 'food',
             desc,
             cal: parseInt(calStr, 10),
         });
@@ -94,18 +92,6 @@ const FoodForm = (props) => {
         setCalStr(calStr);
     }
 
-    const onLayout = (e) => {
-        const { onLayout } = props;
-
-        if (isLayoutReported) return;
-
-        if (onLayout) {
-            onLayout(e);
-        }
-
-        setIsLayoutReported(true);
-    }
-
     const onDelete = () => {
         const { id, onDelete } = props;
 
@@ -117,7 +103,6 @@ const FoodForm = (props) => {
     return(
         <View
             style={styles.view}
-            onLayout={onLayout}
         >
             {isCanDelete &&
                 <>
@@ -131,17 +116,11 @@ const FoodForm = (props) => {
                     <Divider height={20} />
                 </>
             }
-            <ThemedInputContainer>
-                <AddButton
-                    title="Cancel"
-                    onPress={onCancel}
-                />
-            </ThemedInputContainer>
             <Divider height={20} />
             <ThemedInputContainer>
                 <ThemedTextInput
                     autoFocus={true}
-                    placeholder="Description"
+                    placeholder="Food name"
                     value={desc}
                     onChangeText={onChangeTextDesc}
                     isShowError={isShowDescError}
@@ -149,7 +128,7 @@ const FoodForm = (props) => {
             </ThemedInputContainer>
             <ThemedInputContainer>
                 <ThemedNumberInput
-                    placeholder="Calorie"
+                    placeholder="Calories"
                     value={calStr}
                     onChangeText={onChangeTextCal}
                     isShowError={isShowCalStrError}

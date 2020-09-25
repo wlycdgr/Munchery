@@ -5,14 +5,12 @@ import { connect } from 'react-redux';
 
 // Munchery components
 import CalorieSummary from '../views/CalorieSummary.jsx';
-import FoodInput from '../forms/FoodInput.jsx';
 import FoodContainer from '../views/FoodContainer.jsx';
-import Dish from '../views/Dish.jsx';
-import Meal from '../views/Meal.jsx';
 import AddButton from '../inputs/AddButton.jsx';
 import Divider from '../layout/Divider.jsx';
 import ThemedInputContainer from "../layout/ThemedInputContainer";
 import AddFoodForm from "../forms/AddFoodForm";
+import FoodForm from "../forms/FoodForm";
 
 const styles = StyleSheet.create({
   mainContentContainer: {
@@ -135,8 +133,12 @@ const DaylogScreen = (props) => {
         upperBound={upperBound}
       />
       <Divider height={40} />
-      <AddFoodForm />
-      {/*<FoodInput onLayoutForm={scrollScrollView} onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />*/}
+      <FoodForm
+          isCanDelete={false}
+          ogCal={0}
+          ogDesc=''
+          onSubmit={addFood}
+      />
       {/*<Divider height={50} />*/}
       {/*{foodItems.map((item, index) => {*/}
       {/*  return (*/}

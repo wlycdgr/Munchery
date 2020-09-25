@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import Divider from '../layout/Divider';
+
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
@@ -33,8 +35,9 @@ const CalorieSummary = (props) => {
 
     return (
       <>
-        <Text style={styles.text}>Try to have</Text>
+        <Text style={styles.text}>Shoot for</Text>
         <Text style={styles.calorieNumber}>{(atLeast === atMost) ? `~${atMost}` : `${atLeast} - ${atMost}`}</Text>
+        <Divider  height={5} />
         <Text style={styles.text}>more calories today</Text>
       </>
     );
@@ -47,6 +50,7 @@ const CalorieSummary = (props) => {
       <>
         <Text style={styles.text}>Feel free to have up to</Text>
         <Text style={styles.calorieNumber}>{maxMore}</Text>
+        <Divider  height={5} />
         <Text style={styles.text}>more calories today</Text>
       </>
     );
@@ -57,6 +61,7 @@ const CalorieSummary = (props) => {
       <>
         <Text style={styles.text}>Try to have</Text>
         <Text style={styles.calorieNumber}>No</Text>
+        <Divider  height={5} />
         <Text style={styles.text}>more calories today :)</Text>
       </>
     );
