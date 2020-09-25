@@ -28,43 +28,38 @@ function App() {
         return null;
     }
 
+    const setTabBarIcon = (route, color, size) => {
+        let iconName;
+
+        if      (route.name === ADD_TAB_LABEL)      iconName = isAndroid() ? 'md-add' : 'ios-add';
+        else if (route.name === EDIT_TAB_LABEL)     iconName = isAndroid() ? 'md-today' : 'ios-today';
+        else if (route.name === OPTIONS_TAB_LABEL)  iconName = isAndroid() ? 'md-settings' : 'ios-settings';
+
+        return (<Ionicons name={iconName} size={size} color={color} />);
+    }
+
+    const isAndroid  = () => Platform.OS === 'android';
+
+    const tabScreen = (name, component) => (
+        <Tab.Screen
+            name={name}
+            component={component}
+        />
+    );
+
     return (
         <Provider store={store}>
             <NavigationContainer>
                 <Tab.Navigator
                     // Bottom tab navigator icons setup
                     screenOptions={({ route }) => ({
-                        tabBarIcon: ({ focused, color, size }) => {
-                            let iconName;
-
-                        if (route.name === ADD_TAB_LABEL) {
-                            if (Platform.OS === 'android') iconName = 'md-add';
-                            else iconName = 'ios-add';
-                        } else if (route.name === EDIT_TAB_LABEL) {
-                            if (Platform.OS === 'android')  iconName = 'md-today';
-                            else iconName = 'ios-today';
-                        } else if (route.name === OPTIONS_TAB_LABEL) {
-                            if (Platform.OS === 'android') iconName = 'md-settings';
-                            else iconName = 'ios-settings';
-                        }
-
-                          return (<Ionicons name={iconName} size={size} color={color} />);
-                      }
+                        tabBarIcon: ({ color, size }) => setTabBarIcon(route, color, size),
                     })}
-              >
-                <Tab.Screen
-                  name={ADD_TAB_LABEL}
-                  component={MainScreen}
-                />
-                  <Tab.Screen
-                      name={EDIT_TAB_LABEL}
-                      component={DetailsScreen}
-                  />
-                <Tab.Screen
-                    name={OPTIONS_TAB_LABEL}
-                    component={SettingsScreen}
-                />
-              </Tab.Navigator>
+                >
+                    {tabScreen(ADD_TAB_LABEL, MainScreen)}
+                    {tabScreen(EDIT_TAB_LABEL, DetailsScreen)}
+                    {tabScreen(OPTIONS_TAB_LABEL, SettingsScreen)}
+                </Tab.Navigator>
             </NavigationContainer>
         </Provider>
     );
