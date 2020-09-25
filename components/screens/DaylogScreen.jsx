@@ -12,6 +12,7 @@ import Meal from '../views/Meal.jsx';
 import AddButton from '../inputs/AddButton.jsx';
 import Divider from '../layout/Divider.jsx';
 import ThemedInputContainer from "../layout/ThemedInputContainer";
+import AddFoodForm from "../forms/AddFoodForm";
 
 const styles = StyleSheet.create({
   mainContentContainer: {
@@ -127,42 +128,43 @@ const DaylogScreen = (props) => {
         keyboardShouldPersistTaps='handled'
         ref={scrollViewRef}
     >
-      <Divider height={20} />
+      <Divider height={80} />
       <CalorieSummary
         currentCalories={totalCalories}
         lowerBound={lowerBound}
         upperBound={upperBound}
       />
       <Divider height={40} />
-      <FoodInput onLayoutForm={scrollScrollView} onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />
-      <Divider height={50} />
-      {foodItems.map((item, index) => {
-        return (
-          <View key={index} style={styles.foodlogEntryContainer}>
-            {item.type === 'food' &&
-              <FoodContainer
-                  ogCal={item.cal}
-                  ogDesc={item.desc}
-                  ogMode='view'
-                  onLayoutForm={scrollScrollView}
-                  onDelete={onDeleteFood}
-              />
-            }
-            {item.type  === 'dish' && <Dish dish={item} />}
-            {item.type === 'meal' && <Meal meal={item} />}
-            <Divider height={20} />
-         </View>
-        );
-      })}
-      <Divider height={20} />
-      <ThemedInputContainer>
-        <AddButton
-          title="New Day - Reset!"
-          type="highlight"
-          onPress={handleNewDayPress}
-        />
-      </ThemedInputContainer>
-      <Divider height={20} />
+      <AddFoodForm />
+      {/*<FoodInput onLayoutForm={scrollScrollView} onLogFood={addFood} onLogDish={addDish} onLogMeal={addMeal} />*/}
+      {/*<Divider height={50} />*/}
+      {/*{foodItems.map((item, index) => {*/}
+      {/*  return (*/}
+      {/*    <View key={index} style={styles.foodlogEntryContainer}>*/}
+      {/*      {item.type === 'food' &&*/}
+      {/*        <FoodContainer*/}
+      {/*            ogCal={item.cal}*/}
+      {/*            ogDesc={item.desc}*/}
+      {/*            ogMode='view'*/}
+      {/*            onLayoutForm={scrollScrollView}*/}
+      {/*            onDelete={onDeleteFood}*/}
+      {/*        />*/}
+      {/*      }*/}
+      {/*      {item.type  === 'dish' && <Dish dish={item} />}*/}
+      {/*      {item.type === 'meal' && <Meal meal={item} />}*/}
+      {/*      <Divider height={20} />*/}
+      {/*   </View>*/}
+      {/*  );*/}
+      {/*})}*/}
+      {/*<Divider height={20} />*/}
+      {/*<ThemedInputContainer>*/}
+      {/*  <AddButton*/}
+      {/*    title="New Day - Reset!"*/}
+      {/*    type="highlight"*/}
+      {/*    onPress={handleNewDayPress}*/}
+      {/*  />*/}
+      {/*</ThemedInputContainer>*/}
+      {/*<Divider height={20} />*/}
     </ScrollView>
   );
 }
