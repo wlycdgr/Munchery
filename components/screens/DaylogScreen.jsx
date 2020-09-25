@@ -1,15 +1,11 @@
 // 3rd party libs
 import React, { useRef, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
 // Munchery components
 import CalorieSummary from '../views/CalorieSummary.jsx';
-import FoodContainer from '../views/FoodContainer.jsx';
-import AddButton from '../inputs/AddButton.jsx';
 import Divider from '../layout/Divider.jsx';
-import ThemedInputContainer from "../layout/ThemedInputContainer";
-import AddFoodForm from "../forms/AddFoodForm";
 import FoodForm from "../forms/FoodForm";
 
 const styles = StyleSheet.create({
@@ -26,105 +22,54 @@ const styles = StyleSheet.create({
   },
 });
 
-const calReduce = (acc, obj) => {
-    if (obj.cal) { return acc + parseInt(obj.cal, 10); }
-
-    if (obj.type === 'dish') {
-      return obj.ingredients.reduce((sum, ing) => calReduce(sum, ing), acc);
-    }
-
-    if (obj.type === 'meal') {
-      return obj.items.reduce((sum, item) => calReduce(sum, item), acc);
-    }
-}
-
-const calculateTotalCalories = (foodItems) => {
-  return (foodItems.reduce((acc, item) => {
-    return calReduce(acc, item);
+const calculateTotalCalories = (foods) => {
+  return (foods.reduce((acc, item) => {
+    return (acc + parseInt(item.cal, 10));
   }, 0));
 }
 
 const DaylogScreen = (props) => {
   const { lowerBound, upperBound } = props;
 
-  const [foodItems, setFoodItems] = useState([
+  const [foods, setFoods] = useState([
     {
       id: 1,
-      type: 'food',
       desc: 'Soylent',
       cal: 400,
     },
-
     {
       id: 2,
-      type: 'dish',
-      name: 'Fettucine Alfredo',
-      ingredients: [
-        { id: 3, type: 'food', desc: 'Fettucine', cal: 300 },
-        { id: 4, type: 'food', desc: 'Alfredo Sauce', cal: 600 },
-      ],
+      desc: 'Banana',
+      cal: 60,
     },
-
     {
-      id: 5,
-      type: 'meal',
-      name: 'Breakfast',
-      items: [
-        {
-          id: 6,
-          type: 'dish',
-          name: 'Cheese Omelette',
-          ingredients: [
-            { id: 7, type: 'food', desc: 'Eggs', cal: 140 },
-            { id: 8, type: 'food', desc: 'Cheddar', cal: 100 },
-          ],
-        },
-        {
-          id: 9,
-          type: 'food',
-          desc: 'Banana',
-          cal: 60,
-        },
-      ],
+      id: 3,
+      desc: 'Ramen',
+      cal: 450,
     }
   ]);
-  const [totalCalories, setTotalCalories] = useState(calculateTotalCalories(foodItems));
-  const scrollViewRef = useRef();
+  const [totalCalories, setTotalCalories] = useState(calculateTotalCalories(foods));
 
   const addFood = (food) => {
-    setFoodItems([...foodItems, food]);
-    setTotalCalories(totalCalories + calReduce(0, food));
+    setFoods([...foods, food]);
+    setTotalCalories(totalCalories + parseInt(food.cal, 10));
   }
 
-  const addDish = (dish) => {
-    setFoodItems([...foodItems, dish]);
-    setTotalCalories(totalCalories + calReduce(0, dish));
-  }
-
-  const addMeal = (meal) => {
-    setFoodItems([...foodItems, meal]);
-    setTotalCalories(totalCalories + calReduce(0, meal));
-  }
-
+  // TODO move to Settings
   const handleNewDayPress = () => {
-    setFoodItems([]);
+    setFoods([]);
     setTotalCalories(0);
   }
 
-  const scrollScrollView = (e) => {
-    const layout = e.nativeEvent.layout;
-    scrollViewRef.current.scrollTo({x: layout.x, y: layout.y});
-  }
-
+  // TODO move to Details
   const onDeleteFood = (id) => {
     console.log(`onDeleteFood called with id ${id}`);
   }
 
   return(
-    <ScrollView
+    <View
         contentContainerStyle={styles.mainContentContainer}
         keyboardShouldPersistTaps='handled'
-        ref={scrollViewRef}
     >
       <Divider height={80} />
       <CalorieSummary
@@ -139,6 +84,7 @@ const DaylogScreen = (props) => {
           ogDesc=''
           onSubmit={addFood}
       />
+      {/*// TODO move to Details*/}
       {/*<Divider height={50} />*/}
       {/*{foodItems.map((item, index) => {*/}
       {/*  return (*/}
@@ -152,13 +98,12 @@ const DaylogScreen = (props) => {
       {/*            onDelete={onDeleteFood}*/}
       {/*        />*/}
       {/*      }*/}
-      {/*      {item.type  === 'dish' && <Dish dish={item} />}*/}
-      {/*      {item.type === 'meal' && <Meal meal={item} />}*/}
       {/*      <Divider height={20} />*/}
       {/*   </View>*/}
       {/*  );*/}
       {/*})}*/}
       {/*<Divider height={20} />*/}
+      {/*// TODO move to Settings*/}
       {/*<ThemedInputContainer>*/}
       {/*  <AddButton*/}
       {/*    title="New Day - Reset!"*/}
@@ -167,7 +112,7 @@ const DaylogScreen = (props) => {
       {/*  />*/}
       {/*</ThemedInputContainer>*/}
       {/*<Divider height={20} />*/}
-    </ScrollView>
+    </View>
   );
 }
 

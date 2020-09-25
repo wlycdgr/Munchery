@@ -31,7 +31,6 @@ const initCalStr = (ogCal) => {
 const FoodForm = (props) => {
     const {
         isCanDelete,
-        onCancel,
         ogCal,
         ogDesc,
         submitLabel,
@@ -74,6 +73,9 @@ const FoodForm = (props) => {
             desc,
             cal: parseInt(calStr, 10),
         });
+
+        setDesc('');
+        setCalStr('');
     }
 
     const onChangeTextDesc = (descValue) => {

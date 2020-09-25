@@ -61,7 +61,6 @@ const FoodContainer = (props) => {
                     ogCal={cal}
                     ogDesc={desc}
                     onCancel={onCancelForm}
-                    onLayout={onLayoutForm}
                     onSubmit={onSubmitForm}
                     isCanDelete={true}
                     onDelete={onDelete}
