@@ -6,6 +6,11 @@ but converted to a string internally for input handling purposes
 
 import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+// Actions creators
+import { deleteFood } from '../../store/actionCreators';
 
 import AddButton from '../inputs/AddButton.jsx';
 import Divider from '../layout/Divider.jsx';
@@ -100,11 +105,10 @@ const FoodForm = (props) => {
     }
 
     const onDelete = () => {
-        const { id, onDelete } = props;
+        const { actions, id } = props;
+        const { deleteFood } = actions;
 
-        if (typeof(onDelete) === 'function') {
-            onDelete(id);
-        }
+        deleteFood(id);
     }
 
     return(
@@ -156,4 +160,10 @@ const FoodForm = (props) => {
     );
 }
 
-export default FoodForm;
+const mapDispatchToProps = (dispatch) => {
+    return ({
+        actions: bindActionCreators({ deleteFood }, dispatch)
+    });
+}
+
+export default connect(undefined, mapDispatchToProps)(FoodForm);

@@ -19,7 +19,6 @@ const FoodContainer = (props) => {
         ogDesc,
         ogMode,
         onDelete,
-        onLayoutForm,
     } = props;
 
     const [isEditing, setIsEditing] = useState(ogMode === 'edit');

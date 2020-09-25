@@ -35,12 +35,13 @@ const DetailsScreen = (props) => {
             keyboardShouldPersistTaps='handled'
         >
             <Divider height={50} />
-            {foods.map((item, index) => {
+            {foods.map((food, index) => {
               return (
                 <View key={index} style={styles.foodlogEntryContainer}>
                 <FoodContainer
-                    ogCal={item.cal}
-                    ogDesc={item.desc}
+                    id={food.id}
+                    ogCal={food.cal}
+                    ogDesc={food.desc}
                     ogMode='view'
                     onDelete={onDeleteFood}
                 />
@@ -54,9 +55,9 @@ const DetailsScreen = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    return {
+    return ({
         foods: state.foods,
-    }
+    });
 };
 
-export default connect(mapStateToProps)(DetailsScreen);
+export default connect(mapStateToProps, undefined)(DetailsScreen);
