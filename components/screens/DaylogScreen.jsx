@@ -1,7 +1,9 @@
+// 3rd party libs
 import React, { useRef, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 
+// Munchery components
 import CalorieSummary from '../views/CalorieSummary.jsx';
 import FoodInput from '../forms/FoodInput.jsx';
 import FoodContainer from '../views/FoodContainer.jsx';

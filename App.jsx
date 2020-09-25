@@ -26,6 +26,7 @@ function App() {
         <Provider store={store}>
             <NavigationContainer>
               <Tab.Navigator
+                  // Bottom tab navigator icons setup
                   screenOptions={({ route }) => ({
                       tabBarIcon: ({ focused, color, size }) => {
                           let iconName;
