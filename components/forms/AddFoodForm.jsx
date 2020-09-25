@@ -1,5 +1,5 @@
 /*
-Form for entering or editing a food item
+Form for logging a new food item
 Calories are passed in as a number and sent out as a number,
 but converted to a string internally for input handling purposes
  */
@@ -9,8 +9,8 @@ import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-// Actions creators
-import { deleteFood } from '../../store/actionCreators';
+// Action creators
+import { addFood } from '../../store/actionCreators';
 
 import ThemedButton from '../inputs/ThemedButton.jsx';
 import Divider from '../layout/Divider.jsx';
@@ -25,26 +25,11 @@ const styles = StyleSheet.create({
     }
 });
 
-const initCalStr = (ogCal) => {
-    if (ogCal && ogCal > 0) {
-        return ogCal.toString();
-    } else {
-        return '';
-    }
-}
-
-const FoodForm = (props) => {
-    const {
-        isCanDelete,
-        ogCal,
-        ogDesc,
-        submitLabel,
-    } = props;
-
+const AddFoodForm = (props) => {
     const calInputRef = useRef(null);
     const descInputRef = useRef(null);
-    const [desc, setDesc] = useState(ogDesc || '');
-    const [calStr, setCalStr] = useState(initCalStr(ogCal))
+    const [desc, setDesc] = useState('');
+    const [calStr, setCalStr] = useState('');
     const [isShowDescError, setIsShowDescError] = useState(false);
     const [isShowCalStrError, setIsShowCalStrError] = useState(false);
 
@@ -60,8 +45,9 @@ const FoodForm = (props) => {
     const isDescValid = () => (desc !== '');
     const isCalStrValid = () => (calStr !== '');
 
-    const onPressLogFood = () => {
-        const { isStandalone, onSubmit } = props;
+    const onPressLog = () => {
+        const { actions } = props;
+        const { addFood } = actions;
 
         if (!isFormValid()) {
             if (!isDescValid()) {
@@ -76,17 +62,13 @@ const FoodForm = (props) => {
         setIsShowDescError(false);
         setIsShowCalStrError(false);
 
-        onSubmit({
-            desc,
-            cal: parseInt(calStr, 10),
-        });
+        addFood( { desc, cal: parseInt(calStr, 10), });
 
-        if (isStandalone) {
-            setDesc('');
-            setCalStr('');
-            calInputRef.current.blur();
-            descInputRef.current.focus();
-        }
+        setDesc('');
+        setCalStr('');
+
+        calInputRef.current.blur();
+        descInputRef.current.focus();
     }
 
     const onChangeTextDesc = (descValue) => {
@@ -105,29 +87,10 @@ const FoodForm = (props) => {
         setCalStr(calStr);
     }
 
-    const onDelete = () => {
-        const { actions, id } = props;
-        const { deleteFood } = actions;
-
-        deleteFood(id);
-    }
-
     return(
         <View
             style={styles.view}
         >
-            {isCanDelete &&
-                <>
-                    <ThemedInputContainer>
-                        <ThemedButton
-                            title="Delete"
-                            type="highlight"
-                            onPress={onDelete}
-                        />
-                    </ThemedInputContainer>
-                    <Divider height={20} />
-                </>
-            }
             <ThemedInputContainer>
                 <ThemedTextInput
                     ref={descInputRef}
@@ -150,8 +113,8 @@ const FoodForm = (props) => {
             <Divider height={20} />
             <ThemedInputContainer>
                 <ThemedButton
-                    title={submitLabel || "Log"}
-                    onPress={onPressLogFood}
+                    title="Log"
+                    onPress={onPressLog}
                     type="highlight"
                     isInactive={!isFormValid()}
                 />
@@ -162,8 +125,8 @@ const FoodForm = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        actions: bindActionCreators({ deleteFood }, dispatch)
+        actions: bindActionCreators({ addFood }, dispatch),
     });
 }
 
-export default connect(undefined, mapDispatchToProps)(FoodForm);
+export default connect(undefined, mapDispatchToProps)(AddFoodForm);

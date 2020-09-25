@@ -24,14 +24,23 @@ const initialState = {
             cal: 450,
         },
     ],
+    foodIdCounter: 4,
 }
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_FOOD: {
+            const { desc, cal } = action.data;
+            const newFood = {
+                desc,
+                cal: parseInt(cal, 10), // just in case a client forgets
+                id: state.foodIdCounter,
+            };
+
             return {
                 ...state,
-                foods: [...state.foods, action.data],
+                foods: [...state.foods, newFood],
+                foodIdCounter: state.foodIdCounter + 1,
             };
         }
         case DELETE_FOOD: {

@@ -1,17 +1,11 @@
 // 3rd party libs
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from "redux";
-
-// Action creators
-import { addFood } from '../../store/actionCreators';
 
 // Munchery components
+import AddFoodForm from "../forms/AddFoodForm";
 import CalorieSummary from '../views/CalorieSummary.jsx';
 import Divider from '../layout/Divider.jsx';
-import FoodContainer from "../views/FoodContainer";
-import FoodForm from "../forms/FoodForm";
 
 const styles = StyleSheet.create({
   mainContentContainer: {
@@ -28,13 +22,6 @@ const styles = StyleSheet.create({
 });
 
 const AddScreen = (props) => {
-  const addFood = (food) => {
-    const { actions } = props;
-    const { addFood } = actions;
-
-    addFood(food);
-  }
-
   // TODO move to Settings
   // const handleNewDayPress = () => {
   //  // setFoods([]);
@@ -49,16 +36,11 @@ const AddScreen = (props) => {
       <Divider height={100} />
       <CalorieSummary />
       <Divider height={60} />
-      <FoodForm
-          isCanDelete={false}
-          ogCal={0}
-          ogDesc=''
-          onSubmit={addFood}
-      />
+      <AddFoodForm/>
       <Divider height={20} />
       {/*// TODO move to Settings*/}
       {/*<ThemedInputContainer>*/}
-      {/*  <AddButton*/}
+      {/*  <ThemedButton*/}
       {/*    title="New Day - Reset!"*/}
       {/*    type="highlight"*/}
       {/*    onPress={handleNewDayPress}*/}
@@ -69,10 +51,4 @@ const AddScreen = (props) => {
   );
 }
 
-const mapDispatchToProps = dispatch => {
-  return ({
-    actions: bindActionCreators({ addFood }, dispatch)
-  });
-}
-
-export default connect(undefined, mapDispatchToProps)(AddScreen);
+export default AddScreen;
