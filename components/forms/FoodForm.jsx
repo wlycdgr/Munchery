@@ -127,7 +127,6 @@ const FoodForm = (props) => {
                     <Divider height={20} />
                 </>
             }
-            <Divider height={20} />
             <ThemedInputContainer>
                 <ThemedTextInput
                     ref={descInputRef}

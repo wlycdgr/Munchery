@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
 
 import Divider from '../layout/Divider';
 
@@ -20,18 +21,19 @@ const styles = StyleSheet.create({
 
 const CalorieSummary = (props) => {
   const {
-    currentCalories,
+    foods,
     lowerBound,
     upperBound,
   } = props;
 
-  const isBelowRange = (lowerBound > currentCalories);
-  const isWithinRange = (currentCalories >= lowerBound) && (currentCalories <= upperBound);
-  const isAboveRange = (currentCalories > upperBound);
+  const totalCalories = foods.reduce(((acc, food) => acc + food.cal), 0);
+  const isBelowRange = (lowerBound > totalCalories);
+  const isWithinRange = (totalCalories >= lowerBound) && (totalCalories <= upperBound);
+  const isAboveRange = (totalCalories > upperBound);
 
   const renderBelowRangeSummaryVersion = () => {
-    const atLeast = (lowerBound - currentCalories);
-    const atMost = (upperBound - currentCalories);
+    const atLeast = (lowerBound - totalCalories);
+    const atMost = (upperBound - totalCalories);
 
     return (
       <>
@@ -44,7 +46,7 @@ const CalorieSummary = (props) => {
   }
 
   const renderWithinRangeSummaryVersion = () => {
-    const maxMore = (upperBound - currentCalories);
+    const maxMore = (upperBound - totalCalories);
 
     return (
       <>
@@ -76,4 +78,12 @@ const CalorieSummary = (props) => {
   );
 }
 
-export default CalorieSummary;
+const mapStateToProps = (state) => {
+    return ({
+        foods: state.foods,
+        lowerBound: state.lowerBound,
+        upperBound: state.upperBound,
+    });
+}
+
+export default connect(mapStateToProps, undefined)(CalorieSummary);

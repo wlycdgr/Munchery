@@ -27,22 +27,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const calculateTotalCalories = (foods) => {
-  return (foods.reduce((acc, item) => {
-    return (acc + parseInt(item.cal, 10));
-  }, 0));
-}
-
-const MainScreen = (props) => {
-  const { foods, lowerBound, upperBound } = props;
-
-  const [totalCalories, setTotalCalories] = useState(calculateTotalCalories(foods));
-
+const AddScreen = (props) => {
   const addFood = (food) => {
     const { actions } = props;
     const { addFood } = actions;
+
     addFood(food);
-    setTotalCalories(totalCalories + parseInt(food.cal, 10));
   }
 
   // TODO move to Settings
@@ -51,23 +41,14 @@ const MainScreen = (props) => {
   //   setTotalCalories(0);
   // }
 
-  // TODO move to Details
-  const onDeleteFood = (id) => {
-    console.log(`onDeleteFood called with id ${id}`);
-  }
-
   return(
     <View
         contentContainerStyle={styles.mainContentContainer}
         keyboardShouldPersistTaps='handled'
     >
-      <Divider height={80} />
-      <CalorieSummary
-        currentCalories={totalCalories}
-        lowerBound={lowerBound}
-        upperBound={upperBound}
-      />
-      <Divider height={40} />
+      <Divider height={100} />
+      <CalorieSummary />
+      <Divider height={60} />
       <FoodForm
           isCanDelete={false}
           ogCal={0}
@@ -88,18 +69,10 @@ const MainScreen = (props) => {
   );
 }
 
-const mapStateToProps = (state) => {
-  return ({
-    foods: state.foods,
-    lowerBound: state.lowerBound,
-    upperBound: state.upperBound,
-  });
-};
-
 const mapDispatchToProps = dispatch => {
   return ({
     actions: bindActionCreators({ addFood }, dispatch)
   });
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
+export default connect(undefined, mapDispatchToProps)(AddScreen);

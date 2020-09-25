@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 import CalorieRangeTargetForm from "../forms/CalorieRangeTargetForm";
 import { updateTargetCalorieRange } from "../../store/actionCreators";
 
-const SettingsScreen = (props) => {
+const OptionsScreen = (props) => {
     const { lowerBound, upperBound } = props;
 
     const onSubmitCalorieRangeTargetForm = (lower, upper) => {
@@ -54,4 +54,4 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(OptionsScreen);

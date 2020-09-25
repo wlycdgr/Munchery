@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 // Munchery components
 import Divider from '../layout/Divider.jsx';
 import FoodContainer from "../views/FoodContainer";
+import CalorieSummary from "../views/CalorieSummary";
 
 const styles = StyleSheet.create({
     mainContentContainer: {
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const DetailsScreen = (props) => {
+const EditScreen = (props) => {
     const { foods } = props;
 
     // TODO move to Details
@@ -34,7 +35,9 @@ const DetailsScreen = (props) => {
             contentContainerStyle={styles.mainContentContainer}
             keyboardShouldPersistTaps='handled'
         >
-            <Divider height={50} />
+            <Divider height={100} />
+            <CalorieSummary />
+            <Divider height={60} />
             {foods.map((food, index) => {
               return (
                 <View key={index} style={styles.foodlogEntryContainer}>
@@ -60,4 +63,4 @@ const mapStateToProps = (state) => {
     });
 };
 
-export default connect(mapStateToProps, undefined)(DetailsScreen);
+export default connect(mapStateToProps, undefined)(EditScreen);
