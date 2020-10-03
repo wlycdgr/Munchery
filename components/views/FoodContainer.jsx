@@ -18,7 +18,6 @@ const FoodContainer = (props) => {
         ogCal,
         ogDesc,
         ogMode,
-        onDelete,
     } = props;
 
     const [isEditing, setIsEditing] = useState(ogMode === 'edit');
@@ -62,7 +61,6 @@ const FoodContainer = (props) => {
                     onCancel={onCancelForm}
                     onSubmit={onSubmitForm}
                     isCanDelete={true}
-                    onDelete={onDelete}
                     submitLabel="Save"
                 />
             }

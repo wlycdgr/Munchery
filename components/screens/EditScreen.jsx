@@ -25,11 +25,6 @@ const styles = StyleSheet.create({
 const EditScreen = (props) => {
     const { foods } = props;
 
-    // TODO move to Details
-    const onDeleteFood = (id) => {
-        console.log(`onDeleteFood called with id ${id}`);
-    }
-
     return(
         <View
             contentContainerStyle={styles.mainContentContainer}
@@ -46,7 +41,6 @@ const EditScreen = (props) => {
                     ogCal={food.cal}
                     ogDesc={food.desc}
                     ogMode='view'
-                    onDelete={onDeleteFood}
                 />
                   <Divider height={20} />
                </View>
