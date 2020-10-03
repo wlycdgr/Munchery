@@ -35,7 +35,6 @@ const initCalStr = (ogCal) => {
 
 const EditFoodForm = (props) => {
     const {
-        isCanDelete,
         ogCal,
         ogDesc,
         submitLabel,
@@ -80,13 +79,6 @@ const EditFoodForm = (props) => {
             desc,
             cal: parseInt(calStr, 10),
         });
-
-        if (isStandalone) {
-            setDesc('');
-            setCalStr('');
-            calInputRef.current.blur();
-            descInputRef.current.focus();
-        }
     }
 
     const onChangeTextDesc = (descValue) => {
@@ -106,28 +98,23 @@ const EditFoodForm = (props) => {
     }
 
     const onDelete = () => {
-        const { actions, id } = props;
-        const { deleteFood } = actions;
+        const { id, onDelete } = props;
 
-        deleteFood(id);
+        onDelete(id);
     }
 
     return(
         <View
             style={styles.view}
         >
-            {isCanDelete &&
-                <>
-                    <ThemedInputContainer>
-                        <ThemedButton
-                            title="Delete"
-                            type="highlight"
-                            onPress={onDelete}
-                        />
-                    </ThemedInputContainer>
-                    <Divider height={20} />
-                </>
-            }
+            <ThemedInputContainer>
+                <ThemedButton
+                    title="Delete"
+                    type="highlight"
+                    onPress={onDelete}
+                />
+            </ThemedInputContainer>
+            <Divider height={20} />
             <ThemedInputContainer>
                 <ThemedTextInput
                     ref={descInputRef}
@@ -150,7 +137,7 @@ const EditFoodForm = (props) => {
             <Divider height={20} />
             <ThemedInputContainer>
                 <ThemedButton
-                    title={submitLabel || "Log"}
+                    title={"Save"}
                     onPress={onPressLogFood}
                     type="highlight"
                     isInactive={!isFormValid()}
@@ -160,10 +147,4 @@ const EditFoodForm = (props) => {
     );
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return ({
-        actions: bindActionCreators({ deleteFood }, dispatch)
-    });
-}
-
-export default connect(undefined, mapDispatchToProps)(EditFoodForm);
+export default EditFoodForm;

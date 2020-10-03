@@ -26,16 +26,12 @@ const FoodView = (props) => {
     const {
         cal,
         desc,
-        id,
-        isEditable,
     } = props;
 
-    const onPress = (e) => {
-        const { onPressEdit } = props;
+    const onPress = () => {
+        const { id, onPressEdit } = props;
 
-        if (typeof(onPressEdit) === 'function') {
-            onPressEdit(e);
-        }
+        onPressEdit(id);
     }
 
     return(
