@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import FoodView from './FoodView.jsx';
-import FoodForm from '../forms/FoodForm.jsx';
+import EditFoodForm from '../forms/EditFoodForm.jsx';
 
 const styles = StyleSheet.create({
     container: {
@@ -54,7 +54,7 @@ const FoodContainer = (props) => {
                 />
             }
             {isEditing &&
-                <FoodForm
+                <EditFoodForm
                     id={id}
                     ogCal={cal}
                     ogDesc={desc}
