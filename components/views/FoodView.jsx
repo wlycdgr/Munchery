@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const styles = StyleSheet.create({
-    mainContainer: {
+    touchableOpacity: {
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: '#e8e8e8',
@@ -26,22 +26,18 @@ const FoodView = (props) => {
     const {
         cal,
         desc,
-        id,
-        isEditable,
     } = props;
 
-    const onPress = (e) => {
-        const { onPressEdit } = props;
+    const onPress = () => {
+        const { id, onPress } = props;
 
-        if (typeof(onPressEdit) === 'function') {
-            onPressEdit(e);
-        }
+        onPress(id);
     }
 
     return(
         <TouchableOpacity
             onPress={onPress}
-            style={styles.mainContainer}
+            style={styles.touchableOpacity}
         >
             <Text style={styles.desc}>{desc}</Text>
             <Text style={styles.cal}>{cal.toString()}</Text>

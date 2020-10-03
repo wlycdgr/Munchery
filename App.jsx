@@ -5,8 +5,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 import configureStore from './store/configureStore.js';
 import { Provider } from 'react-redux';
-import DaylogScreen from './components/screens/DaylogScreen.jsx';
-import SettingsScreen from './components/screens/SettingsScreen.jsx';
+import MainScreen from './components/screens/AddScreen.jsx';
+import DetailsScreen from './components/screens/EditScreen.jsx';
+import SettingsScreen from './components/screens/OptionsScreen.jsx';
+import {
+    ADD_TAB_LABEL,
+    EDIT_TAB_LABEL,
+    OPTIONS_TAB_LABEL
+} from './constants/tabLabels';
 
 import useCachedResources from "./hooks/useCachedResources";
 
@@ -22,50 +28,39 @@ function App() {
         return null;
     }
 
+    const setTabBarIcon = (route, color, size) => {
+        let iconName;
+
+        if      (route.name === ADD_TAB_LABEL)      iconName = isAndroid() ? 'md-add' : 'ios-add';
+        else if (route.name === EDIT_TAB_LABEL)     iconName = isAndroid() ? 'md-today' : 'ios-today';
+        else if (route.name === OPTIONS_TAB_LABEL)  iconName = isAndroid() ? 'md-settings' : 'ios-settings';
+
+        return (<Ionicons name={iconName} size={size} color={color} />);
+    }
+
+    const isAndroid  = () => Platform.OS === 'android';
+
+    const tabScreen = (name, component) => (
+        <Tab.Screen
+            name={name}
+            component={component}
+        />
+    );
+
     return (
         <Provider store={store}>
             <NavigationContainer>
-              <Tab.Navigator
-                  screenOptions={({ route }) => ({
-                      tabBarIcon: ({ focused, color, size }) => {
-                          let iconName;
-
-                          if (route.name === 'main') {
-                              if (Platform.OS === 'android') {
-                                  iconName = focused
-                                      ? 'md-add-circle'
-                                      : 'md-add-circle-outline';
-                              } else {
-                                  // iOS or other
-                                  iconName = focused
-                                    ? 'ios-add-circle'
-                                    : 'ios-add-circle-outline';
-                              }
-                          } else if (route.name === 'settings') {
-                              if (Platform.OS === 'android') {
-                                  iconName = focused
-                                      ? 'md-list-box'
-                                      : 'md-list';
-                              } else {
-                                  iconName = focused
-                                    ? 'ios-list-box'
-                                    : 'ios-list';
-                              }
-                          }
-
-                          return (<Ionicons name={iconName} size={size} color={color} />);
-                      }
-                  })}
-              >
-                <Tab.Screen
-                  name="main"
-                  component={DaylogScreen}
-                />
-                <Tab.Screen
-                    name="settings"
-                    component={SettingsScreen}
-                />
-              </Tab.Navigator>
+                <Tab.Navigator
+                    // Bottom tab navigator icons setup
+                    screenOptions={({ route }) => ({
+                        tabBarIcon: ({ color, size }) => setTabBarIcon(route, color, size),
+                        unmountOnBlur: true,
+                    })}
+                >
+                    {tabScreen(ADD_TAB_LABEL, MainScreen)}
+                    {tabScreen(EDIT_TAB_LABEL, DetailsScreen)}
+                    {tabScreen(OPTIONS_TAB_LABEL, SettingsScreen)}
+                </Tab.Navigator>
             </NavigationContainer>
         </Provider>
     );
