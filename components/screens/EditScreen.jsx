@@ -1,6 +1,6 @@
 // 3rd party libs
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
 import { deleteFood, updateFood } from "../../store/actionCreators";
@@ -10,18 +10,12 @@ import Divider from '../layout/Divider.jsx';
 import CalorieSummary from "../views/CalorieSummary";
 import EditFoodForm from "../forms/EditFoodForm";
 import FoodView from "../views/FoodView";
-
+import MainContentContainer from "../views/MainContentContainer";
 
 const styles = StyleSheet.create({
-    mainContentContainer: {
+    foodView: {
         display: 'flex',
-        alignItems: 'center',
         width: '100%',
-    },
-
-    foodlogEntryContainer: {
-        width: '100%',
-        display: 'flex',
         alignItems: 'center',
     },
 });
@@ -63,7 +57,7 @@ const EditScreen = (props) => {
                 const { cal, desc, id } = food;
 
                 return (
-                    <View key={index} style={styles.foodlogEntryContainer}>
+                    <View key={index} style={styles.foodView}>
                         <FoodView
                             cal={cal}
                             desc={desc}
@@ -96,17 +90,14 @@ const EditScreen = (props) => {
     }
 
     return(
-        <View
-            contentContainerStyle={styles.mainContentContainer}
-            keyboardShouldPersistTaps='handled'
-        >
+        <MainContentContainer>
             <Divider height={60} />
             <CalorieSummary />
             <Divider height={40} />
             {!isEditing && renderAllFoods()}
             {isEditing && renderFoodBeingEdited()}
             <Divider height={20} />
-        </View>
+        </MainContentContainer>
     );
 }
 
