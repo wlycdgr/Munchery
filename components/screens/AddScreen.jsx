@@ -33,9 +33,9 @@ const AddScreen = (props) => {
         contentContainerStyle={styles.mainContentContainer}
         keyboardShouldPersistTaps='handled'
     >
-      <Divider height={100} />
-      <CalorieSummary />
       <Divider height={60} />
+      <CalorieSummary />
+      <Divider height={40} />
       <AddFoodForm/>
       <Divider height={20} />
       {/*// TODO move to Settings*/}

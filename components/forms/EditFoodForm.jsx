@@ -32,6 +32,7 @@ const EditFoodForm = (props) => {
     const {
         ogCal,
         ogDesc,
+        onCancel,
     } = props;
 
     const [desc, setDesc] = useState(ogDesc || '');
@@ -100,6 +101,7 @@ const EditFoodForm = (props) => {
         <View
             style={styles.view}
         >
+
             <ThemedInputContainer>
                 <ThemedButton
                     title="Delete"
@@ -123,6 +125,14 @@ const EditFoodForm = (props) => {
                     value={calStr}
                     onChangeText={onChangeTextCal}
                     isShowError={isShowCalStrError}
+                />
+            </ThemedInputContainer>
+            <Divider height={20} />
+            <ThemedInputContainer>
+                <ThemedButton
+                    title="Cancel"
+                    type="highlight"
+                    onPress={onCancel}
                 />
             </ThemedInputContainer>
             <Divider height={20} />
