@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { resetFoods, updateTargetCalorieRange } from "../../store/actionCreators";
@@ -9,6 +9,15 @@ import ThemedInputContainer from "../layout/ThemedInputContainer";
 import ThemedButton from "../inputs/ThemedButton";
 import CalorieSummary from "../views/CalorieSummary";
 import CalorieRangeTargetForm from "../forms/CalorieRangeTargetForm";
+import MainContentContainer from "../views/MainContentContainer";
+
+const styles = StyleSheet.create({
+    resetView: {
+        display: 'flex',
+        width: '100%',
+        alignItems: 'center',
+    },
+});
 
 const OptionsScreen = (props) => {
     const { lowerBound, upperBound } = props;
@@ -35,7 +44,7 @@ const OptionsScreen = (props) => {
     }
 
     return (
-        <View>
+        <MainContentContainer>
             <Divider height={60} />
             <CalorieSummary />
             <Divider height={40} />
@@ -45,16 +54,17 @@ const OptionsScreen = (props) => {
                 upperBound={upperBound}
                 onActivateForm={onActivateChangeRangeForm}
             />
-            <Divider height={20} />
-            <ThemedInputContainer>
-              <ThemedButton
-                title="New Day - Reset!"
-                type="highlight"
-                onPress={onNewDayPress}
-              />
-            </ThemedInputContainer>
-            <Divider height={20} />
-        </View>
+            <Divider height={40} />
+            <View style={styles.resetView} >
+                <ThemedInputContainer>
+                  <ThemedButton
+                    title="New Day - Reset!"
+                    type="highlight"
+                    onPress={onNewDayPress}
+                  />
+                </ThemedInputContainer>
+            </View>
+        </MainContentContainer>
     );
 }
 
