@@ -22,11 +22,7 @@ const styles = StyleSheet.create({
 });
 
 const AddScreen = (props) => {
-  // TODO move to Settings
-  // const handleNewDayPress = () => {
-  //  // setFoods([]);
-  //   setTotalCalories(0);
-  // }
+
 
   return(
     <View
@@ -38,15 +34,6 @@ const AddScreen = (props) => {
       <Divider height={40} />
       <AddFoodForm/>
       <Divider height={20} />
-      {/*// TODO move to Settings*/}
-      {/*<ThemedInputContainer>*/}
-      {/*  <ThemedButton*/}
-      {/*    title="New Day - Reset!"*/}
-      {/*    type="highlight"*/}
-      {/*    onPress={handleNewDayPress}*/}
-      {/*  />*/}
-      {/*</ThemedInputContainer>*/}
-      {/*<Divider height={20} />*/}
     </View>
   );
 }

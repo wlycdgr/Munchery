@@ -1,6 +1,7 @@
 import {
     ADD_FOOD,
     DELETE_FOOD,
+    RESET_FOODS,
     UPDATE_FOOD,
     UPDATE_TARGET_CALORIE_RANGE,
 } from "./actionLabels.js";
@@ -16,6 +17,12 @@ export function deleteFood(id) {
     return {
         type: DELETE_FOOD,
         data: id,
+    }
+}
+
+export function resetFoods() {
+    return {
+        type: RESET_FOODS,
     }
 }
 

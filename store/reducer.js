@@ -1,6 +1,7 @@
 import {
     ADD_FOOD,
     DELETE_FOOD,
+    RESET_FOODS,
     UPDATE_FOOD,
     UPDATE_TARGET_CALORIE_RANGE
 } from "./actionLabels.js";
@@ -49,6 +50,13 @@ export default (state = initialState, action) => {
                 ...state,
                 foods: state.foods.filter(food => food.id !== action.data),
             };
+        }
+        case RESET_FOODS: {
+            return {
+                ...state,
+                foods: [],
+                foodIdCounter: 1,
+            }
         }
         case UPDATE_FOOD: {
             const updatedFood = action.data;

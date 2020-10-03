@@ -1,13 +1,14 @@
 import React from 'react';
-import { Button } from 'react-native';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { resetFoods, updateTargetCalorieRange } from "../../store/actionCreators";
 
 import Divider from '../layout/Divider.jsx';
-
-import { bindActionCreators } from 'redux';
+import ThemedInputContainer from "../layout/ThemedInputContainer";
+import ThemedButton from "../inputs/ThemedButton";
+import CalorieSummary from "../views/CalorieSummary";
 import CalorieRangeTargetForm from "../forms/CalorieRangeTargetForm";
-import { updateTargetCalorieRange } from "../../store/actionCreators";
 
 const OptionsScreen = (props) => {
     const { lowerBound, upperBound } = props;
@@ -26,17 +27,32 @@ const OptionsScreen = (props) => {
         // Scroll view (if needed)
     }
 
+    const onNewDayPress = () => {
+        const { actions } = props;
+        const { resetFoods } = actions;
+
+        resetFoods();
+    }
+
     return (
         <View>
-            <Divider height={100} />
-            <Button onPress={() => console.log(props)} title="Log Props" />
-            <Text>This is the settings tab. Nice!</Text>
+            <Divider height={60} />
+            <CalorieSummary />
+            <Divider height={40} />
             <CalorieRangeTargetForm
                 onSubmit={onSubmitCalorieRangeTargetForm}
                 lowerBound={lowerBound}
                 upperBound={upperBound}
                 onActivateForm={onActivateChangeRangeForm}
             />
+            <ThemedInputContainer>
+              <ThemedButton
+                title="New Day - Reset!"
+                type="highlight"
+                onPress={onNewDayPress}
+              />
+            </ThemedInputContainer>
+            <Divider height={20} />
         </View>
     );
 }
@@ -50,7 +66,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        actions: bindActionCreators({ updateTargetCalorieRange }, dispatch),
+        actions: bindActionCreators({ resetFoods, updateTargetCalorieRange }, dispatch),
     };
 }
 
