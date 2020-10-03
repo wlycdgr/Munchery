@@ -45,6 +45,7 @@ const OptionsScreen = (props) => {
                 upperBound={upperBound}
                 onActivateForm={onActivateChangeRangeForm}
             />
+            <Divider height={20} />
             <ThemedInputContainer>
               <ThemedButton
                 title="New Day - Reset!"

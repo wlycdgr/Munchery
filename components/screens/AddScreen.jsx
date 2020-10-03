@@ -1,41 +1,20 @@
 // 3rd party libs
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from 'react';
 
 // Munchery components
 import AddFoodForm from "../forms/AddFoodForm";
 import CalorieSummary from '../views/CalorieSummary.jsx';
 import Divider from '../layout/Divider.jsx';
+import MainContentContainer from "../views/MainContentContainer";
 
-const styles = StyleSheet.create({
-  mainContentContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-  },
-
-  foodlogEntryContainer: {
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-  },
-});
-
-const AddScreen = (props) => {
-
-
-  return(
-    <View
-        contentContainerStyle={styles.mainContentContainer}
-        keyboardShouldPersistTaps='handled'
-    >
+const AddScreen = () => (
+    <MainContentContainer>
       <Divider height={60} />
       <CalorieSummary />
       <Divider height={40} />
       <AddFoodForm/>
       <Divider height={20} />
-    </View>
-  );
-}
+    </MainContentContainer>
+);
 
 export default AddScreen;
