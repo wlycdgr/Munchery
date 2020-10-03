@@ -1,7 +1,18 @@
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+/*
+Form for logging a new food item
+Calories are passed in as a number and sent out as a number,
+but converted to a string internally for input handling purposes
+ */
 
-import AddButton from '../inputs/AddButton.jsx';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+// Action creators
+import { addFood } from '../../store/actionCreators';
+
+import ThemedButton from '../inputs/ThemedButton.jsx';
 import Divider from '../layout/Divider.jsx';
 import ThemedTextInput from "../inputs/ThemedTextInput.jsx";
 import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
@@ -15,54 +26,49 @@ const styles = StyleSheet.create({
 });
 
 const AddFoodForm = (props) => {
-    const {
-        onCancel,
-        startingCal,
-        startingDesc,
-        submitLabel,
-    } = props;
-
-    const [desc, setDesc] = useState(startingDesc || '');
-    const [cal, setCal] = useState(startingCal || '');
+    const calInputRef = useRef(null);
+    const descInputRef = useRef(null);
+    const [desc, setDesc] = useState('');
+    const [calStr, setCalStr] = useState('');
     const [isShowDescError, setIsShowDescError] = useState(false);
-    const [isShowCalError, setIsShowCalError] = useState(false);
-    const [isLayoutReported, setIsLayoutReported] = useState(false);
+    const [isShowCalStrError, setIsShowCalStrError] = useState(false);
 
     const isFormValid = () => {
-        return (isDescValid() && isCalValid());
+        return (isDescValid() && isCalStrValid());
     }
 
     // Not stored as state variables
     // because they can be derived from other state variables
-    // (Unlike isShowDescError and isShowCalError, whose value
+    // (Unlike isShowDescError and isShowCalStrError, whose value
     // depends not only on the value of other state variables
     // but also on whether the user has just tried to submit)
     const isDescValid = () => (desc !== '');
-    const isCalValid = () => (cal !== '');
+    const isCalStrValid = () => (calStr !== '');
 
-    const onPressLogFood = () => {
-        const { onLayout, onSubmit } = props;
+    const onPressLog = () => {
+        const { actions } = props;
+        const { addFood } = actions;
 
         if (!isFormValid()) {
             if (!isDescValid()) {
                 setIsShowDescError(true);
             }
-            if (!isCalValid()) {
-                setIsShowCalError(true);
+            if (!isCalStrValid()) {
+                setIsShowCalStrError(true);
             }
             return;
         }
 
         setIsShowDescError(false);
-        setIsShowCalError(false);
+        setIsShowCalStrError(false);
 
-        onSubmit({
-            type: 'food',
-            desc,
-            cal,
-        });
+        addFood( { desc, cal: parseInt(calStr, 10), });
 
-        onLayout({nativeEvent: {layout: {x: 0, y: 0}}});
+        setDesc('');
+        setCalStr('');
+
+        calInputRef.current.blur();
+        descInputRef.current.focus();
     }
 
     const onChangeTextDesc = (descValue) => {
@@ -73,42 +79,23 @@ const AddFoodForm = (props) => {
         setDesc(descValue);
     }
 
-    const onChangeTextCal = (calValue) => {
-        if (calValue !== '' && isShowCalError) {
-            setIsShowCalError(false);
+    const onChangeTextCal = (calStr) => {
+        if (calStr !== '' && isShowCalStrError) {
+            setIsShowCalStrError(false);
         }
 
-        setCal(calValue);
-    }
-
-    const onLayout = (e) => {
-        const { onLayout } = props;
-
-        if (isLayoutReported) return;
-
-        if (onLayout) {
-            onLayout(e);
-        }
-
-        setIsLayoutReported(true);
+        setCalStr(calStr);
     }
 
     return(
         <View
             style={styles.view}
-            onLayout={onLayout}
         >
             <ThemedInputContainer>
-                <AddButton
-                    title="Cancel"
-                    onPress={onCancel}
-                />
-            </ThemedInputContainer>
-            <Divider height={20} />
-            <ThemedInputContainer>
                 <ThemedTextInput
+                    ref={descInputRef}
                     autoFocus={true}
-                    placeholder="Description"
+                    placeholder="Food name"
                     value={desc}
                     onChangeText={onChangeTextDesc}
                     isShowError={isShowDescError}
@@ -116,17 +103,18 @@ const AddFoodForm = (props) => {
             </ThemedInputContainer>
             <ThemedInputContainer>
                 <ThemedNumberInput
-                    placeholder="Calorie"
-                    value={cal}
+                    ref={calInputRef}
+                    placeholder="Calories"
+                    value={calStr}
                     onChangeText={onChangeTextCal}
-                    isShowError={isShowCalError}
+                    isShowError={isShowCalStrError}
                 />
             </ThemedInputContainer>
             <Divider height={20} />
             <ThemedInputContainer>
-                <AddButton
-                    title={submitLabel || "LOG"}
-                    onPress={onPressLogFood}
+                <ThemedButton
+                    title="Log"
+                    onPress={onPressLog}
                     type="highlight"
                     isInactive={!isFormValid()}
                 />
@@ -135,4 +123,10 @@ const AddFoodForm = (props) => {
     );
 }
 
-export default AddFoodForm;
+const mapDispatchToProps = (dispatch) => {
+    return ({
+        actions: bindActionCreators({ addFood }, dispatch),
+    });
+}
+
+export default connect(undefined, mapDispatchToProps)(AddFoodForm);

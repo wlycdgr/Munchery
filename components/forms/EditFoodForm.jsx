@@ -1,13 +1,13 @@
 /*
-Form for entering or editing a food item
+Form for editing a food item
 Calories are passed in as a number and sent out as a number,
 but converted to a string internally for input handling purposes
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import AddButton from '../inputs/AddButton.jsx';
+import ThemedButton from '../inputs/ThemedButton.jsx';
 import Divider from '../layout/Divider.jsx';
 import ThemedTextInput from "../inputs/ThemedTextInput.jsx";
 import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
@@ -28,20 +28,17 @@ const initCalStr = (ogCal) => {
     }
 }
 
-const FoodForm = (props) => {
+const EditFoodForm = (props) => {
     const {
-        isCanDelete,
-        onCancel,
         ogCal,
         ogDesc,
-        submitLabel,
+        onCancel,
     } = props;
 
     const [desc, setDesc] = useState(ogDesc || '');
     const [calStr, setCalStr] = useState(initCalStr(ogCal))
     const [isShowDescError, setIsShowDescError] = useState(false);
     const [isShowCalStrError, setIsShowCalStrError] = useState(false);
-    const [isLayoutReported, setIsLayoutReported] = useState(false);
 
     const isFormValid = () => {
         return (isDescValid() && isCalStrValid());
@@ -55,8 +52,8 @@ const FoodForm = (props) => {
     const isDescValid = () => (desc !== '');
     const isCalStrValid = () => (calStr !== '');
 
-    const onPressLogFood = () => {
-        const { onSubmit } = props;
+    const onPressSave = () => {
+        const { id, onSubmit } = props;
 
         if (!isFormValid()) {
             if (!isDescValid()) {
@@ -72,9 +69,9 @@ const FoodForm = (props) => {
         setIsShowCalStrError(false);
 
         onSubmit({
-            type: 'food',
-            desc,
             cal: parseInt(calStr, 10),
+            desc,
+            id,
         });
     }
 
@@ -94,54 +91,29 @@ const FoodForm = (props) => {
         setCalStr(calStr);
     }
 
-    const onLayout = (e) => {
-        const { onLayout } = props;
-
-        if (isLayoutReported) return;
-
-        if (onLayout) {
-            onLayout(e);
-        }
-
-        setIsLayoutReported(true);
-    }
-
-    const onDelete = () => {
+    const onPressDelete = () => {
         const { id, onDelete } = props;
 
-        if (typeof(onDelete) === 'function') {
-            onDelete(id);
-        }
+        onDelete(id);
     }
 
     return(
         <View
             style={styles.view}
-            onLayout={onLayout}
         >
-            {isCanDelete &&
-                <>
-                    <ThemedInputContainer>
-                        <AddButton
-                            title="Delete"
-                            type="highlight"
-                            onPress={onDelete}
-                        />
-                    </ThemedInputContainer>
-                    <Divider height={20} />
-                </>
-            }
+
             <ThemedInputContainer>
-                <AddButton
-                    title="Cancel"
-                    onPress={onCancel}
+                <ThemedButton
+                    title="Delete"
+                    type="highlight"
+                    onPress={onPressDelete}
                 />
             </ThemedInputContainer>
             <Divider height={20} />
             <ThemedInputContainer>
                 <ThemedTextInput
                     autoFocus={true}
-                    placeholder="Description"
+                    placeholder="Food name"
                     value={desc}
                     onChangeText={onChangeTextDesc}
                     isShowError={isShowDescError}
@@ -149,7 +121,7 @@ const FoodForm = (props) => {
             </ThemedInputContainer>
             <ThemedInputContainer>
                 <ThemedNumberInput
-                    placeholder="Calorie"
+                    placeholder="Calories"
                     value={calStr}
                     onChangeText={onChangeTextCal}
                     isShowError={isShowCalStrError}
@@ -157,9 +129,17 @@ const FoodForm = (props) => {
             </ThemedInputContainer>
             <Divider height={20} />
             <ThemedInputContainer>
-                <AddButton
-                    title={submitLabel || "Log"}
-                    onPress={onPressLogFood}
+                <ThemedButton
+                    title="Cancel"
+                    type="highlight"
+                    onPress={onCancel}
+                />
+            </ThemedInputContainer>
+            <Divider height={20} />
+            <ThemedInputContainer>
+                <ThemedButton
+                    title={"Save"}
+                    onPress={onPressSave}
                     type="highlight"
                     isInactive={!isFormValid()}
                 />
@@ -168,4 +148,4 @@ const FoodForm = (props) => {
     );
 }
 
-export default FoodForm;
+export default EditFoodForm;

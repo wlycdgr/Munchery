@@ -38,7 +38,7 @@ const errorFocused = StyleSheet.compose(
     styles.focused
 );
 
-const ThemedTextInput = (props) => {
+const ThemedTextInput = React.forwardRef((props, ref) => {
     const { isShowError } = props;
 
     const [isFocused, setIsFocused] = useState(false);
@@ -70,11 +70,12 @@ const ThemedTextInput = (props) => {
     return(
         <TextInput
             {...props}
+            ref={ref}
             style={currentStyle}
             onFocus={onFocus}
             onBlur={onBlur}
         />
     );
-}
+});
 
 export default ThemedTextInput;

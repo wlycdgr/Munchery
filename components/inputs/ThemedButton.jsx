@@ -38,7 +38,7 @@ const inactiveNormal = StyleSheet.compose(button.base, button.inactiveNormal);
 const activeHighlight = StyleSheet.compose(button.base, button.activeHighlight);
 const inactiveHighlight = StyleSheet.compose(button.base, button.inactiveHighlight);
 
-const AddButton = (props) => {
+const ThemedButton = (props) => {
   const {
     isInactive,
     onPress,
@@ -62,4 +62,4 @@ const AddButton = (props) => {
   );
 }
 
-export default AddButton;
+export default ThemedButton;

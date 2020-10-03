@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import ThemedInputContainer from "../layout/ThemedInputContainer.jsx";
 import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
-import AddButton from '../inputs/AddButton.jsx';
+import ThemedButton from '../inputs/ThemedButton.jsx';
 import Divider from '../layout/Divider.jsx';
 
 const styles = StyleSheet.create({
@@ -58,7 +58,7 @@ const CalorieRangeTargetForm = (props) => {
         <Text style={styles.calorieRange}>{`${lowerBound} - ${upperBound}`}</Text>
         <Divider height={10} />
         <ThemedInputContainer>
-            <AddButton
+            <ThemedButton
               title="Change Range"
               onPress={onPressChangeRange}
             />
@@ -87,7 +87,7 @@ const CalorieRangeTargetForm = (props) => {
     return(
       <>
         <ThemedInputContainer>
-            <AddButton
+            <ThemedButton
               title="Cancel"
               onPress={handleCancelPress}
             />
@@ -109,7 +109,7 @@ const CalorieRangeTargetForm = (props) => {
         </ThemedInputContainer>
         <Divider height={20} />
         <ThemedInputContainer>
-            <AddButton
+            <ThemedButton
               title="Save"
               type="highlight"
               onPress={handleSavePress}
