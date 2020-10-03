@@ -6,11 +6,6 @@ but converted to a string internally for input handling purposes
 
 import React, { useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-// Actions creators
-import { deleteFood } from '../../store/actionCreators';
 
 import ThemedButton from '../inputs/ThemedButton.jsx';
 import Divider from '../layout/Divider.jsx';
