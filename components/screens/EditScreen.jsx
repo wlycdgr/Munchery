@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { deleteFood } from "../../store/actionCreators";
+import { deleteFood, updateFood } from "../../store/actionCreators";
 
 // Munchery components
 import Divider from '../layout/Divider.jsx';
@@ -44,17 +44,17 @@ const EditScreen = (props) => {
         setIsEditing(false);
     }
 
-    const onPressEdit = (editId) => {
-        setEditId(editId);
+    const onPressFoodView = (id) => {
+        setEditId(id);
         setIsEditing(true);
     }
 
     const onSaveEdit = (food) => {
-        // const { cal, desc, id } = food;
+        const { actions } = props;
+        const { updateFood } = actions;
 
+        updateFood(food);
         setIsEditing(false);
-
-        // updateFood(id, cal, desc);
     }
 
     const renderAllFoods = () => {
@@ -68,7 +68,7 @@ const EditScreen = (props) => {
                             cal={cal}
                             desc={desc}
                             id={id}
-                            onPressEdit={onPressEdit}
+                            onPress={onPressFoodView}
                         />
                         <Divider height={20} />
                     </View>
@@ -118,7 +118,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        actions: bindActionCreators({ deleteFood }, dispatch)
+        actions: bindActionCreators({ deleteFood, updateFood }, dispatch)
     });
 }
 

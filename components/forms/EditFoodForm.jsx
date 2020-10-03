@@ -37,11 +37,8 @@ const EditFoodForm = (props) => {
     const {
         ogCal,
         ogDesc,
-        submitLabel,
     } = props;
 
-    const calInputRef = useRef(null);
-    const descInputRef = useRef(null);
     const [desc, setDesc] = useState(ogDesc || '');
     const [calStr, setCalStr] = useState(initCalStr(ogCal))
     const [isShowDescError, setIsShowDescError] = useState(false);
@@ -59,8 +56,8 @@ const EditFoodForm = (props) => {
     const isDescValid = () => (desc !== '');
     const isCalStrValid = () => (calStr !== '');
 
-    const onPressLogFood = () => {
-        const { isStandalone, onSubmit } = props;
+    const onPressSave = () => {
+        const { id, onSubmit } = props;
 
         if (!isFormValid()) {
             if (!isDescValid()) {
@@ -76,8 +73,9 @@ const EditFoodForm = (props) => {
         setIsShowCalStrError(false);
 
         onSubmit({
-            desc,
             cal: parseInt(calStr, 10),
+            desc,
+            id,
         });
     }
 
@@ -97,7 +95,7 @@ const EditFoodForm = (props) => {
         setCalStr(calStr);
     }
 
-    const onDelete = () => {
+    const onPressDelete = () => {
         const { id, onDelete } = props;
 
         onDelete(id);
@@ -111,13 +109,12 @@ const EditFoodForm = (props) => {
                 <ThemedButton
                     title="Delete"
                     type="highlight"
-                    onPress={onDelete}
+                    onPress={onPressDelete}
                 />
             </ThemedInputContainer>
             <Divider height={20} />
             <ThemedInputContainer>
                 <ThemedTextInput
-                    ref={descInputRef}
                     autoFocus={true}
                     placeholder="Food name"
                     value={desc}
@@ -127,7 +124,6 @@ const EditFoodForm = (props) => {
             </ThemedInputContainer>
             <ThemedInputContainer>
                 <ThemedNumberInput
-                    ref={calInputRef}
                     placeholder="Calories"
                     value={calStr}
                     onChangeText={onChangeTextCal}
@@ -138,7 +134,7 @@ const EditFoodForm = (props) => {
             <ThemedInputContainer>
                 <ThemedButton
                     title={"Save"}
-                    onPress={onPressLogFood}
+                    onPress={onPressSave}
                     type="highlight"
                     isInactive={!isFormValid()}
                 />

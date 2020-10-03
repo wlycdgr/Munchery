@@ -29,9 +29,9 @@ const FoodView = (props) => {
     } = props;
 
     const onPress = () => {
-        const { id, onPressEdit } = props;
+        const { id, onPress } = props;
 
-        onPressEdit(id);
+        onPress(id);
     }
 
     return(
