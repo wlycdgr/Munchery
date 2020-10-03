@@ -1,3 +1,3 @@
 # Munchery
 
-A simple and private calorie tracking app
+A simple calorie tracking app that does not track you back
