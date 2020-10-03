@@ -54,6 +54,7 @@ function App() {
                     // Bottom tab navigator icons setup
                     screenOptions={({ route }) => ({
                         tabBarIcon: ({ color, size }) => setTabBarIcon(route, color, size),
+                        unmountOnBlur: true,
                     })}
                 >
                     {tabScreen(ADD_TAB_LABEL, MainScreen)}
