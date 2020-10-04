@@ -27,7 +27,9 @@
       },
       "enableDangerousExperimentalLeanBuilds": false,
       "permissions": [],
-      "allowBackup": false
+      "allowBackup": false,
+      "package": "com.wlycdgr.munchery",
+      "versionCode": 1
     },
     "ios": {
       "icon": "./assets/images/icon.png",
