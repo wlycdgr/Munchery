@@ -29,7 +29,7 @@
       "permissions": [],
       "allowBackup": false,
       "package": "com.wlycdgr.munchery",
-      "versionCode": 3
+      "versionCode": 1
     },
     "ios": {
       "icon": "./assets/images/icon.png",
