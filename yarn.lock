@@ -997,6 +997,11 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
+"@expo-google-fonts/space-mono@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/space-mono/-/space-mono-0.1.0.tgz#f7cac81cf260850c43e7c61a67f8237405f9e62b"
+  integrity sha512-tS7WGeLjZm/qxnSHz151fS2CZUj1v//Ov5Kfwims5LB6IJAy6sqhW0uUT7Kjvs769mCVrnY1H2P+ps8nN9WGkg==
+
 "@expo/configure-splash-screen@0.1.13":
   version "0.1.13"
   resolved "https://registry.yarnpkg.com/@expo/configure-splash-screen/-/configure-splash-screen-0.1.13.tgz#9f974146d716ffc03461e4d2deb7bfb22826e56a"
