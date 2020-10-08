@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 import { AppLoading } from "expo";
-import { useFonts, SpaceMono_400Regular } from "@expo-google-fonts/space-mono";
+import { useFonts, Sarala_400Regular } from "@expo-google-fonts/sarala";
 import configureStore from './store/configureStore.js';
 import { Provider } from 'react-redux';
 import MainScreen from './components/screens/AddScreen.jsx';
@@ -23,7 +23,7 @@ console.log(store.getState());
 
 function App() {
     let [fontsLoaded] = useFonts({
-        SpaceMono_400Regular,
+        Sarala_400Regular,
     });
 
     if (!fontsLoaded) {

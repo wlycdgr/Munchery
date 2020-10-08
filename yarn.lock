@@ -1005,10 +1005,10 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@expo-google-fonts/space-mono@^0.1.0":
+"@expo-google-fonts/sarala@^0.1.0":
   version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@expo-google-fonts/space-mono/-/space-mono-0.1.0.tgz#f7cac81cf260850c43e7c61a67f8237405f9e62b"
-  integrity sha512-tS7WGeLjZm/qxnSHz151fS2CZUj1v//Ov5Kfwims5LB6IJAy6sqhW0uUT7Kjvs769mCVrnY1H2P+ps8nN9WGkg==
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/sarala/-/sarala-0.1.0.tgz#616ffe2a73875d891221681f112d2f5d8cf03f79"
+  integrity sha512-u4Jow/QMHFadoK4ch7DujwX7WfUSnA0Lkv2i5Iaoi1k8B9QtqKXU22aYYZSdGSQmaABEDrFI+yTEO609eyiOSA==
 
 "@expo/configure-splash-screen@0.2.0":
   version "0.2.0"

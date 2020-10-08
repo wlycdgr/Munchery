@@ -2,12 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import * as colors from '../../constants/colors.js';
-import {SpaceMono_400Regular} from "@expo-google-fonts/space-mono";
 
 const label = StyleSheet.create({
   text: {
     color: colors.normalButtonText,
-    fontFamily: 'SpaceMono_400Regular',
+    fontFamily: 'Sarala_400Regular',
   },
 });
 
