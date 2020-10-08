@@ -3,6 +3,8 @@ import { Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
+import { AppLoading } from "expo";
+import { useFonts, SpaceMono_400Regular } from "@expo-google-fonts/space-mono";
 import configureStore from './store/configureStore.js';
 import { Provider } from 'react-redux';
 import MainScreen from './components/screens/AddScreen.jsx';
@@ -14,18 +16,18 @@ import {
     OPTIONS_TAB_LABEL
 } from './constants/tabLabels';
 
-import useCachedResources from "./hooks/useCachedResources";
-
 const Tab = createBottomTabNavigator();
 
 const store = configureStore();
 console.log(store.getState());
 
 function App() {
-    const isLoadingComplete = useCachedResources();
+    let [fontsLoaded] = useFonts({
+        SpaceMono_400Regular,
+    });
 
-    if (!isLoadingComplete) {
-        return null;
+    if (!fontsLoaded) {
+        return <AppLoading />;
     }
 
     const setTabBarIcon = (route, color, size) => {
