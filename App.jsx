@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 import { AppLoading } from "expo";
 import { useFonts, Sarala_400Regular } from "@expo-google-fonts/sarala";
-import { AsyncStorage } from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
 import configureStore from './store/configureStore.js';
 import { Provider } from 'react-redux';
 import MainScreen from './components/screens/AddScreen.jsx';
@@ -22,18 +22,26 @@ const Tab = createBottomTabNavigator();
 const store = configureStore();
 console.log(store.getState());
 
-const getFoodsFromStorage = async () => {
-
-}
-
 function App() {
     let [fontsLoaded] = useFonts({
         Sarala_400Regular,
     });
     let [foodsLoaded, setFoodsLoaded] = useState(false);
+    let [loadingFoods, setLoadingFoods] = useState(false);
+
+    if (!foodsLoaded && !loadingFoods) {
+        AsyncStorage.getItem('@foods')
+            .then((result) => {
+                console.log('AsyncStorage.getItem.then');
+                console.log(result);
+                setFoodsLoaded(true);
+            });
+        setLoadingFoods(true);
+    }
 
     if (!fontsLoaded || !foodsLoaded) {
         return <AppLoading />;
+
     }
 
     const setTabBarIcon = (route, color, size) => {
