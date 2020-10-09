@@ -2,6 +2,7 @@ import {
     ADD_FOOD,
     DELETE_FOOD,
     INIT_FOODS,
+    INIT_TARGET_CALORIE_RANGE,
     RESET_FOODS,
     UPDATE_FOOD,
     UPDATE_TARGET_CALORIE_RANGE,
@@ -25,6 +26,13 @@ export function initFoods(foods) {
     return {
         type: INIT_FOODS,
         data: foods,
+    }
+}
+
+export function initTargetCalorieRange(range) {
+    return {
+        type: INIT_TARGET_CALORIE_RANGE,
+        data: range,
     }
 }
 
