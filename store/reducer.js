@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-community/async-storage";
 import {
     ADD_FOOD,
     DELETE_FOOD,
@@ -30,6 +31,8 @@ const initialState = {
     foodIdCounter: 4,
 }
 
+const asyncStoreFoods = foods => AsyncStorage.setItem('@foods', JSON.stringify(foods));
+
 export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_FOOD: {
@@ -40,6 +43,10 @@ export default (state = initialState, action) => {
                 id: state.foodIdCounter,
             };
 
+            const newFoods = [...state.foods, newFood];
+
+            asyncStoreFoods(newFoods);
+
             return {
                 ...state,
                 foods: [...state.foods, newFood],
@@ -47,9 +54,13 @@ export default (state = initialState, action) => {
             };
         }
         case DELETE_FOOD: {
+            const newFoods = state.foods.filter(food => food.id !== action.data);
+
+            asyncStoreFoods(newFoods);
+
             return {
                 ...state,
-                foods: state.foods.filter(food => food.id !== action.data),
+                foods: newFoods,
             };
         }
         case INIT_FOODS: {
@@ -60,17 +71,26 @@ export default (state = initialState, action) => {
             }
         }
         case RESET_FOODS: {
+            const newFoods = [];
+
+            asyncStoreFoods(newFoods);
+
             return {
                 ...state,
-                foods: [],
+                foods: newFoods,
                 foodIdCounter: 1,
             }
         }
         case UPDATE_FOOD: {
             const updatedFood = action.data;
+
+            const newFoods = [...state.foods.filter(food => food.id !== updatedFood.id), updatedFood];
+
+            asyncStoreFoods(newFoods);
+
             return {
                 ...state,
-                foods: [...state.foods.filter(food => food.id !== updatedFood.id), updatedFood],
+                foods: newFoods,
             };
         }
         case UPDATE_TARGET_CALORIE_RANGE: {
