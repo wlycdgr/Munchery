@@ -8,6 +8,7 @@ import { useFonts, Sarala_400Regular } from "@expo-google-fonts/sarala";
 import AsyncStorage from '@react-native-community/async-storage';
 import configureStore from './store/configureStore.js';
 import { Provider } from 'react-redux';
+import { initFoods } from "./store/actionCreators";
 import MainScreen from './components/screens/AddScreen.jsx';
 import DetailsScreen from './components/screens/EditScreen.jsx';
 import SettingsScreen from './components/screens/OptionsScreen.jsx';
@@ -20,7 +21,6 @@ import {
 const Tab = createBottomTabNavigator();
 
 const store = configureStore();
-console.log(store.getState());
 
 function App() {
     let [fontsLoaded] = useFonts({
@@ -32,10 +32,12 @@ function App() {
     if (!foodsLoaded && !loadingFoods) {
         AsyncStorage.getItem('@foods')
             .then((result) => {
-                console.log('AsyncStorage.getItem.then');
-                console.log(result);
+                store.dispatch(initFoods(result));
                 setFoodsLoaded(true);
-            });
+            })
+            .catch((error) => {
+                console.error('ERROR Could not load foods from storage');
+            })
         setLoadingFoods(true);
     }
 

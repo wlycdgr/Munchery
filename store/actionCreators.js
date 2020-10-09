@@ -1,6 +1,7 @@
 import {
     ADD_FOOD,
     DELETE_FOOD,
+    INIT_FOODS,
     RESET_FOODS,
     UPDATE_FOOD,
     UPDATE_TARGET_CALORIE_RANGE,
@@ -17,6 +18,13 @@ export function deleteFood(id) {
     return {
         type: DELETE_FOOD,
         data: id,
+    }
+}
+
+export function initFoods(foods) {
+    return {
+        type: INIT_FOODS,
+        data: foods,
     }
 }
 

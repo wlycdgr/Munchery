@@ -1,6 +1,7 @@
 import {
     ADD_FOOD,
     DELETE_FOOD,
+    INIT_FOODS,
     RESET_FOODS,
     UPDATE_FOOD,
     UPDATE_TARGET_CALORIE_RANGE
@@ -50,6 +51,13 @@ export default (state = initialState, action) => {
                 ...state,
                 foods: state.foods.filter(food => food.id !== action.data),
             };
+        }
+        case INIT_FOODS: {
+            const loadedFoods = action.data || [];
+            return {
+                ...state,
+                foods: loadedFoods,
+            }
         }
         case RESET_FOODS: {
             return {
