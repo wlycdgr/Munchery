@@ -65,7 +65,7 @@ export default (state = initialState, action) => {
         }
         case INIT_FOODS: {
             const loadedFoods = (action.data && JSON.parse(action.data)) || [];
-            console.log(loadedFoods);
+            
             return {
                 ...state,
                 foods: loadedFoods,
