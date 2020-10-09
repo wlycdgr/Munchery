@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from '@expo/vector-icons';
 import { AppLoading } from "expo";
-import { useFonts, SpaceMono_400Regular } from "@expo-google-fonts/space-mono";
+import { useFonts, Sarala_400Regular } from "@expo-google-fonts/sarala";
+import AsyncStorage from '@react-native-community/async-storage';
 import configureStore from './store/configureStore.js';
 import { Provider } from 'react-redux';
+import { initFoods, initTargetCalorieRange } from "./store/actionCreators";
 import MainScreen from './components/screens/AddScreen.jsx';
 import DetailsScreen from './components/screens/EditScreen.jsx';
 import SettingsScreen from './components/screens/OptionsScreen.jsx';
@@ -19,15 +21,43 @@ import {
 const Tab = createBottomTabNavigator();
 
 const store = configureStore();
-console.log(store.getState());
 
 function App() {
     let [fontsLoaded] = useFonts({
-        SpaceMono_400Regular,
+        Sarala_400Regular,
     });
+    let [foodsLoaded, setFoodsLoaded] = useState(false);
+    let [loadingFoods, setLoadingFoods] = useState(false);
+    let [calorieRangeLoaded, setCalorieRangeLoaded] = useState(false);
+    let [loadingCalorieRange, setLoadingCalorieRange] = useState(false);
 
-    if (!fontsLoaded) {
+    if (!foodsLoaded && !loadingFoods) {
+        AsyncStorage.getItem('@foods')
+            .then((result) => {
+                store.dispatch(initFoods(result));
+                setFoodsLoaded(true);
+            })
+            .catch((error) => {
+                console.error('ERROR Could not load foods from storage');
+            });
+        setLoadingFoods(true);
+    }
+
+    if (!calorieRangeLoaded && !loadingCalorieRange) {
+        AsyncStorage.getItem('@calorieRange')
+            .then((result) => {
+                store.dispatch(initTargetCalorieRange(result));
+                setCalorieRangeLoaded(true);
+            })
+            .catch((error) => {
+                console.error('ERROR Could not load calorie range from storage');
+            });
+        setLoadingCalorieRange(true);
+    }
+
+    if (!fontsLoaded || !foodsLoaded || !calorieRangeLoaded) {
         return <AppLoading />;
+
     }
 
     const setTabBarIcon = (route, color, size) => {
