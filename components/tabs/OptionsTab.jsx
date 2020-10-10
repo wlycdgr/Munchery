@@ -6,7 +6,7 @@ import CalorieRangeTargetForm from "../forms/CalorieRangeTargetForm";
 import ResetFoodsButton from "../forms/ResetFoodsButton";
 import MainContentContainer from "../views/MainContentContainer";
 
-const OptionsScreen = () => {
+const OptionsTab = () => {
     const [isEditingCalorieRange, setIsEditingCalorieRange] = useState(false);
 
     const isCalorieRangeFormInEditMode = trueIfYes => setIsEditingCalorieRange(trueIfYes);
@@ -25,4 +25,4 @@ const OptionsScreen = () => {
     );
 }
 
-export default OptionsScreen;
+export default OptionsTab;

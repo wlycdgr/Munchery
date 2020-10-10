@@ -7,7 +7,7 @@ import CalorieSummary from '../views/CalorieSummary.jsx';
 import Divider from '../layout/Divider.jsx';
 import MainContentContainer from "../views/MainContentContainer";
 
-const AddScreen = () => (
+const NewTab = () => (
     <MainContentContainer>
       <Divider height={60} />
       <CalorieSummary />
@@ -17,4 +17,4 @@ const AddScreen = () => (
     </MainContentContainer>
 );
 
-export default AddScreen;
+export default NewTab;

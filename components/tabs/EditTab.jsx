@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const EditScreen = (props) => {
+const EditTab = (props) => {
     const { foods } = props;
 
     const [isEditing, setIsEditing] = useState(false);
@@ -113,4 +113,4 @@ const mapDispatchToProps = (dispatch) => {
     });
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(EditTab);
