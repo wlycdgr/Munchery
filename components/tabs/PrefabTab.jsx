@@ -17,7 +17,7 @@ import ThemedInputContainer from "../layout/ThemedInputContainer";
 import ThemedButton from "../inputs/ThemedButton";
 
 const styles = StyleSheet.create({
-    prefabView: {
+    centeredView: {
         display: 'flex',
         width: '100%',
         alignItems: 'center',
@@ -90,21 +90,29 @@ const PrefabTab = (props) => {
         const label = (mode === EDIT_MODE) ? 'Switch to Log Mode' : 'Switch to Edit Mode';
 
         return (
-            <ThemedInputContainer>
-                <ThemedButton
-                    title={label}
-                    onPress={onPressModeSwitchButton}
-                    type="highlight"
-                    isInactive={false}
-                />
-            </ThemedInputContainer>
+            <View style={styles.centeredView}>
+                <ThemedInputContainer>
+                    <ThemedButton
+                        title={label}
+                        onPress={onPressModeSwitchButton}
+                        type="highlight"
+                        isInactive={false}
+                    />
+                </ThemedInputContainer>
+            </View>
         );
     }
 
     const renderModeHeader = mode => {
-        const text = (mode === EDIT_MODE) ? 'Tap prefab to edit it' : 'Tap prefab to log it';
+        const header = (mode === EDIT_MODE) ? 'Edit Mode' : 'Log Mode';
+        const instructions = (mode === EDIT_MODE) ? 'Tap prefab to edit it' : 'Tap prefab to log it';
 
-        return (<Text>{text}</Text>);
+        return (
+            <View style={styles.centeredView}>
+                <Text style={{fontSize: 24, fontWeight: 'bold'} }>{header}</Text>
+                <Text>{instructions}</Text>
+            </View>
+        );
     }
 
     const renderAllPrefabs = () => {
@@ -115,7 +123,7 @@ const PrefabTab = (props) => {
                 const { cal, desc, id } = prefab;
 
                 return (
-                    <View key={id} style={styles.prefabView}>
+                    <View key={id} style={styles.centeredView}>
                         <FoodView
                             cal={cal}
                             desc={desc}
@@ -150,8 +158,10 @@ const PrefabTab = (props) => {
             <Divider height={60} />
             <CalorieSummary />
             <Divider height={40} />
-            {!isEditing && renderModeSwitchButton(mode)}
             {!isEditing && renderModeHeader(mode)}
+            {!isEditing && <Divider height={20} />}
+            {!isEditing && renderModeSwitchButton(mode)}
+            {!isEditing && <Divider height={20} />}
             {!isEditing && renderAllPrefabs(mode)}
             {isEditing && renderPrefabBeingEdited()}
             <Divider height={20} />

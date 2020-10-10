@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const ResetFoodsButton = () => {
+const ResetFoodsButton = (props) => {
     const onPress = () => props.actions.resetFoods();
 
     return (
