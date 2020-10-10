@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateTargetCalorieRange } from "../../store/actionCreators";
 
 import ThemedInputContainer from "../layout/ThemedInputContainer.jsx";
 import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
@@ -20,68 +23,66 @@ const styles = StyleSheet.create({
 });
 
 const CalorieRangeTargetForm = (props) => {
-  const {
-    lowerBound,
-    upperBound,
-  } = props;
+    const {
+        lowerBound,
+        upperBound,
+    } = props;
 
-  const [isUpdatingRange, setIsUpdatingRange] = useState(false);
-  const [newLowerBound, setNewLowerBound] = useState(lowerBound.toString());
-  const [newUpperBound, setNewUpperBound] = useState(upperBound.toString());
+    const [isUpdatingRange, setIsUpdatingRange] = useState(false);
+    const [newLowerBound, setNewLowerBound] = useState(lowerBound.toString());
+    const [newUpperBound, setNewUpperBound] = useState(upperBound.toString());
 
-  const onPressChangeRange = () => {
-    const { onActivateForm } = props;
+    const isRangeValid = () => parseInt(newUpperBound, 10) >= parseInt(newLowerBound, 10);
 
-    setIsUpdatingRange(true);
+    const onPressChangeRange = () => {
+        const { isEditing } = props;
 
-    onActivateForm();
-  }
+        isEditing(true);
+        setIsUpdatingRange(true);
+    }
 
-  const handleCancelPress = () => {
-    setNewLowerBound(lowerBound.toString());
-    setNewUpperBound(upperBound.toString());
-    setIsUpdatingRange(false);
-  }
+    const handleCancelPress = () => {
+        const { isEditing } = props;
 
-  const handleSavePress = () => {
-    const { onSubmit } = props;
+        isEditing(false);
+        setNewLowerBound(lowerBound.toString());
+        setNewUpperBound(upperBound.toString());
+        setIsUpdatingRange(false);
+    }
 
-    onSubmit(newLowerBound, newUpperBound);
+    const handleSavePress = () => {
+        const { actions, isEditing } = props;
+        const { updateTargetCalorieRange } = actions;
 
-    setIsUpdatingRange(false);
-  }
+        updateTargetCalorieRange({
+          newLowerBound: parseInt(newLowerBound, 10),
+          newUpperBound: parseInt(newUpperBound, 10),
+        });
 
-  const renderCurrentRangeReadout = () => {
-    return(
-      <>
-        <Text>Your target calorie range is</Text>
-        <Text style={styles.calorieRange}>{`${lowerBound} - ${upperBound}`}</Text>
-        <Divider height={10} />
-        <ThemedInputContainer>
-            <ThemedButton
-              title="Change Range"
-              onPress={onPressChangeRange}
-            />
-        </ThemedInputContainer>
-      </>
-    );
-  }
+        isEditing(false);
+        setIsUpdatingRange(false);
+    }
 
-  const onChangeTextLowerBound = (lbValue) => {
-      const newValue = (lbValue === '') ? 0 : lbValue;
-      if (parseInt(newValue) >= parseInt(newUpperBound)) {
-          setNewUpperBound(lbValue);
-      }
-      setNewLowerBound(lbValue);
-  }
+    const renderCurrentRangeReadout = () => {
+        return(
+              <>
+                <Text>Your target calorie range is</Text>
+                <Text style={styles.calorieRange}>{`${lowerBound} - ${upperBound}`}</Text>
+                <Divider height={10} />
+                <ThemedInputContainer>
+                    <ThemedButton
+                        title="Change Range"
+                        type="highlight"
+                        onPress={onPressChangeRange}
+                    />
+                </ThemedInputContainer>
+              </>
+        );
+    }
 
-  const onChangeTextUpperBound = (ubValue) => {
-      const newValue = (ubValue === '') ? 0 : ubValue;
-      if (parseInt(newValue) <= parseInt(newLowerBound)) {
-          setNewLowerBound(ubValue);
-      }
-      setNewUpperBound(ubValue);
-  }
+  const onChangeTextLowerBound = lbValue => setNewLowerBound(lbValue);
+
+  const onChangeTextUpperBound = ubValue => setNewUpperBound(ubValue);
 
   const renderRangeUpdateForm = () => {
     return(
@@ -89,6 +90,7 @@ const CalorieRangeTargetForm = (props) => {
         <ThemedInputContainer>
             <ThemedButton
               title="Cancel"
+              type="highlight"
               onPress={handleCancelPress}
             />
         </ThemedInputContainer>
@@ -113,6 +115,7 @@ const CalorieRangeTargetForm = (props) => {
               title="Save"
               type="highlight"
               onPress={handleSavePress}
+              isInactive={!isRangeValid()}
             />
         </ThemedInputContainer>
       </>
@@ -127,4 +130,17 @@ const CalorieRangeTargetForm = (props) => {
   );
 }
 
-export default CalorieRangeTargetForm;
+const mapStateToProps = (state) => {
+    return {
+        lowerBound: state.lowerBound,
+        upperBound: state.upperBound,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators({ updateTargetCalorieRange }, dispatch),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CalorieRangeTargetForm);

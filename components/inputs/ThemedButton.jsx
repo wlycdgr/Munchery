@@ -40,7 +40,6 @@ const inactiveHighlight = StyleSheet.compose(button.base, button.inactiveHighlig
 const ThemedButton = (props) => {
   const {
     isInactive,
-    onPress,
     title,
     type,
   } = props;
@@ -49,11 +48,19 @@ const ThemedButton = (props) => {
       ? (isInactive ? inactiveHighlight : activeHighlight)
       : (isInactive ? inactiveNormal : activeNormal);
 
+  const _onPress = () => {
+    const { onPress } = props;
+
+    if (isInactive) return;
+
+    onPress();
+  }
+
   return (
     <>
       <TouchableOpacity
         style={buttonStyle}
-        onPress={onPress}
+        onPress={_onPress}
       >
         <Text style={label.text}>{title}</Text>
       </TouchableOpacity>
