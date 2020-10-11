@@ -1,4 +1,5 @@
 export const ADD_FOOD = 'ADD_FOOD';
+export const ADD_PREFAB = 'ADD_PREFAB';
 export const DELETE_FOOD = 'DELETE_FOOD';
 export const DELETE_PREFAB = 'DELETE_PREFAB';
 export const INIT_FOODS = 'INIT_FOODS';

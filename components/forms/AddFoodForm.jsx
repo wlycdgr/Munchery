@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 // Action creators
-import { addFood } from '../../store/actionCreators';
+import { addFood, addPrefab } from '../../store/actionCreators';
 
 import ThemedButton from '../inputs/ThemedButton.jsx';
 import Divider from '../layout/Divider.jsx';
@@ -45,9 +45,9 @@ const AddFoodForm = (props) => {
     const isDescValid = () => (desc !== '');
     const isCalStrValid = () => (calStr !== '');
 
-    const onPressLog = () => {
+    const onPressLog = (shouldAddPrefab = false) => {
         const { actions } = props;
-        const { addFood } = actions;
+        const { addFood, addPrefab } = actions;
 
         if (!isFormValid()) {
             if (!isDescValid()) {
@@ -63,6 +63,7 @@ const AddFoodForm = (props) => {
         setIsShowCalStrError(false);
 
         addFood( { desc, cal: parseInt(calStr, 10), });
+        if (shouldAddPrefab) addPrefab( { desc, cal: parseInt(calStr, 10), });
 
         setDesc('');
         setCalStr('');
@@ -70,6 +71,8 @@ const AddFoodForm = (props) => {
         calInputRef.current.blur();
         descInputRef.current.focus();
     }
+
+    const onPressLogAndSaveAsPrefab = () => onPressLog(true);
 
     const onChangeTextDesc = (descValue) => {
         if (descValue !== '' && isShowDescError) {
@@ -119,13 +122,22 @@ const AddFoodForm = (props) => {
                     isInactive={!isFormValid()}
                 />
             </ThemedInputContainer>
+            <Divider height={20} />
+            <ThemedInputContainer>
+                <ThemedButton
+                    title="Log And Save As A Prefab"
+                    onPress={onPressLogAndSaveAsPrefab}
+                    type="highlight"
+                    isInactive={!isFormValid()}
+                />
+            </ThemedInputContainer>
         </View>
     );
 }
 
 const mapDispatchToProps = (dispatch) => {
     return ({
-        actions: bindActionCreators({ addFood }, dispatch),
+        actions: bindActionCreators({ addFood, addPrefab }, dispatch),
     });
 }
 

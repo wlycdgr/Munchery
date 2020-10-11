@@ -1,5 +1,6 @@
 import {
     ADD_FOOD,
+    ADD_PREFAB,
     DELETE_FOOD,
     DELETE_PREFAB,
     INIT_FOODS,
@@ -13,6 +14,13 @@ export function addFood(newFood) {
     return {
         type: ADD_FOOD,
         data: newFood,
+    }
+}
+
+export function addPrefab(newPrefab) {
+    return {
+        type: ADD_PREFAB,
+        data: newPrefab,
     }
 }
 
