@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 // Redux
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { addFood, deletePrefab } from "../../store/actionCreators";
+import { addFood, deletePrefab, updatePrefab } from "../../store/actionCreators";
 
 // Munchery
 import Divider from '../layout/Divider.jsx';
@@ -60,11 +60,11 @@ const PrefabTab = (props) => {
     }
 
     const onSaveEdit = (prefab) => {
-        // const { actions } = props;
-        // const { updatePrefab } = actions;
-        //
-        // updatePrefab(prefab);
-        // setIsEditing(false);
+        const { actions } = props;
+        const { updatePrefab } = actions;
+
+        updatePrefab(prefab);
+        setIsEditing(false);
     }
 
     const onPressModeSwitchButton = () => setMode(mode === LOG_MODE ? EDIT_MODE : LOG_MODE);
@@ -160,7 +160,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators({ addFood, deletePrefab, }, dispatch),
+        actions: bindActionCreators({
+            addFood,
+            deletePrefab,
+            updatePrefab
+        }, dispatch),
     }
 }
 

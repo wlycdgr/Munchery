@@ -7,6 +7,7 @@ import {
     INIT_TARGET_CALORIE_RANGE,
     RESET_FOODS,
     UPDATE_FOOD,
+    UPDATE_PREFAB,
     UPDATE_TARGET_CALORIE_RANGE
 } from "./actionLabels.js";
 
@@ -70,7 +71,7 @@ export default (state = initialState, action) => {
         }
         case DELETE_PREFAB: {
             const prefabId = action.data;
-            
+
             const newPrefabs = state.prefabs.filter(prefab => prefab.id !== prefabId);
 
             return {
@@ -120,6 +121,16 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 foods: newFoods,
+            };
+        }
+        case UPDATE_PREFAB: {
+            const updatedPrefab = action.data;
+
+            const updatedPrefabs = [...state.prefabs.filter(prefab => prefab.id !== updatedPrefab.id), updatedPrefab];
+
+            return {
+                ...state,
+                prefabs: updatedPrefabs,
             };
         }
         case UPDATE_TARGET_CALORIE_RANGE: {

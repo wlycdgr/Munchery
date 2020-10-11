@@ -5,7 +5,7 @@ import {
     INIT_FOODS,
     INIT_TARGET_CALORIE_RANGE,
     RESET_FOODS,
-    UPDATE_FOOD,
+    UPDATE_FOOD, UPDATE_PREFAB,
     UPDATE_TARGET_CALORIE_RANGE,
 } from "./actionLabels.js";
 
@@ -54,6 +54,13 @@ export function updateFood(food) {
     return {
         type: UPDATE_FOOD,
         data: food,
+    }
+}
+
+export function updatePrefab(prefab) {
+    return {
+        type: UPDATE_PREFAB,
+        data: prefab,
     }
 }
 
