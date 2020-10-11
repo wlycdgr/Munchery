@@ -14,6 +14,23 @@ const initialState = {
     upperBound: 2400,
     foods: [],
     foodIdCounter: 1,
+    prefabs: [
+        {
+            id: 1,
+            desc: 'Soylent',
+            cal: 400,
+        },
+        {
+            id: 2,
+            desc: 'Cheese ramen',
+            cal: 550,
+        },
+        {
+            id: 3,
+            desc: 'Peanut butter & banana sandwich',
+            cal: 600,
+        }
+    ],
 }
 
 const asyncStoreFoods = foods => AsyncStorage.setItem('@foods', JSON.stringify(foods));

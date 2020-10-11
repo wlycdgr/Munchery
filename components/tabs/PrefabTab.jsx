@@ -24,28 +24,11 @@ const styles = StyleSheet.create({
     },
 });
 
-const prefabs = [
-    {
-        id: 1,
-        desc: 'Soylent',
-        cal: 400,
-    },
-    {
-        id: 2,
-        desc: 'Cheese ramen',
-        cal: 550,
-    },
-    {
-        id: 3,
-        desc: 'Peanut butter & banana sandwich',
-        cal: 600,
-    }
-];
-
 const LOG_MODE = 1;
 const EDIT_MODE = 2;
 
 const PrefabTab = (props) => {
+    const { prefabs } = props;
     const [mode, setMode] = useState(LOG_MODE);
     const [isEditing, setIsEditing] = useState(false);
     const [editId, setEditId] = useState(0);
@@ -169,10 +152,16 @@ const PrefabTab = (props) => {
     );
 }
 
+const mapStateToProps = (state) => {
+    return {
+        prefabs: state.prefabs,
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators({ addFood}, dispatch),
     }
 }
 
-export default connect(undefined, mapDispatchToProps)(PrefabTab);
+export default connect(mapStateToProps, mapDispatchToProps)(PrefabTab);
