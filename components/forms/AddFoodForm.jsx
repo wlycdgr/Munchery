@@ -28,13 +28,11 @@ const styles = StyleSheet.create({
 const AddFoodForm = (props) => {
     const calInputRef = useRef(null);
     const descInputRef = useRef(null);
-    const [desc, setDesc] = useState('');
-    const [calStr, setCalStr] = useState('');
-    const [isShowDescError, setIsShowDescError] = useState(false);
-    const [isShowCalStrError, setIsShowCalStrError] = useState(false);
+    const proteinInputRef = useRef(null);
+    const [fields, setFields] = useState ({ cal: '', desc: '', protein: '' });
 
     const isFormValid = () => {
-        return (isDescValid() && isCalStrValid());
+        return (isDescValid() && isCalStrValid() && isProteinStrValid());
     }
 
     // Not stored as state variables
@@ -42,53 +40,59 @@ const AddFoodForm = (props) => {
     // (Unlike isShowDescError and isShowCalStrError, whose value
     // depends not only on the value of other state variables
     // but also on whether the user has just tried to submit)
-    const isDescValid = () => (desc !== '');
-    const isCalStrValid = () => (calStr !== '');
+    const isDescValid = () => (fields.desc !== '');
+    const isCalStrValid = () => (fields.cal !== '');
+    const isProteinStrValid = () => (fields.protein !== '');
 
     const onPressLog = (shouldAddPrefab = false) => {
         const { actions } = props;
         const { addFood, addPrefab } = actions;
 
-        if (!isFormValid()) {
-            if (!isDescValid()) {
-                setIsShowDescError(true);
-            }
-            if (!isCalStrValid()) {
-                setIsShowCalStrError(true);
-            }
-            return;
-        }
+        const newFood = {
+            desc: fields.desc,
+            cal: parseInt(fields.cal, 10),
+            protein: parseInt(fields.protein, 10)
+        };
 
-        setIsShowDescError(false);
-        setIsShowCalStrError(false);
+        addFood(newFood);
+        if (shouldAddPrefab) addPrefab(newFood);
 
-        addFood( { desc, cal: parseInt(calStr, 10), });
-        if (shouldAddPrefab) addPrefab( { desc, cal: parseInt(calStr, 10), });
-
-        setDesc('');
-        setCalStr('');
+        setFields({ cal: '', desc: '', protein: '' });
 
         calInputRef.current.blur();
+        proteinInputRef.current.blur();
         descInputRef.current.focus();
     }
 
     const onPressLogAndSaveAsPrefab = () => onPressLog(true);
 
-    const onChangeTextDesc = (descValue) => {
-        if (descValue !== '' && isShowDescError) {
-            setIsShowDescError(false);
-        }
-
-        setDesc(descValue);
+    const onChangeText = (newValue, fieldName = 'protein') => {
+        setFields({...fields, [fieldName]: newValue })
     }
 
-    const onChangeTextCal = (calStr) => {
-        if (calStr !== '' && isShowCalStrError) {
-            setIsShowCalStrError(false);
-        }
+    const renderNumberInputField = (fieldName, fieldRef, placeholderText) => (
+        <ThemedInputContainer>
+            <ThemedNumberInput
+                name={fieldName}
+                ref={fieldRef}
+                placeholder={placeholderText}
+                value={fields[fieldName]}
+                myOnChangeText={onChangeText}
+                isShowError={false}
+            />
+        </ThemedInputContainer>
+    );
 
-        setCalStr(calStr);
-    }
+    const renderSubmitButton = (buttonLabel, onPressHandler) => (
+        <ThemedInputContainer>
+            <ThemedButton
+                title={buttonLabel}
+                onPress={onPressHandler}
+                type="highlight"
+                isInactive={!isFormValid()}
+            />
+        </ThemedInputContainer>
+    );
 
     return(
         <View
@@ -96,41 +100,21 @@ const AddFoodForm = (props) => {
         >
             <ThemedInputContainer>
                 <ThemedTextInput
+                    name='desc'
                     ref={descInputRef}
                     autoFocus={true}
                     placeholder="Food name"
-                    value={desc}
-                    onChangeText={onChangeTextDesc}
-                    isShowError={isShowDescError}
+                    value={fields.desc}
+                    myOnChangeText={onChangeText}
+                    isShowError={false}
                 />
             </ThemedInputContainer>
-            <ThemedInputContainer>
-                <ThemedNumberInput
-                    ref={calInputRef}
-                    placeholder="Calories"
-                    value={calStr}
-                    onChangeText={onChangeTextCal}
-                    isShowError={isShowCalStrError}
-                />
-            </ThemedInputContainer>
+            {renderNumberInputField('cal', calInputRef, 'Calories')}
+            {renderNumberInputField('protein', proteinInputRef, 'Protein')}
             <Divider height={20} />
-            <ThemedInputContainer>
-                <ThemedButton
-                    title="Log"
-                    onPress={onPressLog}
-                    type="highlight"
-                    isInactive={!isFormValid()}
-                />
-            </ThemedInputContainer>
+            {renderSubmitButton('Log', onPressLog)}
             <Divider height={20} />
-            <ThemedInputContainer>
-                <ThemedButton
-                    title="Log And Save As A Prefab"
-                    onPress={onPressLogAndSaveAsPrefab}
-                    type="highlight"
-                    isInactive={!isFormValid()}
-                />
-            </ThemedInputContainer>
+            {renderSubmitButton('Log And Save As A Prefab', onPressLogAndSaveAsPrefab)}
         </View>
     );
 }

@@ -43,6 +43,12 @@ const ThemedTextInput = React.forwardRef((props, ref) => {
 
     const [isFocused, setIsFocused] = useState(false);
 
+    const _onChangeText = (newValue) => {
+        const { name, myOnChangeText } = props;
+
+        myOnChangeText(newValue, name);
+    }
+
     const onFocus = () => {
         const { onFocus } = props;
 
@@ -74,6 +80,7 @@ const ThemedTextInput = React.forwardRef((props, ref) => {
             style={currentStyle}
             onFocus={onFocus}
             onBlur={onBlur}
+            onChangeText={_onChangeText}
         />
     );
 });
