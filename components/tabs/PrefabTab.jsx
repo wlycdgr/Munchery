@@ -47,7 +47,7 @@ const PrefabTab = (props) => {
 
     const renderInstructions = () => (
         <View style={styles.centeredView}>
-            <Text style={styles.instructions}>Tap a prefab to log it</Text>
+            <Text style={styles.instructions}>Tap a prefab to LOG it</Text>
         </View>
     )
 
@@ -69,7 +69,7 @@ const PrefabTab = (props) => {
 
     const renderAllPrefabs = () => (
         <FlatList
-            style={{ height: '60%'}}
+            style={{ height: '65%' }}
             data={prefabs}
             renderItem={renderPrefab}
             keyExtractor={item => item.id}
@@ -80,7 +80,7 @@ const PrefabTab = (props) => {
         <MainContentContainer>
             <Divider height={60} />
             <CalorieSummary />
-            <Divider height={40} />
+            <Divider height={20} />
             {renderInstructions()}
             <Divider height={20} />
             {renderAllPrefabs()}
