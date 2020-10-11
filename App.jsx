@@ -19,11 +19,13 @@ import { initFoods, initPrefabs, initTargetCalorieRange } from "./store/actionCr
 import NewTab from './components/tabs/NewTab.jsx';
 import PrefabTab from "./components/tabs/PrefabTab";
 import EditTab from './components/tabs/EditTab.jsx';
+import EditPrefabsTab from "./components/tabs/EditPrefabsTab";
 import SettingsTab from './components/tabs/OptionsTab.jsx';
 import {
     NEW_TAB_LABEL,
     PREFAB_TAB_LABEL,
     EDIT_TAB_LABEL,
+    EDIT_PREFABS_TAB_LABEL,
     OPTIONS_TAB_LABEL
 } from './constants/tabLabels';
 import {
@@ -89,10 +91,11 @@ function App() {
     const setTabBarIcon = (route, color, size) => {
         let iconName;
 
-        if      (route.name === NEW_TAB_LABEL)      iconName = isAndroid() ? 'md-add' : 'ios-add';
-        else if (route.name === PREFAB_TAB_LABEL)   iconName = isAndroid() ? 'md-add' : 'ios-add';
-        else if (route.name === EDIT_TAB_LABEL)     iconName = isAndroid() ? 'md-today' : 'ios-today';
-        else if (route.name === OPTIONS_TAB_LABEL)  iconName = isAndroid() ? 'md-settings' : 'ios-settings';
+        if      (route.name === NEW_TAB_LABEL)          iconName = isAndroid() ? 'md-add' : 'ios-add';
+        else if (route.name === PREFAB_TAB_LABEL)       iconName = isAndroid() ? 'md-add' : 'ios-add';
+        else if (route.name === EDIT_TAB_LABEL)         iconName = isAndroid() ? 'md-today' : 'ios-today';
+        else if (route.name === EDIT_PREFABS_TAB_LABEL) iconName = isAndroid() ? 'md-today' : 'ios-today';
+        else if (route.name === OPTIONS_TAB_LABEL)      iconName = isAndroid() ? 'md-settings' : 'ios-settings';
 
         return (<Ionicons name={iconName} size={size} color={color} />);
     }
@@ -119,6 +122,7 @@ function App() {
                     {tabScreen(NEW_TAB_LABEL, NewTab)}
                     {tabScreen(PREFAB_TAB_LABEL, PrefabTab)}
                     {tabScreen(EDIT_TAB_LABEL, EditTab)}
+                    {tabScreen(EDIT_PREFABS_TAB_LABEL, EditPrefabsTab)}
                     {tabScreen(OPTIONS_TAB_LABEL, SettingsTab)}
                 </Tab.Navigator>
             </NavigationContainer>
