@@ -5,40 +5,31 @@ import {
     DELETE_FOOD,
     DELETE_PREFAB,
     INIT_FOODS,
+    INIT_PREFABS,
     INIT_TARGET_CALORIE_RANGE,
     RESET_FOODS,
     UPDATE_FOOD,
     UPDATE_PREFAB,
     UPDATE_TARGET_CALORIE_RANGE
 } from "./actionLabels.js";
+import {
+    SK_CALORIE_RANGE,
+    SK_FOODS,
+    SK_PREFABS,
+} from "../constants/storageKeys";
 
 const initialState = {
     lowerBound: 1600,
     upperBound: 2400,
     foods: [],
     foodIdCounter: 1,
-    prefabs: [
-        {
-            id: 1,
-            desc: 'Soylent',
-            cal: 400,
-        },
-        {
-            id: 2,
-            desc: 'Cheese ramen',
-            cal: 550,
-        },
-        {
-            id: 3,
-            desc: 'Peanut butter & banana sandwich',
-            cal: 600,
-        }
-    ],
-    prefabIdCounter: 4,
+    prefabs: [],
+    prefabIdCounter: 1,
 }
 
-const asyncStoreFoods = foods => AsyncStorage.setItem('@foods', JSON.stringify(foods));
-const asyncStoreCalorieRange = calorieRange => AsyncStorage.setItem('@calorieRange', JSON.stringify(calorieRange));
+const asyncStoreCalorieRange = calorieRange => AsyncStorage.setItem(SK_CALORIE_RANGE, JSON.stringify(calorieRange));
+const asyncStoreFoods = foods => AsyncStorage.setItem(SK_FOODS, JSON.stringify(foods));
+const asyncStorePrefabs = prefabs => AsyncStorage.setItem(SK_PREFABS, JSON.stringify(prefabs));
 
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -71,6 +62,8 @@ export default (state = initialState, action) => {
 
             const newPrefabs = [...state.prefabs, newPrefab];
 
+            asyncStorePrefabs(newPrefabs);
+
             return {
                 ...state,
                 prefabs: newPrefabs,
@@ -92,6 +85,8 @@ export default (state = initialState, action) => {
 
             const newPrefabs = state.prefabs.filter(prefab => prefab.id !== prefabId);
 
+            asyncStorePrefabs(newPrefabs);
+
             return {
                 ...state,
                 prefabs: newPrefabs,
@@ -104,6 +99,15 @@ export default (state = initialState, action) => {
                 ...state,
                 foods: loadedFoods,
                 foodIdCounter: loadedFoods.length  + 1,
+            }
+        }
+        case INIT_PREFABS: {
+            const loadedPrefabs = (action.data !== null && JSON.parse(action.data)) || [];
+
+            return {
+                ...state,
+                prefabs: loadedPrefabs,
+                prefabIdCounter: loadedPrefabs.length + 1,
             }
         }
         case INIT_TARGET_CALORIE_RANGE: {
@@ -145,6 +149,8 @@ export default (state = initialState, action) => {
             const updatedPrefab = action.data;
 
             const updatedPrefabs = [...state.prefabs.filter(prefab => prefab.id !== updatedPrefab.id), updatedPrefab];
+
+            asyncStorePrefabs(updatedPrefabs);
 
             return {
                 ...state,

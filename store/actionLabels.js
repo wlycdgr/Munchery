@@ -3,6 +3,7 @@ export const ADD_PREFAB = 'ADD_PREFAB';
 export const DELETE_FOOD = 'DELETE_FOOD';
 export const DELETE_PREFAB = 'DELETE_PREFAB';
 export const INIT_FOODS = 'INIT_FOODS';
+export const INIT_PREFABS = 'INIT_PREFABS';
 export const INIT_TARGET_CALORIE_RANGE = 'INIT_TARGET_CALORIE_RANGE';
 export const RESET_FOODS = 'RESET_FOODS';
 export const UPDATE_FOOD = 'UPDATE_FOOD';

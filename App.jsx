@@ -13,7 +13,7 @@ import { useFonts, Sarala_400Regular } from "@expo-google-fonts/sarala";
 // Redux
 import configureStore from './store/configureStore.js';
 import { Provider } from 'react-redux';
-import { initFoods, initTargetCalorieRange } from "./store/actionCreators";
+import { initFoods, initPrefabs, initTargetCalorieRange } from "./store/actionCreators";
 
 // Munchery
 import NewTab from './components/tabs/NewTab.jsx';
@@ -28,7 +28,7 @@ import {
 } from './constants/tabLabels';
 import {
     SK_CALORIE_RANGE,
-    SK_FOODS,
+    SK_FOODS, SK_PREFABS,
 } from "./constants/storageKeys";
 
 const Tab = createBottomTabNavigator();
@@ -43,6 +43,8 @@ function App() {
     let [loadingFoods, setLoadingFoods] = useState(false);
     let [calorieRangeLoaded, setCalorieRangeLoaded] = useState(false);
     let [loadingCalorieRange, setLoadingCalorieRange] = useState(false);
+    let [prefabsLoaded, setPrefabsLoaded] = useState(false);
+    let [loadingPrefabs, setLoadingPrefabs] = useState(false);
 
     if (!foodsLoaded && !loadingFoods) {
         AsyncStorage.getItem(SK_FOODS)
@@ -68,9 +70,20 @@ function App() {
         setLoadingCalorieRange(true);
     }
 
-    if (!fontsLoaded || !foodsLoaded || !calorieRangeLoaded) {
-        return <AppLoading />;
+    if (!prefabsLoaded && !loadingPrefabs) {
+        AsyncStorage.getItem(SK_PREFABS)
+            .then((result) => {
+                store.dispatch(initPrefabs(result));
+                setPrefabsLoaded(true);
+            })
+            .catch((error) => {
+                console.error('ERROR Could not load prefabs from storage: ', error);
+            })
+        setLoadingPrefabs(true);
+    }
 
+    if (!fontsLoaded || !foodsLoaded || !calorieRangeLoaded || !prefabsLoaded) {
+        return <AppLoading />;
     }
 
     const setTabBarIcon = (route, color, size) => {
