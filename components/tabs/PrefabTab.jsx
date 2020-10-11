@@ -72,7 +72,7 @@ const PrefabTab = (props) => {
             style={{ height: '65%' }}
             data={prefabs}
             renderItem={renderPrefab}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
         />
     );
 
