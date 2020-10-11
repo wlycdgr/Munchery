@@ -1,5 +1,10 @@
+# Munchery 1.1.4
+* Add, log, edit, and delete prefabs
+
+# Munchery 1.1.3
+* Persist foods and target calorie range
+
 # Munchery v1.1.2
-Android build number: 1
 * Remove expo-splash-screen dependency
 
 # Munchery v1.1.1
