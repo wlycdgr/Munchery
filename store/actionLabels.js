@@ -1,5 +1,6 @@
 export const ADD_FOOD = 'ADD_FOOD';
 export const DELETE_FOOD = 'DELETE_FOOD';
+export const DELETE_PREFAB = 'DELETE_PREFAB';
 export const INIT_FOODS = 'INIT_FOODS';
 export const INIT_TARGET_CALORIE_RANGE = 'INIT_TARGET_CALORIE_RANGE';
 export const RESET_FOODS = 'RESET_FOODS';

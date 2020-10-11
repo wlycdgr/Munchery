@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import {
     ADD_FOOD,
     DELETE_FOOD,
+    DELETE_PREFAB,
     INIT_FOODS,
     INIT_TARGET_CALORIE_RANGE,
     RESET_FOODS,
@@ -31,6 +32,7 @@ const initialState = {
             cal: 600,
         }
     ],
+    prefabIdCounter: 4,
 }
 
 const asyncStoreFoods = foods => AsyncStorage.setItem('@foods', JSON.stringify(foods));
@@ -64,6 +66,16 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 foods: newFoods,
+            };
+        }
+        case DELETE_PREFAB: {
+            const prefabId = action.data;
+            
+            const newPrefabs = state.prefabs.filter(prefab => prefab.id !== prefabId);
+
+            return {
+                ...state,
+                prefabs: newPrefabs,
             };
         }
         case INIT_FOODS: {

@@ -1,6 +1,7 @@
 import {
     ADD_FOOD,
     DELETE_FOOD,
+    DELETE_PREFAB,
     INIT_FOODS,
     INIT_TARGET_CALORIE_RANGE,
     RESET_FOODS,
@@ -18,6 +19,13 @@ export function addFood(newFood) {
 export function deleteFood(id) {
     return {
         type: DELETE_FOOD,
+        data: id,
+    }
+}
+
+export function deletePrefab(id) {
+    return {
+        type: DELETE_PREFAB,
         data: id,
     }
 }
