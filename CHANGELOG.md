@@ -10,7 +10,7 @@
 # Munchery v1.1.1
 * Improve font support
 
-# Muncher v1.1.0
+# Munchery v1.1.0
 * Implement the MVP of the Simple & Quick version of Munchery:
     * Log food items with a description/name and a calorie amount
     * View, edit, and delete logged food items
