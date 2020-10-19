@@ -97,10 +97,10 @@ export default (state = initialState, action) => {
             const loadedFoods = (action.data !== null && JSON.parse(action.data)) || [];
 
             const cleanedLoadedFoods = loadedFoods.map((food, index) => ({
-                desc: food.desc,
+                ...food,
                 cal: food.cal || 0,
                 protein: food.protein || 0,
-                id: index + 1
+                id: index + 1,
             }));
 
             return {
@@ -112,9 +112,16 @@ export default (state = initialState, action) => {
         case INIT_PREFABS: {
             const loadedPrefabs = (action.data !== null && JSON.parse(action.data)) || [];
 
+            const cleanedLoadedPrefabs = loadedPrefabs.map((prefab, index) => ({
+                ...prefab,
+                cal: prefab.cal || 0,
+                protein: prefab.protein || 0,
+                id: index + 1,
+            }));
+
             return {
                 ...state,
-                prefabs: loadedPrefabs,
+                prefabs: cleanedLoadedPrefabs,
                 prefabIdCounter: loadedPrefabs.length + 1,
             }
         }

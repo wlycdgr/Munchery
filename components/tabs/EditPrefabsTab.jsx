@@ -62,7 +62,9 @@ const EditPrefabsTab = (props) => {
     )
 
     const renderPrefab = ({ item }) => {
-        const { cal, desc, id } = item;
+        const { cal, desc, id, protein } = item;
+
+        console.log('prefab: ', item);
 
         return (
             <View key={id} style={styles.centeredView}>
@@ -70,6 +72,7 @@ const EditPrefabsTab = (props) => {
                     cal={cal}
                     desc={desc}
                     id={id}
+                    protein={protein}
                     onPress={onPressPrefabEdit}
                 />
                 <Divider height={20} />
@@ -88,13 +91,14 @@ const EditPrefabsTab = (props) => {
 
     const renderPrefabBeingEdited = () => {
         const prefab = prefabs.find(prefab => prefab.id === editId);
-        const { id, cal, desc } = prefab;
+        const { id, cal, desc, protein } = prefab;
 
         return (
             <EditFoodForm
                 id={id}
                 ogCal={cal}
                 ogDesc={desc}
+                ogProtein={protein}
                 onCancel={onCancelEdit}
                 onDelete={onDeletePrefab}
                 onSubmit={onSaveEdit}
