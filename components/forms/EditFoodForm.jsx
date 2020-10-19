@@ -12,6 +12,7 @@ import Divider from '../layout/Divider.jsx';
 import ThemedTextInput from "../inputs/ThemedTextInput.jsx";
 import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
 import ThemedInputContainer from '../layout/ThemedInputContainer.jsx';
+import isPositiveInteger from "../../utils/isPositiveInteger";
 
 const styles = StyleSheet.create({
     view: {
@@ -20,28 +21,20 @@ const styles = StyleSheet.create({
     }
 });
 
-const initCalStr = (ogCal) => {
-    if (ogCal && ogCal > 0) {
-        return ogCal.toString();
-    } else {
-        return '';
-    }
-}
+const numToStr = num => ((num && num > 0) ? num.ToString : '');
 
 const EditFoodForm = (props) => {
     const {
         ogCal,
         ogDesc,
+        ogProtein,
         onCancel,
     } = props;
 
-    const [desc, setDesc] = useState(ogDesc || '');
-    const [calStr, setCalStr] = useState(initCalStr(ogCal))
-    const [isShowDescError, setIsShowDescError] = useState(false);
-    const [isShowCalStrError, setIsShowCalStrError] = useState(false);
+    const [fields, setFields] = useState({ desc: ogDesc || '', cal: numToStr(ogCal), protein: numToStr(ogProtein)});
 
     const isFormValid = () => {
-        return (isDescValid() && isCalStrValid());
+        return (isDescValid() && isCalStrValid() && isProteinStrValid());
     }
 
     // Not stored as state variables
@@ -49,8 +42,9 @@ const EditFoodForm = (props) => {
     // (Unlike isShowDescError and isShowCalStrError, whose value
     // depends not only on the value of other state variables
     // but also on whether the user has just tried to submit)
-    const isDescValid = () => (desc !== '');
-    const isCalStrValid = () => (calStr !== '');
+    const isDescValid = () => fields.desc !== '';
+    const isCalStrValid = () => isPositiveInteger(fields.cal);
+    const isProteinStrValid = () => isPositiveInteger(fields.protein);
 
     const onPressSave = () => {
         const { id, onSubmit } = props;

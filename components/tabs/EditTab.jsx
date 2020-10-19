@@ -54,7 +54,11 @@ const EditTab = (props) => {
     const renderAllFoods = () => {
         return(
             foods.map((food, index) => {
-                const { cal, desc, id } = food;
+                const {
+                    cal,
+                    desc,
+                    id,
+                    protein } = food;
 
                 return (
                     <View key={index} style={styles.foodView}>
@@ -63,6 +67,7 @@ const EditTab = (props) => {
                             desc={desc}
                             id={id}
                             onPress={onPressFoodView}
+                            protein={protein}
                         />
                         <Divider height={20} />
                     </View>
@@ -73,7 +78,7 @@ const EditTab = (props) => {
 
     const renderFoodBeingEdited = () => {
         const food = foods.find(food => food.id === editId);
-        const { id, cal, desc } = food;
+        const { id, cal, desc, protein } = food;
 
         console.log(food);
 
@@ -82,6 +87,7 @@ const EditTab = (props) => {
                 id={id}
                 ogCal={cal}
                 ogDesc={desc}
+                ogProtein={protein}
                 onCancel={onCancelEdit}
                 onDelete={onDeleteFood}
                 onSubmit={onSaveEdit}

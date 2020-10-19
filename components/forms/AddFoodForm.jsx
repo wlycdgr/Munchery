@@ -18,7 +18,7 @@ import ThemedTextInput from "../inputs/ThemedTextInput.jsx";
 import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
 import ThemedInputContainer from '../layout/ThemedInputContainer.jsx';
 
-import { NUM_CHARS } from "../../constants/numChars";
+import isPositiveInteger from "../../utils/isPositiveInteger";
 
 const styles = StyleSheet.create({
     view: {
@@ -45,15 +45,6 @@ const AddFoodForm = (props) => {
     const isDescValid = () => fields.desc !== '';
     const isCalStrValid = () => isPositiveInteger(fields.cal);
     const isProteinStrValid = () => isPositiveInteger(fields.protein);
-    const isPositiveInteger = (str) => {
-        const trimmedStr = str.trim();
-
-        if (trimmedStr === '') return false;
-
-        const trimmedStrArr = Array.from(trimmedStr);
-
-        return trimmedStrArr.every(el => NUM_CHARS.includes(el));
-    }
 
     const onPressLog = (shouldAddPrefab = false) => {
         const { actions } = props;
