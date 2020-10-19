@@ -12,11 +12,11 @@ import { bindActionCreators } from 'redux';
 // Action creators
 import { addFood, addPrefab } from '../../store/actionCreators';
 
-import ThemedButton from '../inputs/ThemedButton.jsx';
 import Divider from '../layout/Divider.jsx';
 import ThemedTextInput from "../inputs/ThemedTextInput.jsx";
-import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
 import ThemedInputContainer from '../layout/ThemedInputContainer.jsx';
+import SubmitButton from "../inputs/SubmitButton";
+import NumberInput from "../inputs/NumberInput";
 
 import isPositiveInteger from "../../utils/isPositiveInteger";
 
@@ -72,30 +72,6 @@ const AddFoodForm = (props) => {
         setFields({...fields, [fieldName]: newValue })
     }
 
-    const renderNumberInputField = (fieldName, fieldRef, placeholderText) => (
-        <ThemedInputContainer>
-            <ThemedNumberInput
-                name={fieldName}
-                ref={fieldRef}
-                placeholder={placeholderText}
-                value={fields[fieldName]}
-                myOnChangeText={onChangeText}
-                isShowError={false}
-            />
-        </ThemedInputContainer>
-    );
-
-    const renderSubmitButton = (buttonLabel, onPressHandler) => (
-        <ThemedInputContainer>
-            <ThemedButton
-                title={buttonLabel}
-                onPress={onPressHandler}
-                type="highlight"
-                isInactive={!isFormValid()}
-            />
-        </ThemedInputContainer>
-    );
-
     return(
         <View
             style={styles.view}
@@ -111,12 +87,32 @@ const AddFoodForm = (props) => {
                     isShowError={false}
                 />
             </ThemedInputContainer>
-            {renderNumberInputField('cal', calInputRef, 'Calories')}
-            {renderNumberInputField('protein', proteinInputRef, 'Protein')}
+            <NumberInput
+                name='cal'
+                ref={calInputRef}
+                placeholder="Calories"
+                value={fields.cal}
+                myOnChangeText={onChangeText}
+            />
+            <NumberInput
+                name='protein'
+                ref={proteinInputRef}
+                placeholder="Protein"
+                value={fields.protein}
+                myOnChangeText={onChangeText}
+            />
             <Divider height={20} />
-            {renderSubmitButton('Log', onPressLog)}
+            <SubmitButton
+                title="Log"
+                onPress={onPressLog}
+                isInactive={!isFormValid()}
+            />
             <Divider height={20} />
-            {renderSubmitButton('Log And Save As A Prefab', onPressLogAndSaveAsPrefab)}
+            <SubmitButton
+                title="Log And Save As A Prefab"
+                onPress={onPressLogAndSaveAsPrefab}
+                isInactive={!isFormValid()}
+            />
         </View>
     );
 }

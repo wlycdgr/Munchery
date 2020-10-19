@@ -4,15 +4,16 @@ Calories are passed in as a number and sent out as a number,
 but converted to a string internally for input handling purposes
  */
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-
-import ThemedButton from '../inputs/ThemedButton.jsx';
+;
 import Divider from '../layout/Divider.jsx';
 import ThemedTextInput from "../inputs/ThemedTextInput.jsx";
 import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
+import SubmitButton from "../inputs/SubmitButton";
 import ThemedInputContainer from '../layout/ThemedInputContainer.jsx';
 import isPositiveInteger from "../../utils/isPositiveInteger";
+import numToStr from "../../utils/numToStr";
 
 const styles = StyleSheet.create({
     view: {
@@ -20,8 +21,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     }
 });
-
-const numToStr = num => ((num && num > 0) ? num.ToString : '');
 
 const EditFoodForm = (props) => {
     const {
@@ -95,14 +94,10 @@ const EditFoodForm = (props) => {
         <View
             style={styles.view}
         >
-
-            <ThemedInputContainer>
-                <ThemedButton
-                    title="Delete"
-                    type="highlight"
-                    onPress={onPressDelete}
-                />
-            </ThemedInputContainer>
+            <SubmitButton
+                title="Delete"
+                onPress={onPressDelete}
+            />
             <Divider height={20} />
             <ThemedInputContainer>
                 <ThemedTextInput
@@ -122,22 +117,16 @@ const EditFoodForm = (props) => {
                 />
             </ThemedInputContainer>
             <Divider height={20} />
-            <ThemedInputContainer>
-                <ThemedButton
-                    title="Cancel"
-                    type="highlight"
-                    onPress={onCancel}
-                />
-            </ThemedInputContainer>
+            <SubmitButton
+                title="Cancel"
+                onPress={onCancel}
+            />
             <Divider height={20} />
-            <ThemedInputContainer>
-                <ThemedButton
-                    title={"Save"}
-                    onPress={onPressSave}
-                    type="highlight"
-                    isInactive={!isFormValid()}
-                />
-            </ThemedInputContainer>
+            <SubmitButton
+                title="Save"
+                onPress={onPressSave}
+                isInactive={!isFormValid()}
+            />
         </View>
     );
 }
