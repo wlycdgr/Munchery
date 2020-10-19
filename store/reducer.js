@@ -34,10 +34,11 @@ const asyncStorePrefabs = prefabs => AsyncStorage.setItem(SK_PREFABS, JSON.strin
 export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_FOOD: {
-            const { desc, cal } = action.data;
+            const { desc, cal, protein } = action.data;
             const newFood = {
                 desc,
-                cal: parseInt(cal, 10), // just in case a client forgets
+                cal: (cal && parseInt(cal, 10)) || 0, // just in case a client forgets
+                protein: (protein && parseInt(protein, 10)) || 0, // just in case a client forgets
                 id: state.foodIdCounter,
             };
 
@@ -95,9 +96,11 @@ export default (state = initialState, action) => {
         case INIT_FOODS: {
             const loadedFoods = (action.data !== null && JSON.parse(action.data)) || [];
 
+            const cleanedLoadedFoods = loadedFoods.map(food => ({desc: food.desc, cal: food.cal || 0, protein: food.protein || 0}))
+
             return {
                 ...state,
-                foods: loadedFoods,
+                foods: cleanedLoadedFoods,
                 foodIdCounter: loadedFoods.length  + 1,
             }
         }
