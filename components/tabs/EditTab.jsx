@@ -39,6 +39,8 @@ const EditTab = (props) => {
     }
 
     const onPressFoodView = (id) => {
+        console.log('onPressFoodView id: ', id);
+
         setEditId(id);
         setIsEditing(true);
     }

@@ -96,7 +96,12 @@ export default (state = initialState, action) => {
         case INIT_FOODS: {
             const loadedFoods = (action.data !== null && JSON.parse(action.data)) || [];
 
-            const cleanedLoadedFoods = loadedFoods.map(food => ({desc: food.desc, cal: food.cal || 0, protein: food.protein || 0}))
+            const cleanedLoadedFoods = loadedFoods.map((food, index) => ({
+                desc: food.desc,
+                cal: food.cal || 0,
+                protein: food.protein || 0,
+                id: index + 1
+            }));
 
             return {
                 ...state,

@@ -9,11 +9,11 @@ import { StyleSheet, View } from 'react-native';
 ;
 import Divider from '../layout/Divider.jsx';
 import ThemedTextInput from "../inputs/ThemedTextInput.jsx";
-import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
 import SubmitButton from "../inputs/SubmitButton";
 import ThemedInputContainer from '../layout/ThemedInputContainer.jsx';
 import isPositiveInteger from "../../utils/isPositiveInteger";
 import numToStr from "../../utils/numToStr";
+import NumberInput from "../inputs/NumberInput";
 
 const styles = StyleSheet.create({
     view: {
@@ -48,40 +48,18 @@ const EditFoodForm = (props) => {
     const onPressSave = () => {
         const { id, onSubmit } = props;
 
-        if (!isFormValid()) {
-            if (!isDescValid()) {
-                setIsShowDescError(true);
-            }
-            if (!isCalStrValid()) {
-                setIsShowCalStrError(true);
-            }
-            return;
-        }
-
-        setIsShowDescError(false);
-        setIsShowCalStrError(false);
-
-        onSubmit({
-            cal: parseInt(calStr, 10),
-            desc,
+        const updatedFood = {
+            cal: parseInt(fields.cal, 10),
+            protein: parseInt(fields.protein, 10),
+            desc: fields.desc,
             id,
-        });
+        };
+
+        onSubmit(updatedFood);
     }
 
-    const onChangeTextDesc = (descValue) => {
-        if (descValue !== '' && isShowDescError) {
-            setIsShowDescError(false);
-        }
-
-        setDesc(descValue);
-    }
-
-    const onChangeTextCal = (calStr) => {
-        if (calStr !== '' && isShowCalStrError) {
-            setIsShowCalStrError(false);
-        }
-
-        setCalStr(calStr);
+    const onChangeText = (newValue, fieldName = 'protein') => {
+        setFields({...fields, [fieldName]: newValue })
     }
 
     const onPressDelete = () => {
@@ -101,21 +79,26 @@ const EditFoodForm = (props) => {
             <Divider height={20} />
             <ThemedInputContainer>
                 <ThemedTextInput
+                    name='desc'
                     autoFocus={true}
                     placeholder="Food name"
-                    value={desc}
-                    onChangeText={onChangeTextDesc}
-                    isShowError={isShowDescError}
+                    value={fields.desc}
+                    myOnChangeText={onChangeText}
+                    isShowError={false}
                 />
             </ThemedInputContainer>
-            <ThemedInputContainer>
-                <ThemedNumberInput
-                    placeholder="Calories"
-                    value={calStr}
-                    onChangeText={onChangeTextCal}
-                    isShowError={isShowCalStrError}
-                />
-            </ThemedInputContainer>
+            <NumberInput
+                name='cal'
+                placeholder="Calories"
+                value={fields.cal}
+                myOnChangeText={onChangeText}
+            />
+            <NumberInput
+                name='protein'
+                placeholder="Protein"
+                value={fields.protein}
+                myOnChangeText={onChangeText}
+            />
             <Divider height={20} />
             <SubmitButton
                 title="Cancel"
