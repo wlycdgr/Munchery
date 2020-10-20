@@ -31,6 +31,13 @@ const asyncStoreCalorieRange = calorieRange => AsyncStorage.setItem(SK_CALORIE_R
 const asyncStoreFoods = foods => AsyncStorage.setItem(SK_FOODS, JSON.stringify(foods));
 const asyncStorePrefabs = prefabs => AsyncStorage.setItem(SK_PREFABS, JSON.stringify(prefabs));
 
+const processLoadedFoods = foods => foods.map((food, index) => ({
+    ...food,
+    cal: food.cal || 0,
+    protein: food.protein || 0,
+    id: index + 1,
+}));
+
 export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_FOOD: {
@@ -96,32 +103,22 @@ export default (state = initialState, action) => {
         case INIT_FOODS: {
             const loadedFoods = (action.data !== null && JSON.parse(action.data)) || [];
 
-            const cleanedLoadedFoods = loadedFoods.map((food, index) => ({
-                ...food,
-                cal: food.cal || 0,
-                protein: food.protein || 0,
-                id: index + 1,
-            }));
+            const processedLoadedFoods = processLoadedFoods(loadedFoods);
 
             return {
                 ...state,
-                foods: cleanedLoadedFoods,
+                foods: processedLoadedFoods,
                 foodIdCounter: loadedFoods.length  + 1,
             }
         }
         case INIT_PREFABS: {
             const loadedPrefabs = (action.data !== null && JSON.parse(action.data)) || [];
 
-            const cleanedLoadedPrefabs = loadedPrefabs.map((prefab, index) => ({
-                ...prefab,
-                cal: prefab.cal || 0,
-                protein: prefab.protein || 0,
-                id: index + 1,
-            }));
+            const processedLoadedPrefabs = processLoadedFoods(loadedPrefabs);
 
             return {
                 ...state,
-                prefabs: cleanedLoadedPrefabs,
+                prefabs: processedLoadedPrefabs,
                 prefabIdCounter: loadedPrefabs.length + 1,
             }
         }

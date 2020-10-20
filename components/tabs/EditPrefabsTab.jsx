@@ -64,8 +64,6 @@ const EditPrefabsTab = (props) => {
     const renderPrefab = ({ item }) => {
         const { cal, desc, id, protein } = item;
 
-        console.log('prefab: ', item);
-
         return (
             <View key={id} style={styles.centeredView}>
                 <FoodView
