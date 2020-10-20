@@ -42,7 +42,11 @@ const PrefabTab = (props) => {
 
         const prefab = prefabs.find(prefab => prefab.id === id);
 
-        addFood({ desc: prefab.desc, cal: prefab.cal });
+        addFood({
+            desc: prefab.desc,
+            cal: prefab.cal,
+            protein: prefab.protein
+        });
     }
 
     const renderInstructions = () => (
@@ -52,7 +56,7 @@ const PrefabTab = (props) => {
     )
 
     const renderPrefab = ({ item }) => {
-        const { cal, desc, id } = item;
+        const { cal, desc, id, protein } = item;
 
         return (
             <View key={id} style={styles.centeredView}>
@@ -60,6 +64,7 @@ const PrefabTab = (props) => {
                     cal={cal}
                     desc={desc}
                     id={id}
+                    protein={protein}
                     onPress={onPressPrefabLog}
                 />
                 <Divider height={20}/>
