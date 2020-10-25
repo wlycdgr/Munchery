@@ -13,7 +13,7 @@ import { useFonts, Sarala_400Regular } from "@expo-google-fonts/sarala";
 // Redux
 import configureStore from './store/configureStore.js';
 import { Provider } from 'react-redux';
-import { initFoods, initPrefabs, initTargetCalorieRange } from "./store/actionCreators";
+import { initStore } from "./store/actionCreators";
 
 // Munchery
 import NewTab from './components/tabs/NewTab.jsx';
@@ -30,7 +30,8 @@ import {
 } from './constants/tabLabels';
 import {
     SK_CALORIE_RANGE,
-    SK_FOODS, SK_PREFABS,
+    SK_FOODS,
+    SK_PREFABS,
 } from "./constants/storageKeys";
 
 const Tab = createBottomTabNavigator();
@@ -41,52 +42,30 @@ function App() {
     let [fontsLoaded] = useFonts({
         Sarala_400Regular,
     });
-    let [foodsLoaded, setFoodsLoaded] = useState(false);
-    let [loadingFoods, setLoadingFoods] = useState(false);
-    let [calorieRangeLoaded, setCalorieRangeLoaded] = useState(false);
-    let [loadingCalorieRange, setLoadingCalorieRange] = useState(false);
-    let [prefabsLoaded, setPrefabsLoaded] = useState(false);
-    let [loadingPrefabs, setLoadingPrefabs] = useState(false);
+    let [storeLoaded, setStoreLoaded] = useState(false);
+    let [loadingStore, setLoadingStore] = useState(false);
 
-    if (!foodsLoaded && !loadingFoods) {
-        AsyncStorage.getItem(SK_FOODS)
+    if (!storeLoaded && !loadingStore) {
+        AsyncStorage.multiGet([SK_CALORIE_RANGE, SK_FOODS, SK_PREFABS])
             .then((result) => {
-                store.dispatch(initFoods(result));
-                setFoodsLoaded(true);
+                const calorieRange = result[0][1];
+                const foods = result[1][1];
+                const prefabs = result[2][1];
+                store.dispatch(initStore({ calorieRange, foods, prefabs }));
+                setStoreLoaded(true);
             })
             .catch((error) => {
-                console.error('ERROR Could not load foods from storage: ', error);
+                // TODO show the user an actionable error screen
+                console.error('ERROR could not load store from storage: ', error);
             });
-        setLoadingFoods(true);
+        setLoadingStore(true);
     }
 
-    if (!calorieRangeLoaded && !loadingCalorieRange) {
-        AsyncStorage.getItem(SK_CALORIE_RANGE)
-            .then((result) => {
-                store.dispatch(initTargetCalorieRange(result));
-                setCalorieRangeLoaded(true);
-            })
-            .catch((error) => {
-                console.error('ERROR Could not load calorie range from storage: ', error);
-            });
-        setLoadingCalorieRange(true);
-    }
-
-    if (!prefabsLoaded && !loadingPrefabs) {
-        AsyncStorage.getItem(SK_PREFABS)
-            .then((result) => {
-                store.dispatch(initPrefabs(result));
-                setPrefabsLoaded(true);
-            })
-            .catch((error) => {
-                console.error('ERROR Could not load prefabs from storage: ', error);
-            })
-        setLoadingPrefabs(true);
-    }
-
-    if (!fontsLoaded || !foodsLoaded || !calorieRangeLoaded || !prefabsLoaded) {
+    if (!fontsLoaded || !storeLoaded) {
         return <AppLoading />;
     }
+
+    const isAndroid  = () => Platform.OS === 'android';
 
     const setTabBarIcon = (route, color, size) => {
         let iconName;
@@ -99,8 +78,6 @@ function App() {
 
         return (<Ionicons name={iconName} size={size} color={color} />);
     }
-
-    const isAndroid  = () => Platform.OS === 'android';
 
     const tabScreen = (name, component) => (
         <Tab.Screen

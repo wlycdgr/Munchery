@@ -3,11 +3,10 @@ import {
     ADD_PREFAB,
     DELETE_FOOD,
     DELETE_PREFAB,
-    INIT_FOODS,
-    INIT_PREFABS,
-    INIT_TARGET_CALORIE_RANGE,
+    INIT_STORE,
     RESET_FOODS,
-    UPDATE_FOOD, UPDATE_PREFAB,
+    UPDATE_FOOD,
+    UPDATE_PREFAB,
     UPDATE_TARGET_CALORIE_RANGE,
 } from "./actionLabels.js";
 
@@ -39,24 +38,10 @@ export function deletePrefab(id) {
     }
 }
 
-export function initFoods(foods) {
+export function initStore(muncheryStore) {
     return {
-        type: INIT_FOODS,
-        data: foods,
-    }
-}
-
-export function initPrefabs(prefabs) {
-    return {
-        type: INIT_PREFABS,
-        data: prefabs,
-    }
-}
-
-export function initTargetCalorieRange(range) {
-    return {
-        type: INIT_TARGET_CALORIE_RANGE,
-        data: range,
+        type: INIT_STORE,
+        data: muncheryStore,
     }
 }
 

@@ -4,9 +4,7 @@ import {
     ADD_PREFAB,
     DELETE_FOOD,
     DELETE_PREFAB,
-    INIT_FOODS,
-    INIT_PREFABS,
-    INIT_TARGET_CALORIE_RANGE,
+    INIT_STORE,
     RESET_FOODS,
     UPDATE_FOOD,
     UPDATE_PREFAB,
@@ -18,6 +16,7 @@ import {
     SK_PREFABS,
 } from "../constants/storageKeys";
 
+// TODO move defaults to a constants file
 const initialState = {
     lowerBound: 1600,
     upperBound: 2400,
@@ -100,39 +99,24 @@ export default (state = initialState, action) => {
                 prefabs: newPrefabs,
             };
         }
-        case INIT_FOODS: {
-            const loadedFoods = (action.data !== null && JSON.parse(action.data)) || [];
+        case INIT_STORE: {
+            const loadedStore = (action.data !== null && JSON.parse(action.data)) || state;
+            const { calorieRange, foods, prefabs } = loadedStore;
 
-            const processedLoadedFoods = processLoadedFoods(loadedFoods);
+            const processedLoadedFoods = (foods && processLoadedFoods(foods)) || [];
+            const processedLoadedPrefabs = (prefabs && processLoadedFoods(prefabs)) || [];
+            const loadedLowerBound = (calorieRange && calorieRange.lowerBound) || state.lowerBound;
+            const loadedUpperBound = (calorieRange && calorieRange.upperBound) || state.upperBound;
 
             return {
                 ...state,
                 foods: processedLoadedFoods,
-                foodIdCounter: loadedFoods.length  + 1,
-            }
-        }
-        case INIT_PREFABS: {
-            const loadedPrefabs = (action.data !== null && JSON.parse(action.data)) || [];
-
-            const processedLoadedPrefabs = processLoadedFoods(loadedPrefabs);
-
-            return {
-                ...state,
+                foodIdCounter: processedLoadedFoods.length + 1,
                 prefabs: processedLoadedPrefabs,
-                prefabIdCounter: loadedPrefabs.length + 1,
+                prefabIdCounter: processedLoadedPrefabs.length + 1,
+                lowerBound: loadedLowerBound,
+                loadedUpperBound: loadedUpperBound,
             }
-        }
-        case INIT_TARGET_CALORIE_RANGE: {
-            const loadedCalorieRange = (action.data !== null && JSON.parse(action.data)) || { };
-
-            const newLowerBound = loadedCalorieRange.lowerBound || state.lowerBound;
-            const newUpperBound = loadedCalorieRange.upperBound || state.upperBound;
-
-            return {
-                ...state,
-                lowerBound: newLowerBound,
-                upperBound: newUpperBound,
-            };
         }
         case RESET_FOODS: {
             const newFoods = [];
