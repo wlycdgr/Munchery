@@ -100,7 +100,7 @@ export default (state = initialState, action) => {
             };
         }
         case INIT_STORE: {
-            const loadedStore = (action.data !== null && JSON.parse(action.data)) || state;
+            const loadedStore = (action.data !== null && action.data) || state;
             const { calorieRange, foods, prefabs } = loadedStore;
 
             const processedLoadedFoods = (foods && processLoadedFoods(foods)) || [];

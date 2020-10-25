@@ -48,9 +48,9 @@ function App() {
     if (!storeLoaded && !loadingStore) {
         AsyncStorage.multiGet([SK_CALORIE_RANGE, SK_FOODS, SK_PREFABS])
             .then((result) => {
-                const calorieRange = result[0][1];
-                const foods = result[1][1];
-                const prefabs = result[2][1];
+                const calorieRange = JSON.parse(result[0][1]);
+                const foods = JSON.parse(result[1][1]);
+                const prefabs = JSON.parse(result[2][1]);
                 store.dispatch(initStore({ calorieRange, foods, prefabs }));
                 setStoreLoaded(true);
             })
