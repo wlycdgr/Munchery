@@ -28,7 +28,22 @@ const initialState = {
     foodIdCounter: 1,
     prefabs: [],
     prefabIdCounter: 1,
+
+    // TODO try transitioning to this tidier structure
+    targetRanges: {
+        calorie: {
+            lower: 1800,
+            upper: 2200,
+        },
+        protein: {
+            lower: 60,
+            upper: 140,
+        },
+    },
 }
+
+// TODO transition to this more general storage helper
+const asyncStorageSet = (key, value) => AsyncStorage.setItem(key, JSON.stringify(value));
 
 const asyncStoreCalorieRange = calorieRange => AsyncStorage.setItem(SK_CALORIE_RANGE, JSON.stringify(calorieRange));
 const asyncStoreProteinRange = proteinRange => AsyncStorage.setItem(SK_PROTEIN_RANGE, JSON.stringify(proteinRange));
