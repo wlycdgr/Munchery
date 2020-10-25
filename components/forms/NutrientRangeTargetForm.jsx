@@ -127,17 +127,10 @@ const NutrientRangeTargetForm = (props) => {
   );
 }
 
-const mapStateToProps = (state) => {
-    return {
-        lowerBound: state.lowerBound,
-        upperBound: state.upperBound,
-    }
-}
-
 const mapDispatchToProps = (dispatch) => {
     return {
         actions: bindActionCreators({ updateTargetCalorieRange }, dispatch),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NutrientRangeTargetForm);
+export default connect(undefined, mapDispatchToProps)(NutrientRangeTargetForm);

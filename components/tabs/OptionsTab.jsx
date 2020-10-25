@@ -6,7 +6,11 @@ import NutrientRangeTargetForm from "../forms/NutrientRangeTargetForm";
 import ResetFoodsButton from "../forms/ResetFoodsButton";
 import MainContentContainer from "../views/MainContentContainer";
 
-const OptionsTab = () => {
+import { connect } from 'react-redux';
+
+const OptionsTab = (props) => {
+    const { lowerBound, upperBound } = props;
+
     const [isEditingCalorieRange, setIsEditingCalorieRange] = useState(false);
 
     const isCalorieRangeFormInEditMode = trueIfYes => setIsEditingCalorieRange(trueIfYes);
@@ -19,6 +23,8 @@ const OptionsTab = () => {
             <NutrientRangeTargetForm
                 setEditing={isCalorieRangeFormInEditMode}
                 isEditing={isEditingCalorieRange}
+                lowerBound={lowerBound}
+                upperBound={upperBound}
             />
             <Divider height={40} />
             {!isEditingCalorieRange && <ResetFoodsButton />}
@@ -26,4 +32,11 @@ const OptionsTab = () => {
     );
 }
 
-export default OptionsTab;
+const mapStateToProps = (state) => {
+    return {
+        lowerBound: state.lowerBound,
+        upperBound: state.upperBound,
+    }
+}
+
+export default connect(mapStateToProps, undefined)(OptionsTab);
