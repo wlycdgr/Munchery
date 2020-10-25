@@ -8,6 +8,7 @@ import {
     UPDATE_FOOD,
     UPDATE_PREFAB,
     UPDATE_TARGET_CALORIE_RANGE,
+    UPDATE_TARGET_PROTEIN_RANGE,
 } from "./actionLabels.js";
 
 export function addFood(newFood) {
@@ -75,6 +76,20 @@ export function updateTargetCalorieRange(newRange) {
 
     return {
         type: UPDATE_TARGET_CALORIE_RANGE,
+        data: newRange,
+    }
+}
+
+export function updateTargetProteinRange(newRange) {
+    const { newLowerBound, newUpperBound } = newRange;
+
+    if (!!!newLowerBound || !!!newUpperBound) {
+        return { type: 'NO_OP'};
+        console.error('Invalid argument passed to actionCreators#updateTargetProteinRange');
+    }
+
+    return {
+        type: UPDATE_TARGET_PROTEIN_RANGE,
         data: newRange,
     }
 }

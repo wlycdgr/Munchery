@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { updateTargetCalorieRange } from "../../store/actionCreators";
 
 import ThemedInputContainer from "../layout/ThemedInputContainer.jsx";
 import ThemedNumberInput from "../inputs/ThemedNumberInput.jsx";
@@ -13,7 +10,6 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     alignItems: 'center',
-    marginTop: 20,
     width: '100%',
   },
   calorieRange: {
@@ -50,20 +46,21 @@ const NutrientRangeTargetForm = (props) => {
 
     // TODO error check for non-numerical characters (comma, etc), like with calorie field
     const handleSavePress = () => {
-        const { actions, setEditing } = props;
-        const { updateTargetCalorieRange } = actions;
+        const { setEditing, updateRange } = props;
 
         setEditing(false);
-        updateTargetCalorieRange({
+        updateRange({
           newLowerBound: parseInt(newLowerBound, 10),
           newUpperBound: parseInt(newUpperBound, 10),
         });
     }
 
     const renderCurrentRangeReadout = () => {
+        const { nutrientType } = props;
+
         return(
               <>
-                <Text>Your target calorie range is</Text>
+                <Text>Your target {nutrientType} range is</Text>
                 <Text style={styles.calorieRange}>{`${lowerBound} - ${upperBound}`}</Text>
                 <Divider height={10} />
                 <ThemedInputContainer>
@@ -127,10 +124,5 @@ const NutrientRangeTargetForm = (props) => {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        actions: bindActionCreators({ updateTargetCalorieRange }, dispatch),
-    }
-}
 
-export default connect(undefined, mapDispatchToProps)(NutrientRangeTargetForm);
+export default NutrientRangeTargetForm;

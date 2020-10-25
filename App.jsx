@@ -32,6 +32,7 @@ import {
     SK_CALORIE_RANGE,
     SK_FOODS,
     SK_PREFABS,
+    SK_PROTEIN_RANGE,
 } from "./constants/storageKeys";
 
 const Tab = createBottomTabNavigator();
@@ -46,12 +47,13 @@ function App() {
     let [loadingStore, setLoadingStore] = useState(false);
 
     if (!storeLoaded && !loadingStore) {
-        AsyncStorage.multiGet([SK_CALORIE_RANGE, SK_FOODS, SK_PREFABS])
+        AsyncStorage.multiGet([SK_FOODS, SK_PREFABS, SK_CALORIE_RANGE, SK_PROTEIN_RANGE])
             .then((result) => {
-                const calorieRange = JSON.parse(result[0][1]);
-                const foods = JSON.parse(result[1][1]);
-                const prefabs = JSON.parse(result[2][1]);
-                store.dispatch(initStore({ calorieRange, foods, prefabs }));
+                const foods = JSON.parse(result[0][1]);
+                const prefabs = JSON.parse(result[1][1]);
+                const calorieRange = JSON.parse(result[2][1]);
+                const proteinRange = JSON.parse(result[3][1]);
+                store.dispatch(initStore({ foods, prefabs, calorieRange, proteinRange }));
                 setStoreLoaded(true);
             })
             .catch((error) => {

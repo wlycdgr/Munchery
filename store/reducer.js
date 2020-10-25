@@ -8,18 +8,22 @@ import {
     RESET_FOODS,
     UPDATE_FOOD,
     UPDATE_PREFAB,
-    UPDATE_TARGET_CALORIE_RANGE
+    UPDATE_TARGET_CALORIE_RANGE,
+    UPDATE_TARGET_PROTEIN_RANGE,
 } from "./actionLabels.js";
 import {
     SK_CALORIE_RANGE,
     SK_FOODS,
     SK_PREFABS,
+    SK_PROTEIN_RANGE,
 } from "../constants/storageKeys";
 
 // TODO move defaults to a constants file
 const initialState = {
     lowerBound: 1600,
     upperBound: 2400,
+    proteinLowerBound: 40,
+    proteinUpperBound: 120,
     foods: [],
     foodIdCounter: 1,
     prefabs: [],
@@ -27,6 +31,7 @@ const initialState = {
 }
 
 const asyncStoreCalorieRange = calorieRange => AsyncStorage.setItem(SK_CALORIE_RANGE, JSON.stringify(calorieRange));
+const asyncStoreProteinRange = proteinRange => AsyncStorage.setItem(SK_PROTEIN_RANGE, JSON.stringify(proteinRange));
 const asyncStoreFoods = foods => AsyncStorage.setItem(SK_FOODS, JSON.stringify(foods));
 const asyncStorePrefabs = prefabs => AsyncStorage.setItem(SK_PREFABS, JSON.stringify(prefabs));
 
@@ -101,12 +106,19 @@ export default (state = initialState, action) => {
         }
         case INIT_STORE: {
             const loadedStore = (action.data !== null && action.data) || state;
-            const { calorieRange, foods, prefabs } = loadedStore;
+            const {
+                foods,
+                prefabs,
+                calorieRange,
+                proteinRange,
+            } = loadedStore;
 
             const processedLoadedFoods = (foods && processLoadedFoods(foods)) || [];
             const processedLoadedPrefabs = (prefabs && processLoadedFoods(prefabs)) || [];
             const loadedLowerBound = (calorieRange && calorieRange.lowerBound) || state.lowerBound;
             const loadedUpperBound = (calorieRange && calorieRange.upperBound) || state.upperBound;
+            const loadedProteinLowerBound = (proteinRange && proteinRange.lowerBound) || state.proteinLowerBound;
+            const loadedProteinUpperBound = (proteinRange && proteinRange.upperBound) || state.proteinUpperBound;
 
             return {
                 ...state,
@@ -115,7 +127,9 @@ export default (state = initialState, action) => {
                 prefabs: processedLoadedPrefabs,
                 prefabIdCounter: processedLoadedPrefabs.length + 1,
                 lowerBound: loadedLowerBound,
-                loadedUpperBound: loadedUpperBound,
+                upperBound: loadedUpperBound,
+                proteinLowerBound: loadedProteinLowerBound,
+                proteinUpperBound: loadedProteinUpperBound,
             }
         }
         case RESET_FOODS: {
@@ -159,6 +173,18 @@ export default (state = initialState, action) => {
             const newRange = { lowerBound: newLowerBound, upperBound: newUpperBound };
 
             asyncStoreCalorieRange(newRange);
+
+            return {
+                ...state,
+                ...newRange,
+            };
+        }
+        case UPDATE_TARGET_PROTEIN_RANGE: {
+            const { newLowerBound, newUpperBound } = action.data;
+
+            const newRange = { proteinLowerBound: newLowerBound, proteinUpperBound: newUpperBound };
+
+            asyncStoreProteinRange(newRange);
 
             return {
                 ...state,
