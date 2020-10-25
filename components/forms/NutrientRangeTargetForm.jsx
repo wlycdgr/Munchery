@@ -22,45 +22,42 @@ const styles = StyleSheet.create({
   }
 });
 
-const CalorieRangeTargetForm = (props) => {
+const NutrientRangeTargetForm = (props) => {
     const {
         lowerBound,
         upperBound,
+        isEditing,
     } = props;
 
-    const [isUpdatingRange, setIsUpdatingRange] = useState(false);
     const [newLowerBound, setNewLowerBound] = useState(lowerBound.toString());
     const [newUpperBound, setNewUpperBound] = useState(upperBound.toString());
 
     const isRangeValid = () => parseInt(newUpperBound, 10) >= parseInt(newLowerBound, 10);
 
     const onPressChangeRange = () => {
-        const { isEditing } = props;
+        const { setEditing } = props;
 
-        isEditing(true);
-        setIsUpdatingRange(true);
+        setEditing(true);
     }
 
     const handleCancelPress = () => {
-        const { isEditing } = props;
+        const { setEditing } = props;
 
-        isEditing(false);
         setNewLowerBound(lowerBound.toString());
         setNewUpperBound(upperBound.toString());
-        setIsUpdatingRange(false);
+        setEditing(false);
     }
 
+    // TODO error check for non-numerical characters (comma, etc), like with calorie field
     const handleSavePress = () => {
-        const { actions, isEditing } = props;
+        const { actions, setEditing } = props;
         const { updateTargetCalorieRange } = actions;
 
+        setEditing(false);
         updateTargetCalorieRange({
           newLowerBound: parseInt(newLowerBound, 10),
           newUpperBound: parseInt(newUpperBound, 10),
         });
-
-        isEditing(false);
-        setIsUpdatingRange(false);
     }
 
     const renderCurrentRangeReadout = () => {
@@ -99,14 +96,14 @@ const CalorieRangeTargetForm = (props) => {
             <ThemedNumberInput
               placeholder="New lower bound"
               value={newLowerBound}
-              onChangeText={onChangeTextLowerBound}
+              myOnChangeText={onChangeTextLowerBound}
             />
         </ThemedInputContainer>
         <ThemedInputContainer>
             <ThemedNumberInput
               placeholder="New upper bound"
               value={newUpperBound}
-              onChangeText={onChangeTextUpperBound}
+              myOnChangeText={onChangeTextUpperBound}
             />
         </ThemedInputContainer>
         <Divider height={20} />
@@ -124,8 +121,8 @@ const CalorieRangeTargetForm = (props) => {
 
   return(
     <View style={styles.container}>
-      {!isUpdatingRange && renderCurrentRangeReadout()}
-      {isUpdatingRange && renderRangeUpdateForm()}
+      {!isEditing && renderCurrentRangeReadout()}
+      {isEditing && renderRangeUpdateForm()}
     </View>
   );
 }
@@ -143,4 +140,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CalorieRangeTargetForm);
+export default connect(mapStateToProps, mapDispatchToProps)(NutrientRangeTargetForm);
