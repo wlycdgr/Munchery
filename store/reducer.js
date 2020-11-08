@@ -45,11 +45,6 @@ const initialState = {
 // TODO transition to this more general storage helper
 const asyncStorageSet = (key, value) => AsyncStorage.setItem(key, JSON.stringify(value));
 
-const asyncStoreCalorieRange = calorieRange => AsyncStorage.setItem(SK_CALORIE_RANGE, JSON.stringify(calorieRange));
-const asyncStoreProteinRange = proteinRange => AsyncStorage.setItem(SK_PROTEIN_RANGE, JSON.stringify(proteinRange));
-const asyncStoreFoods = foods => AsyncStorage.setItem(SK_FOODS, JSON.stringify(foods));
-const asyncStorePrefabs = prefabs => AsyncStorage.setItem(SK_PREFABS, JSON.stringify(prefabs));
-
 const processLoadedFoods = foods => foods.map((food, index) => ({
     ...food,
     cal: food.cal || 0,
@@ -70,7 +65,7 @@ export default (state = initialState, action) => {
 
             const newFoods = [...state.foods, newFood];
 
-            asyncStoreFoods(newFoods);
+            asyncStorageSet(SK_FOODS, newFoods);
 
             return {
                 ...state,
@@ -89,7 +84,7 @@ export default (state = initialState, action) => {
 
             const newPrefabs = [...state.prefabs, newPrefab];
 
-            asyncStorePrefabs(newPrefabs);
+            asyncStorageSet(SK_PREFABS, newPrefabs);
 
             return {
                 ...state,
@@ -97,10 +92,11 @@ export default (state = initialState, action) => {
                 prefabIdCounter: state.prefabIdCounter + 1,
             }
         }
+        // TODO refactor the delete cases to a single DELETE_ITEM
         case DELETE_FOOD: {
             const newFoods = state.foods.filter(food => food.id !== action.data);
 
-            asyncStoreFoods(newFoods);
+            asyncStorageSet(SK_FOODS, newFoods);
 
             return {
                 ...state,
@@ -112,7 +108,7 @@ export default (state = initialState, action) => {
 
             const newPrefabs = state.prefabs.filter(prefab => prefab.id !== prefabId);
 
-            asyncStorePrefabs(newPrefabs);
+            asyncStorageSet(SK_PREFABS, newPrefabs);
 
             return {
                 ...state,
@@ -150,7 +146,7 @@ export default (state = initialState, action) => {
         case RESET_FOODS: {
             const newFoods = [];
 
-            asyncStoreFoods(newFoods);
+            asyncStorageSet(SK_FOODS, newFoods);
 
             return {
                 ...state,
@@ -163,7 +159,7 @@ export default (state = initialState, action) => {
 
             const newFoods = [...state.foods.filter(food => food.id !== updatedFood.id), updatedFood];
 
-            asyncStoreFoods(newFoods);
+            asyncStorageSet(SK_FOODS, newFoods);
 
             return {
                 ...state,
@@ -175,19 +171,20 @@ export default (state = initialState, action) => {
 
             const updatedPrefabs = [...state.prefabs.filter(prefab => prefab.id !== updatedPrefab.id), updatedPrefab];
 
-            asyncStorePrefabs(updatedPrefabs);
+            asyncStorageSet(SK_PREFABS, updatedPrefabs);
 
             return {
                 ...state,
                 prefabs: updatedPrefabs,
             };
         }
+        // TODO refactor UPDATE_ cases to a single UPDATE_NUTRIENT_TARGET_RANGE case
         case UPDATE_TARGET_CALORIE_RANGE: {
             const {newLowerBound, newUpperBound} = action.data;
 
             const newRange = { lowerBound: newLowerBound, upperBound: newUpperBound };
 
-            asyncStoreCalorieRange(newRange);
+            asyncStorageSet(SK_CALORIE_RANGE, newRange);
 
             return {
                 ...state,
@@ -199,7 +196,7 @@ export default (state = initialState, action) => {
 
             const newRange = { proteinLowerBound: newLowerBound, proteinUpperBound: newUpperBound };
 
-            asyncStoreProteinRange(newRange);
+            asyncStorageSet(SK_PROTEIN_RANGE, newRange);
 
             return {
                 ...state,
