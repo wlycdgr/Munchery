@@ -34,6 +34,8 @@ const OptionsTab = (props) => {
             <Divider height={60} />
             <CalorieSummary />
             <Divider height={40} />
+            {(!isEditingCalorieRange && !isEditingProteinRange) && <ResetFoodsButton />}
+            <Divider height={40} />
             {!isEditingProteinRange &&
                 <NutrientRangeTargetForm
                     setEditing={setCalorieRangeEditing}
@@ -55,8 +57,6 @@ const OptionsTab = (props) => {
                     nutrientType="protein"
                 />
             }
-            <Divider height={40} />
-            {(!isEditingCalorieRange && !isEditingProteinRange) && <ResetFoodsButton />}
         </MainContentContainer>
     );
 }

@@ -52,16 +52,18 @@ const processLoadedFoods = foods => foods.map((food, index) => ({
     id: index + 1,
 }));
 
+const buildNewFood = ({ desc, cal, protein }) => ({
+        desc: desc || '',
+        cal: (cal && parseInt(cal, 10)) || 0,
+        protein: (protein && parseInt(protein, 10)) || 0,
+});
+
 export default (state = initialState, action) => {
     switch (action.type) {
         case ADD_FOOD: {
-            const { desc, cal, protein } = action.data;
-            const newFood = {
-                desc,
-                cal: (cal && parseInt(cal, 10)) || 0, // just in case a client forgets
-                protein: (protein && parseInt(protein, 10)) || 0, // just in case a client forgets
-                id: state.foodIdCounter,
-            };
+            const newFood = buildNewFood(action.data);
+
+            newFood.id = state.foodIdCounter;
 
             const newFoods = [...state.foods, newFood];
 
@@ -74,13 +76,9 @@ export default (state = initialState, action) => {
             };
         }
         case ADD_PREFAB: {
-            const { desc, cal } = action.data;
+            const newPrefab = buildNewFood(action.data);
 
-            const newPrefab = {
-                desc,
-                cal: parseInt(cal, 10),
-                id: state.prefabIdCounter
-            };
+            newPrefab.id = state.prefabIdCounter;
 
             const newPrefabs = [...state.prefabs, newPrefab];
 
