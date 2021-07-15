@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 // Expo
 import { Ionicons } from '@expo/vector-icons';
-import { AppLoading } from "expo";
+import AppLoading from "expo-app-loading";
 import { useFonts, Sarala_400Regular } from "@expo-google-fonts/sarala";
 
 // Redux
