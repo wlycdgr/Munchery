@@ -1783,10 +1783,10 @@
   dependencies:
     "@types/hammerjs" "^2.0.36"
 
-"@expo-google-fonts/sarala@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@expo-google-fonts/sarala/-/sarala-0.1.0.tgz#616ffe2a73875d891221681f112d2f5d8cf03f79"
-  integrity sha512-u4Jow/QMHFadoK4ch7DujwX7WfUSnA0Lkv2i5Iaoi1k8B9QtqKXU22aYYZSdGSQmaABEDrFI+yTEO609eyiOSA==
+"@expo-google-fonts/sarala@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/sarala/-/sarala-0.2.0.tgz#a33b95db288ae7b97c8ee3d3ef93afad9aec0482"
+  integrity sha512-2RyGRQgVWD0G/xdpYgOp1B+ghvEX4Jyg1i1p6eTTDrqv0/muTsUexQbdy9KGCddBwqNmF7azu2YhRFc06Nhxew==
 
 "@expo/config-plugins@1.0.33":
   version "1.0.33"
